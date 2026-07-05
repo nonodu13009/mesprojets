@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 1 — Les opérateurs de comparaison</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="explications.html">Script.js</a>
+            <a href="alert.html">Alertes</a>
+            <a href="types.html">Types</a>
+            <a href="chaines.html">Chaînes</a>
+            <a href="comparaisons.html" class="active">Comparaisons</a>
+            <a href="raccourcis.html">Raccourcis</a>
+        </nav>
+
+        <header>
+            <h1>Les opérateurs de comparaison</h1>
+            <p>Leçon 1 · Chapitre 5 · Comparer des valeurs en JavaScript</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi comparer ?</h2>
+                <p>
+                    Tu sais maintenant créer des variables et manipuler du texte. Mais un
+                    programme a souvent besoin de <strong>prendre des décisions</strong> :
+                    est-ce que l'utilisateur est majeur ? Est-ce que le mot de passe est correct ?
+                    Est-ce que le panier dépasse 100€ ?
+                </p>
+                <p>
+                    Les opérateurs de comparaison permettent de <strong>comparer deux valeurs</strong>
+                    entre elles. Le résultat est toujours un <strong>booléen</strong> :
+                    <code>true</code> (vrai) ou <code>false</code> (faux). En leçon 2,
+                    tu utiliseras ces résultats dans des conditions <code>if/else</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les opérateurs de comparaison</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opérateur</th>
+                            <th>Signification</th>
+                            <th>Exemple</th>
+                            <th>Résultat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>==</code></td>
+                            <td>Égal à (valeur)</td>
+                            <td><code>5 == "5"</code></td>
+                            <td class="result">true</td>
+                        </tr>
+                        <tr>
+                            <td><code>===</code></td>
+                            <td>Strictement égal (valeur + type)</td>
+                            <td><code>5 === "5"</code></td>
+                            <td class="result">false</td>
+                        </tr>
+                        <tr>
+                            <td><code>!=</code></td>
+                            <td>Différent de (valeur)</td>
+                            <td><code>5 != "5"</code></td>
+                            <td class="result">false</td>
+                        </tr>
+                        <tr>
+                            <td><code>!==</code></td>
+                            <td>Strictement différent (valeur + type)</td>
+                            <td><code>5 !== "5"</code></td>
+                            <td class="result">true</td>
+                        </tr>
+                        <tr>
+                            <td><code>></code></td>
+                            <td>Supérieur à</td>
+                            <td><code>10 > 5</code></td>
+                            <td class="result">true</td>
+                        </tr>
+                        <tr>
+                            <td><code><</code></td>
+                            <td>Inférieur à</td>
+                            <td><code>10 < 5</code></td>
+                            <td class="result">false</td>
+                        </tr>
+                        <tr>
+                            <td><code>>=</code></td>
+                            <td>Supérieur ou égal à</td>
+                            <td><code>5 >= 5</code></td>
+                            <td class="result">true</td>
+                        </tr>
+                        <tr>
+                            <td><code><=</code></td>
+                            <td>Inférieur ou égal à</td>
+                            <td><code>3 <= 5</code></td>
+                            <td class="result">true</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>== vs === : la différence cruciale</h2>
+                <p>
+                    C'est <strong>le piège classique</strong> en JavaScript. Tu te rappelles
+                    les types du chapitre 3 ? C'est ici qu'ils deviennent importants.
+                    L'opérateur <code>==</code> compare uniquement la <strong>valeur</strong>
+                    en convertissant les types si besoin. L'opérateur <code>===</code> compare
+                    la <strong>valeur ET le type</strong>, sans conversion.
+                </p>
+
+                <pre><code><span class="comment">// == fait de la conversion de type (coercion)</span>
+console.log(<span class="number">5</span> == <span class="string">"5"</span>);    <span class="comment">// true  (le string "5" est converti en number)</span>
+console.log(<span class="number">0</span> == <span class="keyword">false</span>);   <span class="comment">// true  (false est converti en 0)</span>
+console.log(<span class="string">""</span> == <span class="keyword">false</span>);  <span class="comment">// true  (les deux sont convertis en 0)</span>
+
+<span class="comment">// === ne convertit rien : valeur ET type doivent correspondre</span>
+console.log(<span class="number">5</span> === <span class="string">"5"</span>);   <span class="comment">// false (number vs string)</span>
+console.log(<span class="number">0</span> === <span class="keyword">false</span>);  <span class="comment">// false (number vs boolean)</span>
+console.log(<span class="string">""</span> === <span class="keyword">false</span>); <span class="comment">// false (string vs boolean)</span></code></pre>
+
+                <p class="note">
+                    <strong>Bonne pratique :</strong> utilise TOUJOURS <code>===</code> et <code>!==</code>.
+                    L'égalité lâche (<code>==</code>) peut donner des résultats surprenants et
+                    est source de bugs difficiles à trouver.
+                </p>
+            </section>
+
+            <section>
+                <h2>Comparer des chaînes</h2>
+                <p>
+                    Les chaînes sont comparées <strong>caractère par caractère</strong> selon
+                    l'ordre alphabétique (plus précisément l'ordre Unicode). Attention à la
+                    casse : les majuscules et minuscules ne sont pas équivalentes.
+                </p>
+                <pre><code>console.log(<span class="string">"a"</span> < <span class="string">"b"</span>);     <span class="comment">// true  ("a" vient avant "b")</span>
+console.log(<span class="string">"Z"</span> < <span class="string">"a"</span>);     <span class="comment">// true  (les majuscules viennent avant)</span>
+
+<span class="comment">// Attention à la casse !</span>
+console.log(<span class="string">"Bonjour"</span> === <span class="string">"bonjour"</span>); <span class="comment">// false</span>
+
+<span class="comment">// Pour comparer sans tenir compte de la casse :</span>
+<span class="keyword">const</span> mot1 = <span class="string">"Bonjour"</span>;
+<span class="keyword">const</span> mot2 = <span class="string">"bonjour"</span>;
+console.log(mot1.toLowerCase() === mot2.toLowerCase()); <span class="comment">// true</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Exemple concret : vérification d'âge</h2>
+                <p>
+                    Voici un aperçu de ce que tu feras en leçon 2 avec les conditions
+                    <code>if/else</code>. Les comparaisons sont la base de toute prise
+                    de décision dans le code :
+                </p>
+                <pre><code><span class="keyword">const</span> age = <span class="number">17</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"Accès autorisé"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">`Accès refusé, tu as ${age} ans`</span>);
+}
+<span class="comment">// "Accès refusé, tu as 17 ans"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console du navigateur (<strong>F12</strong> → Console)</li>
+                    <li>Tape <code>5 === "5"</code> et observe le résultat (<code>false</code>)</li>
+                    <li>Compare avec <code>5 == "5"</code> (<code>true</code>) — sens-tu la différence ?</li>
+                    <li>Teste des comparaisons de nombres : <code>10 > 5</code>, <code>3 <= 3</code></li>
+                    <li>Essaie avec des chaînes : <code>"abc" < "abd"</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu maîtrises maintenant les fondamentaux : variables, types, chaînes
+                    et comparaisons. Le dernier chapitre de cette leçon est un
+                    <strong>aide-mémoire des raccourcis clavier Mac</strong> pour coder
+                    plus efficacement — accolades, crochets, backticks et raccourcis
+                    VS Code.
+                </p>
+                <p>
+                    <a href="raccourcis.html">Chapitre suivant : Raccourcis clavier Mac →</a>
+                </p>
+                <p>
+                    Et quand tu auras terminé cette leçon, tu seras prêt pour la
+                    <a href="../lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a> :
+                    boucles, conditions et fonctions.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="chaines.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Chaînes</span></a>
+                <a class="pager-next" href="raccourcis.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Raccourcis</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

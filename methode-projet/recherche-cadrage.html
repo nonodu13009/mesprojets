@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 2 : Cadrage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html" class="active">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Cadrage</h1>
+            <p>Étape 2 · Définir les utilisateurs, les fonctionnalités et l'architecture</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Du brief au plan</h2>
+                <p>
+                    Ton brief dit <strong>quoi</strong> et <strong>pour qui</strong>. Le cadrage
+                    dit <strong>comment</strong>. C'est l'étape où tu transformes une idée
+                    validée en un plan actionnable — sans encore écrire de code ni dessiner
+                    de maquette.
+                </p>
+                <p>
+                    Le cadrage produit 3 livrables : les <strong>personas</strong>, la
+                    <strong>liste de fonctionnalités priorisées</strong> et le
+                    <strong>choix de stack technique</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>1. Les personas</h2>
+                <p>
+                    Un persona est un profil fictif qui représente un type d'utilisateur.
+                    Il t'oblige à penser en termes de <strong>besoins réels</strong>,
+                    pas de fonctionnalités abstraites. Limite-toi à 2-3 personas max.
+                </p>
+
+                <pre><code><span class="comment">// Persona 1 — L'agent principal</span>
+<span class="keyword">Nom :</span>       <span class="string">Jean-Michel, 45 ans</span>
+<span class="keyword">Rôle :</span>       <span class="string">Agent général d'assurance</span>
+<span class="keyword">Contexte :</span>   <span class="string">Gère 2 agences, reçoit 15-20 leads/semaine par email</span>
+<span class="keyword">Frustration :</span> <span class="string">Perd des leads, oublie les relances, pas de vue d'ensemble</span>
+<span class="keyword">Besoin :</span>     <span class="string">Voir tous les leads en un coup d'œil, être alerté pour relancer</span>
+<span class="keyword">Tech :</span>       <span class="string">Mac, Chrome, pas dev, utilise Gmail et Slack</span>
+
+<span class="comment">// Persona 2 — La collaboratrice</span>
+<span class="keyword">Nom :</span>       <span class="string">Sophie, 30 ans</span>
+<span class="keyword">Rôle :</span>       <span class="string">Chargée de clientèle</span>
+<span class="keyword">Contexte :</span>   <span class="string">Gère le suivi quotidien des prospects</span>
+<span class="keyword">Frustration :</span> <span class="string">Ne sait pas quels leads sont prioritaires</span>
+<span class="keyword">Besoin :</span>     <span class="string">Liste claire de ses tâches du jour, historique des échanges</span></code></pre>
+
+                <p class="note">
+                    <strong>Prompt Claude :</strong> « Voici mon brief [colle-le]. Propose-moi
+                    2-3 personas avec nom, rôle, contexte, frustration, besoin et niveau tech. »
+                </p>
+            </section>
+
+            <section>
+                <h2>2. Les fonctionnalités — MVP vs V2</h2>
+                <p>
+                    C'est ici que tu dois être <strong>impitoyable</strong>. Tu as certainement
+                    50 idées de fonctionnalités. Tu n'en gardes que 5 pour le MVP (Minimum
+                    Viable Product). Le reste va dans la colonne « Plus tard ».
+                </p>
+                <p>
+                    La méthode <strong>MoSCoW</strong> est simple et efficace :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Priorité</th>
+                            <th>Signification</th>
+                            <th>Règle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="result">Must</td>
+                            <td>Indispensable — l'app ne sert à rien sans</td>
+                            <td>3-5 fonctionnalités max</td>
+                        </tr>
+                        <tr>
+                            <td class="result">Should</td>
+                            <td>Important — mais on peut lancer sans</td>
+                            <td>La V1.1</td>
+                        </tr>
+                        <tr>
+                            <td class="result">Could</td>
+                            <td>Sympa — si on a le temps</td>
+                            <td>La V2</td>
+                        </tr>
+                        <tr>
+                            <td class="result">Won't</td>
+                            <td>Pas maintenant — on y reviendra peut-être</td>
+                            <td>Le backlog</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code><span class="comment">// Exemple — LeadTracker Assurance</span>
+
+<span class="keyword">MUST (MVP)</span>
+<span class="string">- Afficher la liste des leads avec statut</span>
+<span class="string">- Changer le statut d'un lead (nouveau → contacté → gagné/perdu)</span>
+<span class="string">- Ajouter un lead manuellement</span>
+<span class="string">- Filtrer par statut</span>
+
+<span class="keyword">SHOULD (V1.1)</span>
+<span class="string">- Import automatique depuis Gmail</span>
+<span class="string">- Rappels de relance (notifications)</span>
+<span class="string">- Historique des actions sur un lead</span>
+
+<span class="keyword">COULD (V2)</span>
+<span class="string">- Dashboard avec statistiques (taux de conversion, etc.)</span>
+<span class="string">- Export CSV</span>
+<span class="string">- Multi-utilisateurs avec rôles</span>
+
+<span class="keyword">WON'T (pas maintenant)</span>
+<span class="string">- App mobile native</span>
+<span class="string">- Intégration CRM Allianz</span>
+<span class="string">- Chatbot prospect</span></code></pre>
+
+                <p class="note">
+                    <strong>Règle d'or :</strong> si tu ne peux pas construire ton MVP en
+                    une semaine avec Claude Code, c'est que ton scope est trop large.
+                    Coupe encore.
+                </p>
+            </section>
+
+            <section>
+                <h2>3. User stories</h2>
+                <p>
+                    Une user story décrit une fonctionnalité du point de vue de l'utilisateur.
+                    Le format est toujours le même :
+                </p>
+
+                <pre><code><span class="keyword">En tant que</span> <span class="string">[persona]</span>,
+<span class="keyword">je veux</span> <span class="string">[action]</span>,
+<span class="keyword">afin de</span> <span class="string">[bénéfice]</span>.</code></pre>
+
+                <p>Exemples :</p>
+
+                <pre><code><span class="comment">// User stories MVP</span>
+<span class="string">En tant qu'agent, je veux voir tous mes leads sur une page,
+afin de savoir combien de prospects j'ai en cours.</span>
+
+<span class="string">En tant qu'agent, je veux changer le statut d'un lead d'un clic,
+afin de suivre l'avancement sans effort.</span>
+
+<span class="string">En tant que collaboratrice, je veux filtrer les leads par statut,
+afin de me concentrer sur ceux à relancer aujourd'hui.</span></code></pre>
+
+                <p>
+                    Ces stories serviront directement de <strong>instructions pour Claude Code</strong>
+                    quand tu développeras. Tu pourras dire : « Implémente cette user story »
+                    et l'IA aura tout le contexte.
+                </p>
+            </section>
+
+            <section>
+                <h2>4. Choix de stack technique</h2>
+                <p>
+                    Tu n'as pas besoin de tout comprendre. Tu dois juste savoir quel type
+                    de projet tu construis, pour que Claude Code parte sur les bons rails.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type de projet</th>
+                            <th>Stack recommandé</th>
+                            <th>Quand l'utiliser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Landing page / site vitrine</td>
+                            <td>HTML + CSS + Vercel</td>
+                            <td>Pas de compte utilisateur, contenu statique</td>
+                        </tr>
+                        <tr>
+                            <td>Web app simple</td>
+                            <td>Next.js + Tailwind + Vercel</td>
+                            <td>Dashboard, outil interne, CRUD</td>
+                        </tr>
+                        <tr>
+                            <td>Web app avec auth + BDD</td>
+                            <td>Next.js + Supabase + Vercel</td>
+                            <td>Comptes utilisateurs, données persistantes</td>
+                        </tr>
+                        <tr>
+                            <td>SaaS complet</td>
+                            <td>Next.js + Supabase + Stripe + Vercel</td>
+                            <td>Abonnements, paiement, multi-tenants</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Conseil :</strong> en cas de doute, pars sur
+                    <strong>Next.js + Tailwind + Supabase + Vercel</strong>. C'est le stack
+                    le mieux supporté par Claude Code, le plus documenté, et le plus rapide
+                    à déployer.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le livrable</h2>
+                <p>
+                    À la fin de cette étape, tu dois avoir :
+                </p>
+                <ol class="steps">
+                    <li>2-3 <strong>personas</strong> avec leurs besoins</li>
+                    <li>Une liste <strong>MoSCoW</strong> de fonctionnalités</li>
+                    <li>Les <strong>user stories</strong> du MVP (5-8 max)</li>
+                    <li>Le <strong>stack technique</strong> choisi</li>
+                </ol>
+                <p>
+                    Tout ça rentre dans un seul document — ton <strong>cahier de cadrage</strong>.
+                    Tu le mettras dans le <code>CLAUDE.md</code> de ton projet pour que
+                    Claude Code ait toujours le contexte.
+                </p>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant <strong>quoi</strong> construire, <strong>pour qui</strong>
+                    et <strong>avec quoi</strong>. Avant d'ouvrir le terminal, il reste une
+                    étape cruciale : le <strong>design</strong>. À quoi ressemblera ton app ?
+                    Comment l'utilisateur naviguera-t-il ? C'est le moment d'utiliser
+                    Claude Design pour donner forme à ta vision.
+                </p>
+                <p>
+                    <a href="design.html">Étape 3 : Design →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="idee-brief.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Idée</span></a>
+                <a class="pager-next" href="design.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Design</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

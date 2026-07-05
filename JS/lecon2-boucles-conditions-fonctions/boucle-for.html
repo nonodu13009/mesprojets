@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — La boucle for</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html" class="active">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>La boucle for</h1>
+            <p>Leçon 2 · Chapitre 7 · Répéter des actions un nombre connu de fois</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi les boucles ?</h2>
+                <p>
+                    Jusqu'ici, chaque instruction de ton code s'exécutait une seule fois.
+                    Mais imagine que tu veuilles afficher les nombres de 1 à 100, ou parcourir
+                    une liste de 50 produits. Écrire 100 lignes de <code>console.log()</code>
+                    serait absurde.
+                </p>
+                <p>
+                    Les <strong>boucles</strong> (loops) résolvent ce problème : elles permettent
+                    de <strong>répéter</strong> un bloc de code autant de fois que nécessaire,
+                    automatiquement. La boucle <code>for</code> est la première que tu vas
+                    apprendre — c'est aussi la plus utilisée.
+                </p>
+            </section>
+
+            <section>
+                <h2>Anatomie de la boucle for</h2>
+                <p>
+                    La boucle <code>for</code> se compose de trois parties, séparées par des
+                    points-virgules, qui contrôlent son fonctionnement :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">for (<span class="label">initialisation ; condition ; incrémentation</span></span>
+                    <span class="part">{ ... }<span class="label">bloc de code répété</span></span>
+                </div>
+
+                <pre><code><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+    console.log(i);
+}
+<span class="comment">// Affiche : 0, 1, 2, 3, 4</span></code></pre>
+
+                <p>Décomposons les 3 parties :</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Partie</th>
+                            <th>Exemple</th>
+                            <th>Rôle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Initialisation</td>
+                            <td><code>let i = 0</code></td>
+                            <td>Crée un compteur, exécutée une seule fois au début</td>
+                        </tr>
+                        <tr>
+                            <td>Condition</td>
+                            <td><code>i < 5</code></td>
+                            <td>Testée avant chaque tour. Si <code>false</code>, la boucle s'arrête</td>
+                        </tr>
+                        <tr>
+                            <td>Incrémentation</td>
+                            <td><code>i++</code></td>
+                            <td>Exécutée après chaque tour (augmente le compteur)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Astuce :</strong> <code>i++</code> est un raccourci pour <code>i = i + 1</code>.
+                    Tu l'as vu en leçon 1 avec les opérateurs d'assignation.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple : compter de 1 à 10</h2>
+                <pre><code><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
+    console.log(<span class="string">`Nombre : ${i}`</span>);
+}
+<span class="comment">// Nombre : 1</span>
+<span class="comment">// Nombre : 2</span>
+<span class="comment">// ...</span>
+<span class="comment">// Nombre : 10</span></code></pre>
+                <p>
+                    Remarque que cette fois on démarre à <code>1</code> et on utilise <code><=</code>
+                    pour inclure 10 dans le résultat.
+                </p>
+            </section>
+
+            <section>
+                <h2>Compter à l'envers</h2>
+                <p>
+                    On peut aussi décrémenter le compteur avec <code>i--</code> :
+                </p>
+                <pre><code><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">5</span>; i >= <span class="number">1</span>; i--) {
+    console.log(<span class="string">`Compte à rebours : ${i}`</span>);
+}
+console.log(<span class="string">"Décollage !"</span>);
+<span class="comment">// Compte à rebours : 5</span>
+<span class="comment">// Compte à rebours : 4</span>
+<span class="comment">// ...</span>
+<span class="comment">// Décollage !</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Parcourir un tableau</h2>
+                <p>
+                    L'utilisation la plus fréquente de <code>for</code> est de parcourir
+                    les éléments d'un <strong>tableau</strong> (array). Tu te souviens des
+                    index qui commencent à 0 ? C'est exactement le même principe qu'avec
+                    les chaînes de caractères :
+                </p>
+                <pre><code><span class="keyword">const</span> fruits = [<span class="string">"pomme"</span>, <span class="string">"banane"</span>, <span class="string">"cerise"</span>];
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < fruits.length; i++) {
+    console.log(fruits[i]);
+}
+<span class="comment">// pomme</span>
+<span class="comment">// banane</span>
+<span class="comment">// cerise</span></code></pre>
+
+                <p class="note">
+                    <strong>Rappel :</strong> <code>fruits.length</code> donne le nombre d'éléments
+                    du tableau (ici 3). On démarre à <code>0</code> et on va jusqu'à
+                    <code>< length</code> (pas <code><=</code>) car les index vont de 0 à 2.
+                </p>
+            </section>
+
+            <section>
+                <h2>La boucle for...of (syntaxe moderne)</h2>
+                <p>
+                    Si tu n'as pas besoin de l'index et que tu veux simplement accéder à chaque
+                    élément, <code>for...of</code> est plus lisible :
+                </p>
+                <pre><code><span class="keyword">const</span> fruits = [<span class="string">"pomme"</span>, <span class="string">"banane"</span>, <span class="string">"cerise"</span>];
+
+<span class="keyword">for</span> (<span class="keyword">const</span> fruit <span class="keyword">of</span> fruits) {
+    console.log(fruit);
+}
+<span class="comment">// pomme</span>
+<span class="comment">// banane</span>
+<span class="comment">// cerise</span></code></pre>
+
+                <p>
+                    Plus besoin de gérer un compteur <code>i</code> — JavaScript s'en charge.
+                    C'est la syntaxe à privilégier quand tu veux juste lire les valeurs.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple concret : calculer une moyenne</h2>
+                <pre><code><span class="keyword">const</span> notes = [<span class="number">15</span>, <span class="number">12</span>, <span class="number">18</span>, <span class="number">9</span>, <span class="number">14</span>];
+<span class="keyword">let</span> somme = <span class="number">0</span>;
+
+<span class="keyword">for</span> (<span class="keyword">const</span> note <span class="keyword">of</span> notes) {
+    somme = somme + note;
+}
+
+<span class="keyword">const</span> moyenne = somme / notes.length;
+console.log(<span class="string">`Moyenne : ${moyenne}`</span>);
+<span class="comment">// Moyenne : 13.6</span></code></pre>
+                <p>
+                    On utilise une variable <code>somme</code> déclarée <strong>avant</strong>
+                    la boucle (sinon elle serait réinitialisée à chaque tour). Ce pattern
+                    « accumulateur » revient constamment en programmation.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Tape <code>for (let i = 0; i < 5; i++) { console.log(i); }</code></li>
+                    <li>Essaie un compte à rebours avec <code>i--</code></li>
+                    <li>Crée un tableau et parcours-le avec <code>for...of</code></li>
+                    <li>Calcule la somme des nombres de 1 à 100 avec une boucle</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    La boucle <code>for</code> est parfaite quand tu sais à l'avance combien
+                    de tours effectuer. Mais parfois, tu ne le sais pas : tu veux répéter
+                    <strong>tant qu'une condition est vraie</strong> — par exemple, demander
+                    un mot de passe jusqu'à ce qu'il soit correct. C'est le rôle de la
+                    boucle <code>while</code>.
+                </p>
+                <p>
+                    <a href="boucle-while.html">Chapitre suivant : La boucle while →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="boucle-while.html"><span class="pager-dir">Suivant →</span><span class="pager-title">While</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

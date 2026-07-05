@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 7 : Après le lancement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html" class="active">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Après le lancement</h1>
+            <p>Étape 7 · Feedback, itérations et évolution</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le lancement n'est pas la fin</h2>
+                <p>
+                    Ton app est en ligne. Félicitations — tu as accompli ce que 90% des
+                    gens qui « ont une idée d'app » ne font jamais. Mais le lancement,
+                    c'est le <strong>début</strong>, pas la fin.
+                </p>
+                <p>
+                    Les prochaines semaines sont cruciales : de vrais utilisateurs vont
+                    interagir avec ton app, révéler des bugs que tu n'avais pas vus, et
+                    exprimer des besoins que tu n'avais pas anticipés. C'est normal —
+                    et c'est exactement pour ça que tu as lancé un MVP.
+                </p>
+            </section>
+
+            <section>
+                <h2>1. Récolter le feedback</h2>
+                <p>
+                    Ne demande pas « Comment tu trouves l'app ? » — tu auras des réponses
+                    polies et inutiles. Pose des questions <strong>spécifiques</strong> :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Question</th>
+                            <th>Ce que tu apprends</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Qu'as-tu essayé de faire en premier ?</td>
+                            <td>Le parcours utilisateur réel vs celui que tu avais prévu</td>
+                        </tr>
+                        <tr>
+                            <td>Où as-tu hésité ou bloqué ?</td>
+                            <td>Les problèmes d'UX concrets</td>
+                        </tr>
+                        <tr>
+                            <td>Qu'est-ce qui manque pour que tu l'utilises tous les jours ?</td>
+                            <td>La fonctionnalité « Should » à prioriser</td>
+                        </tr>
+                        <tr>
+                            <td>Sur une échelle de 1 à 10, tu la recommanderais ?</td>
+                            <td>Le NPS (Net Promoter Score) — mesure de satisfaction</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>2. Prioriser les améliorations</h2>
+                <p>
+                    Tu vas recevoir des dizaines de retours et d'idées. Ne les implémente
+                    pas en vrac. Classe-les avec la matrice <strong>Impact / Effort</strong> :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">Fort impact + peu d'effort<span class="label">FAIS-LE MAINTENANT</span></span>
+                    <span class="part">Fort impact + beaucoup d'effort<span class="label">PLANIFIE</span></span>
+                    <span class="part">Faible impact + peu d'effort<span class="label">SI TU AS LE TEMPS</span></span>
+                    <span class="part">Faible impact + beaucoup d'effort<span class="label">OUBLIE</span></span>
+                </div>
+
+                <p class="note">
+                    <strong>Prompt Claude :</strong> « Voici les retours utilisateurs de mon
+                    app [colle-les]. Classe chaque demande selon la matrice impact/effort
+                    et propose un ordre de priorité pour les 2 prochaines semaines. »
+                </p>
+            </section>
+
+            <section>
+                <h2>3. Le cycle d'itération</h2>
+                <p>
+                    Après le lancement, tu entres dans un cycle continu. Chaque
+                    itération dure <strong>1 à 2 semaines</strong> :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">Feedback<span class="label">écouter</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Prioriser<span class="label">choisir</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Coder<span class="label">implémenter</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Déployer<span class="label">livrer</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Feedback<span class="label">recommencer</span></span>
+                </div>
+
+                <p>
+                    C'est la boucle qui transforme un MVP bancal en un produit solide.
+                    Chaque tour de boucle améliore l'app. Après 4-5 itérations, tu auras
+                    un produit que tu ne reconnaîtras plus.
+                </p>
+            </section>
+
+            <section>
+                <h2>4. Maintenance technique</h2>
+                <p>
+                    En parallèle des fonctionnalités, garde un œil sur la santé technique :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tâche</th>
+                            <th>Fréquence</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mettre à jour les dépendances</td>
+                            <td>Toutes les 2-4 semaines</td>
+                            <td>« Mets à jour les dépendances du projet »</td>
+                        </tr>
+                        <tr>
+                            <td>Vérifier les logs Vercel</td>
+                            <td>Après chaque déploiement</td>
+                            <td><code>/vercel:logs</code></td>
+                        </tr>
+                        <tr>
+                            <td>Surveiller les erreurs</td>
+                            <td>En continu</td>
+                            <td>Sentry (gratuit) ou les logs navigateur</td>
+                        </tr>
+                        <tr>
+                            <td>Sauvegarder la BDD</td>
+                            <td>Hebdomadaire</td>
+                            <td>Supabase fait des backups automatiques (plan pro)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>5. La roadmap V2</h2>
+                <p>
+                    Quand ton MVP est stabilisé (bugs corrigés, feedback intégré, utilisateurs
+                    satisfaits), c'est le moment de planifier la V2. Reprends ta liste
+                    MoSCoW du cadrage et regarde la colonne « Should » et « Could » :
+                    c'est ta roadmap.
+                </p>
+
+                <pre><code><span class="comment">// Roadmap V2 — LeadTracker</span>
+
+<span class="keyword">Sprint 1 (semaine 1-2)</span>
+<span class="string">- Import automatique des leads depuis Gmail</span>
+<span class="string">- Notifications de relance</span>
+
+<span class="keyword">Sprint 2 (semaine 3-4)</span>
+<span class="string">- Dashboard avec statistiques</span>
+<span class="string">- Export CSV</span>
+
+<span class="keyword">Sprint 3 (semaine 5-6)</span>
+<span class="string">- Multi-utilisateurs avec rôles</span>
+<span class="string">- Historique complet des actions</span></code></pre>
+
+                <p>
+                    Et le cycle recommence : brief → cadrage → design → code → test → deploy.
+                    Mais cette fois, tu as de l'expérience et un produit existant sur lequel
+                    construire.
+                </p>
+            </section>
+
+            <section>
+                <h2>Récapitulatif de la méthode</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Étape</th>
+                            <th>Durée</th>
+                            <th>Livrable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1. Idée → Brief</td>
+                            <td>30 min</td>
+                            <td>Brief 1 page</td>
+                        </tr>
+                        <tr>
+                            <td>2. Cadrage</td>
+                            <td>1-2 h</td>
+                            <td>Personas + MoSCoW + Stack</td>
+                        </tr>
+                        <tr>
+                            <td>3. Design</td>
+                            <td>2-3 h</td>
+                            <td>Maquettes + design system</td>
+                        </tr>
+                        <tr>
+                            <td>4. Développement</td>
+                            <td>3-7 jours</td>
+                            <td>App fonctionnelle</td>
+                        </tr>
+                        <tr>
+                            <td>5. Tests</td>
+                            <td>1-2 h</td>
+                            <td>App testée et stable</td>
+                        </tr>
+                        <tr>
+                            <td>6. Déploiement</td>
+                            <td>30 min</td>
+                            <td>App en ligne</td>
+                        </tr>
+                        <tr>
+                            <td>7. Après</td>
+                            <td>Continu</td>
+                            <td>Feedback → itérations → V2</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Total : d'une idée à une app en production en 1 à 2 semaines.</strong>
+                    C'est réaliste avec Claude Code, à condition de rester discipliné
+                    sur le scope du MVP.
+                </p>
+            </section>
+
+            <section>
+                <h2>Tu as terminé la méthode</h2>
+                <p>
+                    Tu as maintenant un framework complet pour passer de l'idée à l'app
+                    déployée. Ce n'est pas de la théorie — c'est un processus concret,
+                    testé, qui s'appuie sur les outils que tu utilises déjà.
+                </p>
+                <p>
+                    La prochaine fois que tu as une idée, ouvre ce guide, commence par
+                    le brief, et suis le pipeline. Étape par étape. Sans sauter. Et
+                    dans une semaine, ton app sera en ligne.
+                </p>
+                <p>
+                    <a href="../index.html">← Retour au Hub</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="deploiement.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Deploy</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

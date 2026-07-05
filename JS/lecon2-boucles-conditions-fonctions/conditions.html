@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — Les conditions if et if...else</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html" class="active">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>Les conditions if et if...else</h1>
+            <p>Leçon 2 · Chapitre 9 · Prendre des décisions dans le code</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi des conditions ?</h2>
+                <p>
+                    Dans les deux chapitres précédents, tu as appris à <strong>répéter</strong>
+                    du code. Maintenant, tu vas apprendre à faire <strong>des choix</strong>.
+                    En Leçon 1, tu as découvert les opérateurs de comparaison (<code>===</code>,
+                    <code>></code>, <code><</code>) qui retournent <code>true</code> ou
+                    <code>false</code>. Les conditions utilisent ces résultats pour décider
+                    quel code exécuter.
+                </p>
+                <p>
+                    C'est comme dire : « <em>Si</em> il pleut, prends un parapluie.
+                    <em>Sinon</em>, mets des lunettes de soleil. » Le programme choisit
+                    un chemin ou l'autre selon la situation.
+                </p>
+            </section>
+
+            <section>
+                <h2>La structure if</h2>
+                <pre><code><span class="keyword">const</span> age = <span class="number">20</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"Tu es majeur"</span>);
+}
+<span class="comment">// "Tu es majeur"</span></code></pre>
+
+                <p>
+                    Le code entre les accolades <code>{ }</code> ne s'exécute que si la
+                    condition entre parenthèses est <code>true</code>. Si elle est
+                    <code>false</code>, le bloc est simplement ignoré :
+                </p>
+
+                <pre><code><span class="keyword">const</span> age = <span class="number">15</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"Tu es majeur"</span>);
+}
+<span class="comment">// Rien ne s'affiche (15 < 18 → condition false)</span></code></pre>
+            </section>
+
+            <section>
+                <h2>La structure if...else</h2>
+                <p>
+                    Souvent, tu veux exécuter un code alternatif quand la condition est fausse.
+                    C'est le rôle de <code>else</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> age = <span class="number">15</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    console.log(<span class="string">"Tu es majeur"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Tu es mineur"</span>);
+}
+<span class="comment">// "Tu es mineur"</span></code></pre>
+
+                <div class="diagram">
+                    <span class="part">condition true ?<span class="label">→ bloc if</span></span>
+                    <span class="part">condition false ?<span class="label">→ bloc else</span></span>
+                </div>
+
+                <p>
+                    Un seul des deux blocs s'exécute — jamais les deux. C'est un
+                    <strong>embranchement</strong> : le programme prend un chemin ou l'autre.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les opérateurs logiques</h2>
+                <p>
+                    On peut combiner plusieurs conditions avec les opérateurs logiques.
+                    Tu les utiliseras constamment avec <code>if</code> :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opérateur</th>
+                            <th>Nom</th>
+                            <th>Signification</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&&</code></td>
+                            <td>ET (AND)</td>
+                            <td>Les deux conditions doivent être vraies</td>
+                            <td><code>age >= 18 && age <= 65</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>||</code></td>
+                            <td>OU (OR)</td>
+                            <td>Au moins une condition doit être vraie</td>
+                            <td><code>jour === "samedi" || jour === "dimanche"</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>!</code></td>
+                            <td>NON (NOT)</td>
+                            <td>Inverse la condition</td>
+                            <td><code>!estConnecté</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code><span class="keyword">const</span> age = <span class="number">25</span>;
+<span class="keyword">const</span> aPermis = <span class="keyword">true</span>;
+
+<span class="comment">// ET : les deux doivent être vrais</span>
+<span class="keyword">if</span> (age >= <span class="number">18</span> && aPermis) {
+    console.log(<span class="string">"Tu peux conduire"</span>);
+}
+
+<span class="keyword">const</span> jour = <span class="string">"samedi"</span>;
+
+<span class="comment">// OU : au moins un doit être vrai</span>
+<span class="keyword">if</span> (jour === <span class="string">"samedi"</span> || jour === <span class="string">"dimanche"</span>) {
+    console.log(<span class="string">"C'est le week-end !"</span>);
+}
+
+<span class="keyword">const</span> estConnecté = <span class="keyword">false</span>;
+
+<span class="comment">// NON : inverse la valeur</span>
+<span class="keyword">if</span> (!estConnecté) {
+    console.log(<span class="string">"Veuillez vous connecter"</span>);
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>L'opérateur ternaire (raccourci)</h2>
+                <p>
+                    Pour les conditions simples qui assignent une valeur, le <strong>ternaire</strong>
+                    permet d'écrire le tout sur une seule ligne :
+                </p>
+
+                <pre><code><span class="comment">// Syntaxe : condition ? valeurSiVrai : valeurSiFaux</span>
+
+<span class="keyword">const</span> age = <span class="number">20</span>;
+<span class="keyword">const</span> statut = age >= <span class="number">18</span> ? <span class="string">"majeur"</span> : <span class="string">"mineur"</span>;
+console.log(statut); <span class="comment">// "majeur"</span>
+
+<span class="comment">// Équivalent à :</span>
+<span class="keyword">let</span> statut2;
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    statut2 = <span class="string">"majeur"</span>;
+} <span class="keyword">else</span> {
+    statut2 = <span class="string">"mineur"</span>;
+}</code></pre>
+
+                <p class="note">
+                    <strong>Bonne pratique :</strong> utilise le ternaire uniquement pour des
+                    conditions simples et courtes. Si c'est complexe, préfère <code>if...else</code>
+                    pour la lisibilité. Tu retrouveras le ternaire en Leçon 3 avec les
+                    opérateurs modernes.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple concret : formulaire de connexion</h2>
+                <pre><code><span class="keyword">const</span> email = <span class="string">"jean@gmail.com"</span>;
+<span class="keyword">const</span> motDePasse = <span class="string">"secret123"</span>;
+
+<span class="keyword">if</span> (email === <span class="string">""</span> || motDePasse === <span class="string">""</span>) {
+    console.log(<span class="string">"Veuillez remplir tous les champs"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (motDePasse.length < <span class="number">8</span>) {
+    console.log(<span class="string">"Le mot de passe doit faire au moins 8 caractères"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Connexion réussie !"</span>);
+}
+<span class="comment">// "Connexion réussie !"</span></code></pre>
+                <p>
+                    Tu remarques qu'on utilise ici <code>else if</code> — c'est justement
+                    le sujet du prochain chapitre.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Déclare une variable <code>let age = 15;</code></li>
+                    <li>Teste : <code>if (age >= 18) { console.log("majeur"); } else { console.log("mineur"); }</code></li>
+                    <li>Change la valeur de <code>age</code> et relance</li>
+                    <li>Essaie l'opérateur ternaire : <code>age >= 18 ? "majeur" : "mineur"</code></li>
+                    <li>Combine avec <code>&&</code> : <code>if (age >= 18 && age < 65) { ... }</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant faire un choix entre deux options. Mais souvent,
+                    il y a <strong>plus de deux cas possibles</strong> : une note peut être
+                    « Très bien », « Bien », « Assez bien », « Passable » ou « Insuffisant ».
+                    Pour gérer ces situations, on enchaîne plusieurs conditions avec
+                    <code>else if</code>.
+                </p>
+                <p>
+                    <a href="conditions-multiples.html">Chapitre suivant : Les conditions multiples →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="boucle-while.html"><span class="pager-dir">← Précédent</span><span class="pager-title">While</span></a>
+                <a class="pager-next" href="conditions-multiples.html"><span class="pager-dir">Suivant →</span><span class="pager-title">If multiples</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

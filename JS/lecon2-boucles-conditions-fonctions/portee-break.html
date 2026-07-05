@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — Portée des variables, break et continue</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html" class="active">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>Portée, break et continue</h1>
+            <p>Leçon 2 · Chapitre 12 · Comprendre où vivent les variables et contrôler les boucles</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Un concept fondamental</h2>
+                <p>
+                    Tu as déjà utilisé des variables dans des boucles et des conditions.
+                    Mais as-tu remarqué que certaines variables n'existent que
+                    <strong>à l'intérieur</strong> d'un bloc <code>{ }</code> ? Ce n'est
+                    pas un hasard — c'est la <strong>portée</strong> (scope).
+                </p>
+                <p>
+                    Comprendre la portée t'évitera une catégorie entière de bugs. Ce chapitre
+                    aborde aussi <code>break</code> et <code>continue</code>, deux mots-clés
+                    qui te donnent un contrôle fin sur l'exécution des boucles.
+                </p>
+            </section>
+
+            <section>
+                <h2>La portée des variables (scope)</h2>
+                <p>
+                    La <strong>portée</strong> d'une variable définit <strong>où</strong> elle est
+                    accessible dans le code. Les accolades <code>{ }</code> créent un
+                    <strong>bloc</strong>, et les variables déclarées avec <code>let</code> ou
+                    <code>const</code> n'existent que dans ce bloc :
+                </p>
+
+                <pre><code><span class="keyword">const</span> nom = <span class="string">"Jean-Michel"</span>; <span class="comment">// Portée globale</span>
+
+<span class="keyword">if</span> (<span class="keyword">true</span>) {
+    <span class="keyword">const</span> age = <span class="number">30</span>; <span class="comment">// Portée locale (bloc if)</span>
+    console.log(nom); <span class="comment">// "Jean-Michel" → accessible (portée parente)</span>
+    console.log(age); <span class="comment">// 30 → accessible (même bloc)</span>
+}
+
+console.log(nom); <span class="comment">// "Jean-Michel" → accessible (portée globale)</span>
+<span class="comment">// console.log(age); → ERREUR ! age n'existe pas ici</span></code></pre>
+
+                <p>
+                    Retiens cette règle : un bloc enfant peut lire les variables de ses
+                    parents, mais un parent ne peut <strong>pas</strong> lire les variables
+                    de ses enfants.
+                </p>
+            </section>
+
+            <section>
+                <h2>Portée dans les boucles</h2>
+                <pre><code><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">3</span>; i++) {
+    <span class="keyword">const</span> message = <span class="string">`Tour ${i}`</span>;
+    console.log(message); <span class="comment">// Accessible dans la boucle</span>
+}
+
+<span class="comment">// console.log(i);       → ERREUR ! i n'existe plus</span>
+<span class="comment">// console.log(message); → ERREUR ! message n'existe plus</span></code></pre>
+
+                <p>
+                    C'est pour ça qu'on déclare <code>let i</code> dans le <code>for</code> :
+                    le compteur n'a pas besoin d'exister en dehors de la boucle. Si tu as besoin
+                    d'une valeur après la boucle, déclare-la <strong>avant</strong> :
+                </p>
+
+                <pre><code><span class="keyword">let</span> total = <span class="number">0</span>; <span class="comment">// Déclarée AVANT la boucle</span>
+
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">5</span>; i++) {
+    total += i;
+}
+
+console.log(total); <span class="comment">// 15 → accessible car déclarée en dehors</span></code></pre>
+            </section>
+
+            <section>
+                <h2>var vs let/const — pourquoi éviter var</h2>
+                <p>
+                    L'ancien mot-clé <code>var</code> ne respecte pas la portée de bloc,
+                    ce qui provoque des bugs subtils. C'est la raison principale pour laquelle
+                    on utilise <code>let</code> et <code>const</code> en JavaScript moderne :
+                </p>
+
+                <pre><code><span class="keyword">if</span> (<span class="keyword">true</span>) {
+    <span class="keyword">var</span> ancienne = <span class="string">"je fuis le bloc"</span>;   <span class="comment">// var ignore le bloc !</span>
+    <span class="keyword">let</span> moderne = <span class="string">"je reste dans le bloc"</span>;
+}
+
+console.log(ancienne); <span class="comment">// "je fuis le bloc" → fonctionne (mauvais !)</span>
+<span class="comment">// console.log(moderne); → ERREUR (bon comportement)</span></code></pre>
+
+                <div class="diagram">
+                    <span class="part">var<span class="label">portée de fonction (à éviter)</span></span>
+                    <span class="part">let / const<span class="label">portée de bloc (à utiliser)</span></span>
+                </div>
+
+                <p class="note">
+                    <strong>Bonne pratique :</strong> utilise <code>const</code> par défaut.
+                    Utilise <code>let</code> uniquement si tu dois réassigner la variable.
+                    N'utilise <strong>jamais</strong> <code>var</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>break : sortir d'une boucle</h2>
+                <p>
+                    Tu as déjà vu <code>break</code> dans le <code>switch</code>. Il fonctionne
+                    aussi dans les boucles : il <strong>arrête complètement</strong> la boucle
+                    en cours, immédiatement :
+                </p>
+
+                <pre><code><span class="keyword">const</span> nombres = [<span class="number">3</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">9</span>, <span class="number">5</span>, <span class="number">1</span>];
+
+<span class="comment">// Chercher le premier nombre > 8</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> n <span class="keyword">of</span> nombres) {
+    <span class="keyword">if</span> (n > <span class="number">8</span>) {
+        console.log(<span class="string">`Trouvé : ${n}`</span>);
+        <span class="keyword">break</span>; <span class="comment">// On sort de la boucle</span>
+    }
+    console.log(<span class="string">`${n} n'est pas > 8`</span>);
+}
+<span class="comment">// 3 n'est pas > 8</span>
+<span class="comment">// 7 n'est pas > 8</span>
+<span class="comment">// 2 n'est pas > 8</span>
+<span class="comment">// Trouvé : 9</span>
+<span class="comment">// (5 et 1 ne sont jamais testés)</span></code></pre>
+
+                <p>
+                    Utilise <code>break</code> quand tu cherches une valeur et que tu veux
+                    arrêter dès qu'elle est trouvée — inutile de continuer à parcourir
+                    le reste du tableau.
+                </p>
+            </section>
+
+            <section>
+                <h2>continue : sauter une itération</h2>
+                <p>
+                    <code>continue</code> ne sort pas de la boucle — il <strong>saute le
+                    reste du tour actuel</strong> et passe directement au tour suivant :
+                </p>
+
+                <pre><code><span class="comment">// Afficher uniquement les nombres pairs</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= <span class="number">10</span>; i++) {
+    <span class="keyword">if</span> (i % <span class="number">2</span> !== <span class="number">0</span>) {
+        <span class="keyword">continue</span>; <span class="comment">// Nombre impair → on saute au tour suivant</span>
+    }
+    console.log(i);
+}
+<span class="comment">// 2, 4, 6, 8, 10</span></code></pre>
+
+                <p class="note">
+                    <strong>Rappel :</strong> l'opérateur <code>%</code> (modulo) donne le reste
+                    de la division. <code>i % 2 === 0</code> signifie que <code>i</code> est pair.
+                </p>
+            </section>
+
+            <section>
+                <h2>break vs continue : résumé</h2>
+                <div class="diagram">
+                    <span class="part">break<span class="label">sort de la boucle (arrête tout)</span></span>
+                    <span class="part">continue<span class="label">saute au tour suivant</span></span>
+                </div>
+
+                <pre><code><span class="comment">// Exemple combiné</span>
+<span class="keyword">const</span> noms = [<span class="string">"Alice"</span>, <span class="string">""</span>, <span class="string">"Bob"</span>, <span class="string">"STOP"</span>, <span class="string">"Charlie"</span>];
+
+<span class="keyword">for</span> (<span class="keyword">const</span> nom <span class="keyword">of</span> noms) {
+    <span class="keyword">if</span> (nom === <span class="string">"STOP"</span>) {
+        console.log(<span class="string">"Arrêt demandé"</span>);
+        <span class="keyword">break</span>;       <span class="comment">// On arrête tout</span>
+    }
+    <span class="keyword">if</span> (nom === <span class="string">""</span>) {
+        <span class="keyword">continue</span>;    <span class="comment">// On ignore les noms vides</span>
+    }
+    console.log(<span class="string">`Bonjour ${nom}`</span>);
+}
+<span class="comment">// Bonjour Alice</span>
+<span class="comment">// Bonjour Bob</span>
+<span class="comment">// Arrêt demandé</span></code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Déclare une variable dans un <code>if</code> et essaie d'y accéder en dehors</li>
+                    <li>Utilise <code>break</code> dans une boucle pour la stopper à un moment précis</li>
+                    <li>Utilise <code>continue</code> pour filtrer des valeurs dans une boucle</li>
+                    <li>Compare le comportement de <code>var</code> et <code>let</code> dans un bloc</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu as maintenant toutes les briques pour contrôler le flux de ton
+                    programme : boucles, conditions, portée, <code>break</code> et
+                    <code>continue</code>. Il reste la pièce maîtresse de cette leçon :
+                    les <strong>fonctions</strong>. Elles te permettront d'organiser tout
+                    ce que tu as appris en blocs réutilisables, nommés et paramétrables.
+                    C'est le dernier chapitre — et le plus important.
+                </p>
+                <p>
+                    <a href="fonctions.html">Chapitre suivant : Introduction aux fonctions →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="switch.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Switch</span></a>
+                <a class="pager-next" href="fonctions.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Fonctions</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

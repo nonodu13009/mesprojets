@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 1 : De l'idée au brief</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html" class="active">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>De l'idée au brief</h1>
+            <p>Étape 1 · Formaliser le problème avant de penser à la solution</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>L'erreur classique</h2>
+                <p>
+                    Tu as une idée. L'enthousiasme monte. Tu ouvres ton terminal et tu
+                    commences à coder. Trois heures plus tard, tu as un écran qui fait
+                    quelque chose — mais tu ne sais plus exactement <strong>quoi</strong>,
+                    ni <strong>pour qui</strong>, ni <strong>pourquoi</strong>.
+                </p>
+                <p>
+                    C'est le piège n°1 : confondre « avoir une idée » et « savoir ce qu'on
+                    construit ». Un brief, même court, t'oblige à répondre aux vraies
+                    questions <strong>avant</strong> d'écrire la moindre ligne de code.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les 5 questions du brief</h2>
+                <p>
+                    Un bon brief tient sur une page. Il répond à 5 questions. Pas plus,
+                    pas moins. Si tu n'arrives pas à y répondre clairement, c'est que
+                    ton idée n'est pas encore mûre — et c'est normal, ça fait partie
+                    du processus.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Question</th>
+                            <th>Ce que tu cherches</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>Quel problème je résous ?</strong></td>
+                            <td>La douleur concrète de l'utilisateur</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>Pour qui ?</strong></td>
+                            <td>L'utilisateur cible (persona)</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>Quelle est ma solution ?</strong></td>
+                            <td>Ce que l'app fait, en une phrase</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>Qu'est-ce qui existe déjà ?</strong></td>
+                            <td>Les alternatives, concurrents, outils existants</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>Comment je me différencie ?</strong></td>
+                            <td>L'angle unique, la proposition de valeur</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Exemple concret</h2>
+                <p>
+                    Imaginons que tu veuilles créer un outil de suivi de prospects pour
+                    ton agence d'assurance :
+                </p>
+
+                <pre><code><span class="comment">// BRIEF — LeadTracker Assurance</span>
+
+<span class="keyword">1. Problème</span>
+<span class="string">Je reçois des leads Allianz par email. Ils se perdent dans
+ma boîte mail. Je n'ai aucun suivi, aucune relance automatique,
+aucune vue d'ensemble.</span>
+
+<span class="keyword">2. Pour qui</span>
+<span class="string">Moi (agent général) et mon équipe (2 collaboratrices).
+Utilisateurs non-techniques, sur desktop principalement.</span>
+
+<span class="keyword">3. Solution</span>
+<span class="string">Une web app qui centralise les leads, affiche un tableau de
+bord avec statuts (nouveau / contacté / en cours / gagné / perdu),
+et envoie des rappels de relance.</span>
+
+<span class="keyword">4. Ce qui existe</span>
+<span class="string">- Salesforce → trop lourd, trop cher
+- Un tableau Excel → pas de suivi, pas de rappels
+- Le CRM Allianz → limité, pas personnalisable</span>
+
+<span class="keyword">5. Différenciation</span>
+<span class="string">Simple, conçu pour un agent général, connecté à ma boîte
+Gmail pour import automatique des leads Allianz.</span></code></pre>
+
+                <p class="note">
+                    <strong>Astuce :</strong> rédige ce brief en discutant avec Claude (chat).
+                    Donne-lui ton idée brute, demande-lui de te poser les 5 questions,
+                    et affine ensemble. L'IA est excellente pour structurer une pensée floue.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le prompt pour Claude</h2>
+                <p>
+                    Voici un prompt que tu peux copier-coller dans Claude pour démarrer
+                    la rédaction de ton brief :
+                </p>
+
+                <pre><code><span class="string">Je veux créer une web app. Voici mon idée brute :
+[décris ton idée en 2-3 phrases]
+
+Aide-moi à rédiger un brief structuré en répondant à ces 5 questions :
+1. Quel problème concret je résous ?
+2. Pour qui exactement ? (profil utilisateur)
+3. Quelle est ma solution en une phrase ?
+4. Qu'est-ce qui existe déjà comme alternatives ?
+5. Comment je me différencie ?
+
+Pose-moi des questions si mon idée n'est pas assez claire.
+Sois direct et challenge-moi si quelque chose ne tient pas.</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Le livrable</h2>
+                <p>
+                    À la fin de cette étape, tu dois avoir un document (même un simple
+                    fichier texte) qui contient :
+                </p>
+                <ol class="steps">
+                    <li>Les réponses aux 5 questions</li>
+                    <li>Un <strong>nom de projet</strong> (même provisoire)</li>
+                    <li>Une <strong>phrase de pitch</strong> : « C'est un [type d'app] qui
+                        permet à [qui] de [faire quoi] »</li>
+                </ol>
+
+                <div class="diagram">
+                    <span class="part">Idée floue<span class="label">entrée</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Brief structuré<span class="label">sortie</span></span>
+                </div>
+
+                <p class="note">
+                    <strong>Critère de validation :</strong> tu dois pouvoir expliquer ton
+                    projet en 30 secondes à quelqu'un qui ne connaît rien au sujet. Si tu
+                    n'y arrives pas, reviens sur le brief.
+                </p>
+            </section>
+
+            <section>
+                <h2>Erreurs à éviter</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Erreur</th>
+                            <th>Pourquoi c'est un problème</th>
+                            <th>Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Décrire la solution avant le problème</td>
+                            <td>Tu risques de construire quelque chose dont personne n'a besoin</td>
+                            <td>Commence toujours par la douleur utilisateur</td>
+                        </tr>
+                        <tr>
+                            <td>Viser trop large</td>
+                            <td>« Une app qui fait tout » ne fait rien de bien</td>
+                            <td>Un problème, une solution, un utilisateur</td>
+                        </tr>
+                        <tr>
+                            <td>Ignorer la concurrence</td>
+                            <td>Si ça existe déjà, tu dois savoir pourquoi ta version est meilleure</td>
+                            <td>10 minutes de recherche Google suffisent</td>
+                        </tr>
+                        <tr>
+                            <td>Passer 3 jours sur le brief</td>
+                            <td>Le brief n'est pas un business plan</td>
+                            <td>30 minutes max. Tu affineras en avançant</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu as ton brief. Tu sais <strong>quoi</strong> construire et
+                    <strong>pour qui</strong>. Maintenant, il faut creuser : qui sont
+                    vraiment tes utilisateurs ? Quelles fonctionnalités sont essentielles
+                    vs « nice to have » ? Quelle architecture technique choisir ?
+                    C'est l'étape de <strong>cadrage</strong>.
+                </p>
+                <p>
+                    <a href="recherche-cadrage.html">Étape 2 : Cadrage →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="recherche-cadrage.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Cadrage</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

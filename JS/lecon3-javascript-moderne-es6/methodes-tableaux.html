@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Méthodes modernes des tableaux</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="destructuring.html">Destructuring</a>
+            <a href="spread-rest.html">Spread / Rest</a>
+            <a href="methodes-tableaux.html" class="active">Tableaux</a>
+            <a href="classes.html">Classes</a>
+            <a href="promesses.html">Promesses</a>
+            <a href="modules.html">Modules</a>
+            <a href="operateurs-modernes.html">Opérateurs</a>
+        </nav>
+
+        <header>
+            <h1>Méthodes modernes des tableaux</h1>
+            <p>Leçon 3 · Chapitre 26 · forEach, map, filter, find, reduce</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Fini les boucles for à la main</h2>
+                <p>
+                    En leçon 2, tu as appris à parcourir un tableau avec une boucle
+                    <code>for</code>. Ça fonctionnait, mais à chaque fois tu devais écrire
+                    l'initialisation, la condition, l'incrémentation, et gérer l'index toi-même.
+                </p>
+                <p>
+                    JavaScript propose des <strong>méthodes intégrées</strong> aux tableaux
+                    qui font le travail à ta place. Elles prennent une <strong>fonction
+                    callback</strong> en paramètre (souvent une fonction fléchée, vue en leçon 2)
+                    et l'appliquent à chaque élément.
+                </p>
+                <p>
+                    Ces méthodes sont le cœur du JavaScript moderne. Maîtrise-les bien :
+                    tu les utiliseras tous les jours, que ce soit pour afficher une liste
+                    dans une interface, filtrer des données ou calculer des totaux.
+                </p>
+
+                <div class="diagram">
+                    <span class="part">forEach<span class="label">parcourir</span></span>
+                    <span class="part">map<span class="label">transformer</span></span>
+                    <span class="part">filter<span class="label">filtrer</span></span>
+                    <span class="part">find<span class="label">chercher</span></span>
+                    <span class="part">reduce<span class="label">réduire</span></span>
+                </div>
+            </section>
+
+            <section>
+                <h2>forEach — Parcourir un tableau</h2>
+                <p>
+                    La plus simple des méthodes. Elle exécute une fonction pour
+                    <strong>chaque élément</strong> du tableau, sans rien retourner.
+                    C'est le remplaçant direct de la boucle <code>for</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> prénoms = [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Charlie"</span>];
+
+<span class="comment">// Avec une boucle for (leçon 2)</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < prénoms.length; i++) {
+    console.log(<span class="string">`Bonjour ${prénoms[i]}`</span>);
+}
+
+<span class="comment">// Avec forEach (plus lisible)</span>
+prénoms.forEach((prénom) => {
+    console.log(<span class="string">`Bonjour ${prénom}`</span>);
+});
+<span class="comment">// "Bonjour Alice"</span>
+<span class="comment">// "Bonjour Bob"</span>
+<span class="comment">// "Bonjour Charlie"</span>
+
+<span class="comment">// L'index est disponible en deuxième paramètre</span>
+prénoms.forEach((prénom, index) => {
+    console.log(<span class="string">`${index + 1}. ${prénom}`</span>);
+});</code></pre>
+
+                <p>
+                    <code>forEach</code> est idéal quand tu veux juste <strong>faire quelque
+                    chose</strong> avec chaque élément (afficher, envoyer, sauvegarder) sans
+                    avoir besoin d'un résultat en retour.
+                </p>
+            </section>
+
+            <section>
+                <h2>map — Transformer chaque élément</h2>
+                <p>
+                    Voilà la méthode que tu utiliseras le plus. <code>map</code> crée un
+                    <strong>nouveau tableau</strong> en appliquant une transformation à
+                    chaque élément. Le tableau original n'est jamais modifié.
+                </p>
+
+                <pre><code><span class="keyword">const</span> nombres = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="keyword">const</span> doubles = nombres.map((n) => n * <span class="number">2</span>);
+console.log(doubles); <span class="comment">// [2, 4, 6, 8, 10]</span>
+console.log(nombres); <span class="comment">// [1, 2, 3, 4, 5] → l'original est intact</span>
+
+<span class="comment">// Transformer des objets</span>
+<span class="keyword">const</span> utilisateurs = [
+    { prénom: <span class="string">"Alice"</span>, age: <span class="number">25</span> },
+    { prénom: <span class="string">"Bob"</span>, age: <span class="number">30</span> }
+];
+
+<span class="keyword">const</span> prénoms = utilisateurs.map((u) => u.prénom);
+console.log(prénoms); <span class="comment">// ["Alice", "Bob"]</span></code></pre>
+
+                <p class="note">
+                    <strong>map vs forEach :</strong> la différence essentielle est que
+                    <code>map</code> <strong>retourne un nouveau tableau</strong>, alors que
+                    <code>forEach</code> ne retourne rien. Si tu as besoin du résultat transformé,
+                    utilise <code>map</code>. Si tu veux juste un effet de bord (afficher, logger),
+                    utilise <code>forEach</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>filter — Garder seulement ce qui t'intéresse</h2>
+                <p>
+                    <code>filter</code> crée un nouveau tableau contenant uniquement les
+                    éléments qui <strong>passent un test</strong>. La fonction callback doit
+                    retourner <code>true</code> (on garde) ou <code>false</code> (on jette) :
+                </p>
+
+                <pre><code><span class="keyword">const</span> nombres = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>];
+
+<span class="keyword">const</span> pairs = nombres.filter((n) => n % <span class="number">2</span> === <span class="number">0</span>);
+console.log(pairs); <span class="comment">// [2, 4, 6, 8]</span></code></pre>
+
+                <p>
+                    Tu te rappelles la fonction <code>filtrerPairs</code> qu'on avait écrite
+                    à la main en leçon 2 avec une boucle <code>for</code> et un
+                    <code>push()</code> ? <code>filter</code> fait exactement la même chose
+                    en une seule ligne.
+                </p>
+
+                <pre><code><span class="comment">// Filtrer des objets — cas réel</span>
+<span class="keyword">const</span> produits = [
+    { nom: <span class="string">"iPhone"</span>, prix: <span class="number">999</span> },
+    { nom: <span class="string">"Coque"</span>, prix: <span class="number">19</span> },
+    { nom: <span class="string">"MacBook"</span>, prix: <span class="number">1999</span> },
+    { nom: <span class="string">"Câble"</span>, prix: <span class="number">9</span> }
+];
+
+<span class="keyword">const</span> chers = produits.filter((p) => p.prix > <span class="number">100</span>);
+console.log(chers);
+<span class="comment">// [{ nom: "iPhone", prix: 999 }, { nom: "MacBook", prix: 1999 }]</span></code></pre>
+            </section>
+
+            <section>
+                <h2>find — Trouver un élément précis</h2>
+                <p>
+                    <code>find</code> ressemble à <code>filter</code>, mais au lieu de
+                    retourner tous les éléments qui passent le test, il retourne uniquement
+                    le <strong>premier</strong> qui correspond. Si aucun élément ne correspond,
+                    il retourne <code>undefined</code>.
+                </p>
+
+                <pre><code><span class="keyword">const</span> utilisateurs = [
+    { id: <span class="number">1</span>, nom: <span class="string">"Alice"</span> },
+    { id: <span class="number">2</span>, nom: <span class="string">"Bob"</span> },
+    { id: <span class="number">3</span>, nom: <span class="string">"Charlie"</span> }
+];
+
+<span class="keyword">const</span> bob = utilisateurs.find((u) => u.nom === <span class="string">"Bob"</span>);
+console.log(bob); <span class="comment">// { id: 2, nom: "Bob" }</span>
+
+<span class="keyword">const</span> inconnu = utilisateurs.find((u) => u.nom === <span class="string">"David"</span>);
+console.log(inconnu); <span class="comment">// undefined</span></code></pre>
+
+                <p>
+                    Utilise <code>find</code> quand tu cherches <strong>un seul élément</strong>
+                    (par son id, son nom, etc.), et <code>filter</code> quand tu veux
+                    <strong>tous ceux</strong> qui correspondent à un critère.
+                </p>
+            </section>
+
+            <section>
+                <h2>reduce — Réduire à une seule valeur</h2>
+                <p>
+                    C'est la méthode la plus puissante, mais aussi la plus intimidante au début.
+                    <code>reduce</code> parcourt le tableau et <strong>accumule</strong> un
+                    résultat au fur et à mesure. À la fin, tu obtiens une seule valeur.
+                </p>
+                <p>
+                    La fonction prend deux paramètres : l'<strong>accumulateur</strong>
+                    (le résultat en cours de construction) et l'<strong>élément courant</strong>.
+                    Le deuxième argument de <code>reduce</code> est la valeur initiale
+                    de l'accumulateur.
+                </p>
+
+                <pre><code><span class="keyword">const</span> nombres = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="keyword">const</span> somme = nombres.reduce((acc, n) => acc + n, <span class="number">0</span>);
+console.log(somme); <span class="comment">// 15</span>
+
+<span class="comment">// Déroulons le calcul étape par étape :</span>
+<span class="comment">//   Début  : acc = 0</span>
+<span class="comment">//   Tour 1 : acc = 0 + 1  = 1</span>
+<span class="comment">//   Tour 2 : acc = 1 + 2  = 3</span>
+<span class="comment">//   Tour 3 : acc = 3 + 3  = 6</span>
+<span class="comment">//   Tour 4 : acc = 6 + 4  = 10</span>
+<span class="comment">//   Tour 5 : acc = 10 + 5 = 15</span></code></pre>
+
+                <p>
+                    Un exemple plus concret — calculer le total d'un panier d'achat :
+                </p>
+
+                <pre><code><span class="keyword">const</span> panier = [
+    { nom: <span class="string">"T-shirt"</span>, prix: <span class="number">25</span>, quantité: <span class="number">2</span> },
+    { nom: <span class="string">"Jean"</span>, prix: <span class="number">60</span>, quantité: <span class="number">1</span> },
+    { nom: <span class="string">"Chaussettes"</span>, prix: <span class="number">8</span>, quantité: <span class="number">3</span> }
+];
+
+<span class="keyword">const</span> total = panier.reduce((acc, article) => {
+    <span class="keyword">return</span> acc + article.prix * article.quantité;
+}, <span class="number">0</span>);
+
+console.log(total); <span class="comment">// 134 (50 + 60 + 24)</span></code></pre>
+            </section>
+
+            <section>
+                <h2>La vraie puissance : chaîner les méthodes</h2>
+                <p>
+                    Chaque méthode retourne un nouveau tableau (sauf <code>forEach</code>
+                    et <code>reduce</code>), ce qui permet de les <strong>enchaîner</strong>.
+                    C'est là que tout ce que tu as appris se combine :
+                </p>
+
+                <pre><code><span class="keyword">const</span> produits = [
+    { nom: <span class="string">"iPhone"</span>, prix: <span class="number">999</span>, enStock: <span class="keyword">true</span> },
+    { nom: <span class="string">"Coque"</span>, prix: <span class="number">19</span>, enStock: <span class="keyword">true</span> },
+    { nom: <span class="string">"MacBook"</span>, prix: <span class="number">1999</span>, enStock: <span class="keyword">false</span> },
+    { nom: <span class="string">"Câble"</span>, prix: <span class="number">9</span>, enStock: <span class="keyword">true</span> }
+];
+
+<span class="comment">// Noms des produits en stock à moins de 100€</span>
+<span class="keyword">const</span> promos = produits
+    .filter((p) => p.enStock)        <span class="comment">// garder ceux en stock</span>
+    .filter((p) => p.prix < <span class="number">100</span>)     <span class="comment">// garder les moins de 100€</span>
+    .map((p) => p.nom);              <span class="comment">// extraire les noms</span>
+
+console.log(promos); <span class="comment">// ["Coque", "Câble"]</span></code></pre>
+
+                <p>
+                    Lis ce code de haut en bas comme une recette : "prends les produits,
+                    garde ceux en stock, garde ceux à moins de 100 euros, et donne-moi
+                    juste les noms". C'est lisible, expressif, et ça tient en 3 lignes.
+                </p>
+            </section>
+
+            <section>
+                <h2>Résumé : quelle méthode choisir ?</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Retourne</th>
+                            <th>Quand l'utiliser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>forEach</code></td>
+                            <td>Rien (<code>undefined</code>)</td>
+                            <td>Exécuter un effet pour chaque élément</td>
+                        </tr>
+                        <tr>
+                            <td><code>map</code></td>
+                            <td>Nouveau tableau (même taille)</td>
+                            <td>Transformer chaque élément</td>
+                        </tr>
+                        <tr>
+                            <td><code>filter</code></td>
+                            <td>Nouveau tableau (taille réduite)</td>
+                            <td>Garder les éléments qui passent un test</td>
+                        </tr>
+                        <tr>
+                            <td><code>find</code></td>
+                            <td>Un élément ou <code>undefined</code></td>
+                            <td>Trouver le premier qui correspond</td>
+                        </tr>
+                        <tr>
+                            <td><code>reduce</code></td>
+                            <td>Une seule valeur</td>
+                            <td>Accumuler / calculer un total</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Crée un tableau : <code>const nb = [1,2,3,4,5,6,7,8,9,10]</code></li>
+                    <li>Teste <code>nb.map(n => n * 3)</code> — observe le nouveau tableau</li>
+                    <li>Teste <code>nb.filter(n => n > 5)</code></li>
+                    <li>Compare <code>nb.find(n => n > 5)</code> avec le filter précédent</li>
+                    <li>Calcule la somme : <code>nb.reduce((acc, n) => acc + n, 0)</code></li>
+                    <li>Chaîne : <code>nb.filter(n => n % 2 === 0).map(n => n * 10)</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Jusqu'ici, tu as manipulé des objets "en vrac" — des <code>{ }</code> avec
+                    des propriétés. Mais quand tu veux créer <strong>plusieurs objets du même
+                    type</strong> avec les mêmes méthodes, ça devient répétitif. C'est exactement
+                    le problème que résolvent les <strong>classes</strong>, le sujet du prochain
+                    chapitre.
+                </p>
+                <p>
+                    <a href="classes.html">Chapitre suivant : Les classes ES6 →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="spread-rest.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Spread / Rest</span></a>
+                <a class="pager-next" href="classes.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Classes</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

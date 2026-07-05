@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 1 — Les alertes système en JavaScript</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="explications.html">Script.js</a>
+            <a href="alert.html" class="active">Alertes</a>
+            <a href="types.html">Types</a>
+            <a href="chaines.html">Chaînes</a>
+            <a href="comparaisons.html">Comparaisons</a>
+            <a href="raccourcis.html">Raccourcis</a>
+        </nav>
+
+        <header>
+            <h1>Les alertes système</h1>
+            <p>Leçon 1 · Chapitre 2 · alert, confirm et prompt</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Communiquer avec l'utilisateur</h2>
+                <p>
+                    Au chapitre précédent, tu as utilisé <code>console.log()</code> pour
+                    afficher des messages. Mais ces messages n'apparaissent que dans la console
+                    de développement — l'utilisateur normal ne les voit pas.
+                </p>
+                <p>
+                    JavaScript propose trois <strong>boîtes de dialogue natives</strong> du
+                    navigateur pour interagir directement avec l'utilisateur. Elles sont
+                    simples, un peu "brutes", mais parfaites pour apprendre et tester
+                    rapidement du code.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les 3 types d'alertes</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Rôle</th>
+                            <th>Retourne</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>alert()</code></td>
+                            <td>Affiche un message</td>
+                            <td class="result">undefined</td>
+                        </tr>
+                        <tr>
+                            <td><code>confirm()</code></td>
+                            <td>Pose une question OK / Annuler</td>
+                            <td class="result">true / false</td>
+                        </tr>
+                        <tr>
+                            <td><code>prompt()</code></td>
+                            <td>Demande une saisie texte</td>
+                            <td class="result">string / null</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>1. alert() — afficher un message</h2>
+                <p>
+                    La plus simple : elle affiche un message et attend que l'utilisateur
+                    clique sur OK. Elle ne retourne rien (<code>undefined</code>).
+                    On l'utilise pour informer.
+                </p>
+                <pre><code>alert(<span class="string">"Bienvenue sur le site !"</span>);</code></pre>
+                <button onclick="alert('Bienvenue sur le site !')">Tester alert()</button>
+            </section>
+
+            <section>
+                <h2>2. confirm() — poser une question</h2>
+                <p>
+                    Affiche un message avec deux boutons : <strong>OK</strong> et <strong>Annuler</strong>.
+                    Elle retourne <code>true</code> si OK, <code>false</code> si Annuler.
+                    C'est ta première interaction qui produit un <strong>résultat utilisable</strong>
+                    dans le code.
+                </p>
+                <pre><code><span class="keyword">const</span> réponse = confirm(<span class="string">"Voulez-vous continuer ?"</span>);
+
+console.log(réponse); <span class="comment">// true ou false</span>
+
+<span class="keyword">if</span> (réponse) {
+  console.log(<span class="string">"L'utilisateur a dit oui"</span>);
+} <span class="keyword">else</span> {
+  console.log(<span class="string">"L'utilisateur a dit non"</span>);
+}</code></pre>
+                <button onclick="document.getElementById('confirm-result').textContent = confirm('Voulez-vous continuer ?') ? 'true (OK)' : 'false (Annuler)'">Tester confirm()</button>
+                <p>Résultat : <span id="confirm-result" class="result">—</span></p>
+            </section>
+
+            <section>
+                <h2>3. prompt() — demander une saisie</h2>
+                <p>
+                    Affiche un champ de texte. Elle retourne la valeur saisie (un <code>string</code>),
+                    ou <code>null</code> si l'utilisateur annule. C'est la seule alerte qui
+                    permet de <strong>récupérer une donnée</strong> de l'utilisateur.
+                </p>
+                <pre><code><span class="keyword">const</span> nom = prompt(<span class="string">"Comment tu t'appelles ?"</span>);
+
+<span class="keyword">if</span> (nom !== <span class="keyword">null</span>) {
+  console.log(<span class="string">"Bonjour "</span> + nom);
+} <span class="keyword">else</span> {
+  console.log(<span class="string">"L'utilisateur a annulé"</span>);
+}</code></pre>
+                <p>On peut aussi passer une valeur par défaut en second argument :</p>
+                <pre><code><span class="keyword">const</span> ville = prompt(<span class="string">"Ta ville ?"</span>, <span class="string">"Marseille"</span>);</code></pre>
+                <button onclick="const n = prompt('Comment tu t\'appelles ?'); document.getElementById('prompt-result').textContent = n !== null ? n : 'null (annulé)'">Tester prompt()</button>
+                <p>Résultat : <span id="prompt-result" class="result">—</span></p>
+            </section>
+
+            <section>
+                <h2>Récapitulatif visuel</h2>
+
+                <div class="diagram">
+                    <span class="part">alert( message )<span class="label">information</span></span>
+                    <span class="part">confirm( question )<span class="label">oui / non</span></span>
+                    <span class="part">prompt( question )<span class="label">saisie texte</span></span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Pourquoi éviter les alertes système ?</h2>
+                <p>
+                    Ces boîtes de dialogue sont pratiques pour apprendre, mais on les évite
+                    dans les vrais projets pour plusieurs raisons :
+                </p>
+                <ul>
+                    <li>Elles <strong>bloquent</strong> toute interaction avec la page</li>
+                    <li>Leur apparence dépend du navigateur — on ne peut pas les styliser</li>
+                    <li>Elles offrent une mauvaise expérience utilisateur</li>
+                </ul>
+                <p class="note">
+                    <strong>En pratique</strong>, on les remplace par des composants HTML/CSS
+                    personnalisés (modales, toasts, notifications). Mais pour débuter et tester
+                    rapidement du code, elles sont parfaites.
+                </p>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant afficher des messages et récupérer des données
+                    de l'utilisateur. Mais tu as remarqué que <code>prompt()</code>
+                    retourne toujours un <strong>string</strong>, même si l'utilisateur
+                    tape un nombre. Pour comprendre pourquoi, il faut connaître les
+                    <strong>types de valeurs</strong> en JavaScript — c'est le sujet
+                    du prochain chapitre.
+                </p>
+                <p>
+                    <a href="types.html">Chapitre suivant : Les types de valeurs →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="explications.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Script.js</span></a>
+                <a class="pager-next" href="types.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Types</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — La boucle while et do...while</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html" class="active">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>La boucle while et do...while</h1>
+            <p>Leçon 2 · Chapitre 8 · Répéter tant qu'une condition est vraie</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Quand for ne suffit pas</h2>
+                <p>
+                    Au chapitre précédent, tu as appris la boucle <code>for</code> — idéale
+                    quand tu connais le nombre de répétitions à l'avance. Mais dans beaucoup
+                    de situations, tu ne sais <strong>pas</strong> combien de tours seront
+                    nécessaires :
+                </p>
+                <ul>
+                    <li>Redemander un mot de passe jusqu'à ce qu'il soit correct</li>
+                    <li>Lancer un dé jusqu'à obtenir un 6</li>
+                    <li>Lire des données jusqu'à la fin d'un fichier</li>
+                </ul>
+                <p>
+                    Pour ces cas, JavaScript propose la boucle <code>while</code> : elle
+                    répète un bloc <strong>tant que</strong> sa condition reste <code>true</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>La boucle while</h2>
+                <pre><code><span class="keyword">let</span> compteur = <span class="number">0</span>;
+
+<span class="keyword">while</span> (compteur < <span class="number">5</span>) {
+    console.log(<span class="string">`Tour n°${compteur}`</span>);
+    compteur++;
+}
+<span class="comment">// Tour n°0</span>
+<span class="comment">// Tour n°1</span>
+<span class="comment">// Tour n°2</span>
+<span class="comment">// Tour n°3</span>
+<span class="comment">// Tour n°4</span></code></pre>
+
+                <p>
+                    Le principe est simple : avant chaque tour, JavaScript vérifie la condition.
+                    Si elle est <code>true</code>, le bloc s'exécute. Si elle est <code>false</code>,
+                    la boucle s'arrête et le programme continue après.
+                </p>
+
+                <p class="note">
+                    <strong>Attention :</strong> si la condition ne devient jamais <code>false</code>,
+                    la boucle tourne à l'infini et bloque le navigateur ! Pense toujours à
+                    modifier la variable testée dans la condition.
+                </p>
+            </section>
+
+            <section>
+                <h2>while vs for : quand utiliser quoi ?</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Boucle</th>
+                            <th>Quand l'utiliser</th>
+                            <th>Exemple typique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>for</code></td>
+                            <td>Nombre de tours connu à l'avance</td>
+                            <td>Parcourir un tableau, compter de 1 à 10</td>
+                        </tr>
+                        <tr>
+                            <td><code>while</code></td>
+                            <td>Nombre de tours inconnu</td>
+                            <td>Attendre une saisie correcte, chercher une valeur</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Exemple : deviner un nombre</h2>
+                <pre><code><span class="keyword">const</span> secret = <span class="number">7</span>;
+<span class="keyword">let</span> tentative = <span class="number">0</span>;
+
+<span class="keyword">while</span> (tentative !== secret) {
+    tentative = Number(prompt(<span class="string">"Devine le nombre (1-10) :"</span>));
+}
+
+console.log(<span class="string">"Bravo, tu as trouvé !"</span>);</code></pre>
+                <p>
+                    Ici, impossible de savoir combien de tentatives l'utilisateur aura besoin.
+                    La boucle <code>while</code> est donc le choix parfait : on répète tant
+                    que la réponse est fausse.
+                </p>
+            </section>
+
+            <section>
+                <h2>La boucle do...while</h2>
+                <p>
+                    La variante <code>do...while</code> a une différence fondamentale :
+                    le bloc s'exécute <strong>au moins une fois</strong>, car la condition
+                    est testée <strong>après</strong> l'exécution.
+                </p>
+
+                <div class="diagram">
+                    <span class="part">while<span class="label">teste AVANT → peut ne jamais s'exécuter</span></span>
+                    <span class="part">do...while<span class="label">teste APRÈS → s'exécute au moins 1 fois</span></span>
+                </div>
+
+                <pre><code><span class="keyword">let</span> réponse;
+
+<span class="keyword">do</span> {
+    réponse = prompt(<span class="string">"Tape 'oui' pour continuer :"</span>);
+} <span class="keyword">while</span> (réponse !== <span class="string">"oui"</span>);
+
+console.log(<span class="string">"Merci !"</span>);</code></pre>
+
+                <p>
+                    Le <code>prompt</code> s'affiche au moins une fois, puis se répète
+                    tant que l'utilisateur ne tape pas « oui ». C'est logique : on doit
+                    poser la question avant de pouvoir vérifier la réponse.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple : lancer un dé jusqu'à obtenir un 6</h2>
+                <pre><code><span class="keyword">let</span> dé;
+<span class="keyword">let</span> nbLancers = <span class="number">0</span>;
+
+<span class="keyword">do</span> {
+    dé = Math.ceil(Math.random() * <span class="number">6</span>);
+    nbLancers++;
+    console.log(<span class="string">`Lancer ${nbLancers} : ${dé}`</span>);
+} <span class="keyword">while</span> (dé !== <span class="number">6</span>);
+
+console.log(<span class="string">`Tu as obtenu un 6 en ${nbLancers} lancers !`</span>);</code></pre>
+
+                <p class="note">
+                    <strong>Math.random()</strong> génère un nombre aléatoire entre 0 et 1.
+                    <code>Math.ceil(Math.random() * 6)</code> donne un entier entre 1 et 6.
+                    Tu découvriras d'autres méthodes de <code>Math</code> au fil des leçons.
+                </p>
+            </section>
+
+            <section>
+                <h2>Éviter les boucles infinies</h2>
+                <p>
+                    C'est le piège classique du débutant. Si tu oublies de modifier la variable
+                    testée dans la condition, la boucle ne s'arrêtera jamais :
+                </p>
+
+                <pre><code><span class="comment">// DANGER : boucle infinie !</span>
+<span class="keyword">let</span> x = <span class="number">0</span>;
+<span class="keyword">while</span> (x < <span class="number">10</span>) {
+    console.log(x);
+    <span class="comment">// On a oublié x++ → x reste à 0 pour toujours</span>
+}
+
+<span class="comment">// CORRECT :</span>
+<span class="keyword">let</span> y = <span class="number">0</span>;
+<span class="keyword">while</span> (y < <span class="number">10</span>) {
+    console.log(y);
+    y++; <span class="comment">// Ne pas oublier !</span>
+}</code></pre>
+
+                <p class="note">
+                    <strong>Astuce :</strong> si ton navigateur se fige à cause d'une boucle infinie,
+                    ferme l'onglet (pas tout le navigateur). Sur Chrome, tu peux aussi ouvrir le
+                    Gestionnaire de tâches (<kbd>⇧</kbd> + <kbd>Esc</kbd>) pour tuer l'onglet.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Teste une boucle <code>while</code> simple avec un compteur</li>
+                    <li>Essaie le lancer de dé avec <code>do...while</code></li>
+                    <li>Compare : que se passe-t-il avec <code>while (false) { ... }</code> vs <code>do { ... } while (false)</code> ?</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu maîtrises maintenant les deux types de boucles : <code>for</code> pour
+                    un nombre connu de répétitions, <code>while</code> pour un nombre inconnu.
+                    Mais une boucle seule ne suffit pas — il faut pouvoir <strong>prendre des
+                    décisions</strong> : exécuter un bloc de code si une condition est remplie,
+                    un autre bloc sinon. C'est exactement ce que font les structures
+                    <code>if</code> et <code>else</code>.
+                </p>
+                <p>
+                    <a href="conditions.html">Chapitre suivant : Les conditions if et if...else →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="boucle-for.html"><span class="pager-dir">← Précédent</span><span class="pager-title">For</span></a>
+                <a class="pager-next" href="conditions.html"><span class="pager-dir">Suivant →</span><span class="pager-title">If / Else</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

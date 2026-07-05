@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Les modules</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="destructuring.html">Destructuring</a>
+            <a href="spread-rest.html">Spread / Rest</a>
+            <a href="methodes-tableaux.html">Tableaux</a>
+            <a href="classes.html">Classes</a>
+            <a href="promesses.html">Promesses</a>
+            <a href="modules.html" class="active">Modules</a>
+            <a href="operateurs-modernes.html">Opérateurs</a>
+        </nav>
+
+        <header>
+            <h1>Les modules</h1>
+            <p>Leçon 3 · Chapitre 29 · Organiser son code en fichiers séparés</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le problème : tout dans un seul fichier</h2>
+                <p>
+                    Jusqu'ici, tout ton code JavaScript tenait dans un seul fichier
+                    <code>script.js</code>. Pour les exercices et les petits projets, ça
+                    fonctionne très bien. Mais imagine un vrai projet avec des centaines
+                    de fonctions, des classes, des utilitaires... Tout mettre dans un seul
+                    fichier de 3000 lignes devient vite ingérable.
+                </p>
+                <p>
+                    Les <strong>modules ES6</strong> permettent de découper ton code en
+                    <strong>fichiers indépendants</strong>, chacun avec ses propres
+                    responsabilités. Un fichier s'occupe des utilisateurs, un autre des
+                    calculs, un autre de l'affichage. Chaque fichier <strong>exporte</strong>
+                    ce qu'il veut partager, et les autres fichiers <strong>importent</strong>
+                    ce dont ils ont besoin.
+                </p>
+                <p>
+                    Ce système est à la base de tous les frameworks modernes (React, Vue,
+                    Angular, Next.js). Comprendre les modules, c'est comprendre comment
+                    les vrais projets sont organisés.
+                </p>
+
+                <div class="diagram">
+                    <span class="part">export<span class="label">rendre disponible</span></span>
+                    <span class="part">import<span class="label">utiliser depuis un autre fichier</span></span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Export nommé (named export)</h2>
+                <p>
+                    La première façon d'exporter : on met le mot-clé <code>export</code>
+                    devant chaque élément qu'on veut rendre disponible. C'est l'export
+                    <strong>nommé</strong>, car chaque export a un nom précis :
+                </p>
+
+                <pre><code><span class="comment">// fichier : maths.js</span>
+
+<span class="keyword">export const</span> PI = <span class="number">3.14159</span>;
+
+<span class="keyword">export function</span> carré(n) {
+    <span class="keyword">return</span> n * n;
+}
+
+<span class="keyword">export function</span> cube(n) {
+    <span class="keyword">return</span> n ** <span class="number">3</span>;
+}</code></pre>
+
+                <p>
+                    Pour utiliser ces exports dans un autre fichier, on les <strong>importe</strong>
+                    avec des accolades <code>{ }</code>. Tu remarqueras que c'est la même
+                    syntaxe que la destructuration — ce n'est pas un hasard, l'idée est
+                    la même : extraire des éléments spécifiques.
+                </p>
+
+                <pre><code><span class="comment">// fichier : app.js</span>
+
+<span class="keyword">import</span> { PI, carré, cube } <span class="keyword">from</span> <span class="string">"./maths.js"</span>;
+
+console.log(PI);       <span class="comment">// 3.14159</span>
+console.log(carré(<span class="number">4</span>)); <span class="comment">// 16</span>
+console.log(cube(<span class="number">3</span>));  <span class="comment">// 27</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Export par défaut (default export)</h2>
+                <p>
+                    Chaque fichier peut avoir <strong>un seul</strong> export par défaut.
+                    C'est l'élément principal du module — souvent une classe ou une
+                    fonction centrale :
+                </p>
+
+                <pre><code><span class="comment">// fichier : Utilisateur.js</span>
+
+<span class="keyword">export default class</span> Utilisateur {
+    constructor(nom, email) {
+        <span class="keyword">this</span>.nom = nom;
+        <span class="keyword">this</span>.email = email;
+    }
+
+    sePresenter() {
+        console.log(<span class="string">`${this.nom} (${this.email})`</span>);
+    }
+}</code></pre>
+
+                <p>
+                    Pour importer un export par défaut, <strong>pas d'accolades</strong>.
+                    Et tu peux lui donner le nom que tu veux :
+                </p>
+
+                <pre><code><span class="comment">// fichier : app.js</span>
+
+<span class="keyword">import</span> Utilisateur <span class="keyword">from</span> <span class="string">"./Utilisateur.js"</span>;
+
+<span class="keyword">const</span> u = <span class="keyword">new</span> Utilisateur(<span class="string">"Jean-Michel"</span>, <span class="string">"jm@test.com"</span>);
+u.sePresenter();</code></pre>
+            </section>
+
+            <section>
+                <h2>Combiner les deux</h2>
+                <p>
+                    Un même fichier peut avoir un export par défaut <strong>et</strong>
+                    des exports nommés. C'est très courant en pratique :
+                </p>
+
+                <pre><code><span class="comment">// fichier : utils.js</span>
+
+<span class="keyword">export default function</span> saluer(nom) {
+    <span class="keyword">return</span> <span class="string">`Bonjour ${nom} !`</span>;
+}
+
+<span class="keyword">export const</span> VERSION = <span class="string">"1.0.0"</span>;
+<span class="keyword">export const</span> AUTEUR = <span class="string">"Jean-Michel"</span>;</code></pre>
+
+                <pre><code><span class="comment">// fichier : app.js</span>
+
+<span class="keyword">import</span> saluer, { VERSION, AUTEUR } <span class="keyword">from</span> <span class="string">"./utils.js"</span>;
+
+console.log(saluer(AUTEUR)); <span class="comment">// "Bonjour Jean-Michel !"</span>
+console.log(VERSION);        <span class="comment">// "1.0.0"</span></code></pre>
+
+                <p>
+                    Le défaut est importé sans accolades, les nommés sont entre accolades.
+                    Les deux cohabitent dans la même ligne d'import.
+                </p>
+            </section>
+
+            <section>
+                <h2>Renommer avec <code>as</code></h2>
+                <p>
+                    Si un nom d'import entre en conflit avec une variable existante, ou
+                    si tu veux un nom plus explicite, tu peux renommer avec <code>as</code> :
+                </p>
+
+                <pre><code><span class="keyword">import</span> { carré <span class="keyword">as</span> square, cube <span class="keyword">as</span> cubic } <span class="keyword">from</span> <span class="string">"./maths.js"</span>;
+
+console.log(square(<span class="number">4</span>)); <span class="comment">// 16</span>
+console.log(cubic(<span class="number">3</span>));  <span class="comment">// 27</span>
+
+<span class="comment">// Tout importer dans un objet "namespace"</span>
+<span class="keyword">import</span> * <span class="keyword">as</span> Maths <span class="keyword">from</span> <span class="string">"./maths.js"</span>;
+
+console.log(Maths.PI);       <span class="comment">// 3.14159</span>
+console.log(Maths.carré(<span class="number">5</span>)); <span class="comment">// 25</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Utiliser les modules dans le navigateur</h2>
+                <p>
+                    Pour que le navigateur comprenne les <code>import</code>/<code>export</code>,
+                    il faut ajouter l'attribut <code>type="module"</code> à la balise
+                    <code>&lt;script&gt;</code> :
+                </p>
+
+                <pre><code><span class="comment">&lt;!-- Dans le HTML --&gt;</span>
+&lt;script <span class="keyword">type</span>=<span class="string">"module"</span> <span class="keyword">src</span>=<span class="string">"app.js"</span>&gt;&lt;/script&gt;</code></pre>
+
+                <p class="note">
+                    <strong>Important :</strong> les modules ne fonctionnent pas en ouvrant
+                    le fichier HTML directement (<code>file://</code>). Il faut un
+                    <strong>serveur local</strong> (par exemple l'extension
+                    <strong>Live Server</strong> de VS Code). C'est une restriction de
+                    sécurité du navigateur.
+                </p>
+            </section>
+
+            <section>
+                <h2>Résumé</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Export</th>
+                            <th>Import</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nommé</td>
+                            <td><code>export const x = ...</code></td>
+                            <td><code>import { x } from "..."</code></td>
+                        </tr>
+                        <tr>
+                            <td>Par défaut</td>
+                            <td><code>export default ...</code></td>
+                            <td><code>import x from "..."</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tout</td>
+                            <td>—</td>
+                            <td><code>import * as X from "..."</code></td>
+                        </tr>
+                        <tr>
+                            <td>Renommé</td>
+                            <td>—</td>
+                            <td><code>import { x as y } from "..."</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Crée deux fichiers : <code>maths.js</code> et <code>app.js</code></li>
+                    <li>Dans <code>maths.js</code>, exporte une fonction et une constante</li>
+                    <li>Dans <code>app.js</code>, importe-les et utilise-les</li>
+                    <li>Dans le HTML, utilise <code>&lt;script type="module" src="app.js"&gt;</code></li>
+                    <li>Lance un serveur local (Live Server) et ouvre la console</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant organiser ton code en modules, ce qui est
+                    indispensable pour tout projet sérieux. Pour terminer cette leçon,
+                    le dernier chapitre te présente les <strong>opérateurs modernes</strong>
+                    — le ternaire, l'optional chaining et le nullish coalescing — qui
+                    rendent ton code plus concis et plus robuste au quotidien.
+                </p>
+                <p>
+                    <a href="operateurs-modernes.html">Chapitre suivant : Opérateurs modernes →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="promesses.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Promesses</span></a>
+                <a class="pager-next" href="operateurs-modernes.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Opérateurs</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

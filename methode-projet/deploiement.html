@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 6 : Déploiement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html" class="active">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Déploiement</h1>
+            <p>Étape 6 · Mettre l'app en ligne avec Vercel</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le grand moment</h2>
+                <p>
+                    Ton app fonctionne en local. Elle est testée. Il est temps de la rendre
+                    accessible à tes utilisateurs. Avec Vercel et Claude Code, le déploiement
+                    est devenu une opération de quelques minutes — pas de serveur à configurer,
+                    pas de DevOps.
+                </p>
+            </section>
+
+            <section>
+                <h2>Étape 1 : Préparer le déploiement</h2>
+                <p>
+                    Avant de déployer, vérifie ces points :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Vérification</th>
+                            <th>Commande / Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Le code compile sans erreur</td>
+                            <td><code>npm run build</code></td>
+                        </tr>
+                        <tr>
+                            <td>Pas de secrets dans le code</td>
+                            <td>Vérifie qu'aucune clé API n'est en dur</td>
+                        </tr>
+                        <tr>
+                            <td>Les variables d'environnement sont dans <code>.env.local</code></td>
+                            <td>Vérifie le fichier <code>.env.example</code></td>
+                        </tr>
+                        <tr>
+                            <td>Le <code>.gitignore</code> exclut <code>.env*</code></td>
+                            <td>Vérifie le fichier</td>
+                        </tr>
+                        <tr>
+                            <td>Tout est commité et pushé</td>
+                            <td><code>/commit</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Étape 2 : Déployer avec Claude Code</h2>
+                <p>
+                    Claude Code intègre Vercel nativement. Le process en 3 commandes :
+                </p>
+
+                <pre><code><span class="comment">// 1. Configurer Vercel (première fois seulement)</span>
+<span class="string">"/vercel:setup"</span>
+
+<span class="comment">// 2. Déployer</span>
+<span class="string">"/vercel:deploy"</span>
+
+<span class="comment">// 3. Vérifier les logs si problème</span>
+<span class="string">"/vercel:logs"</span></code></pre>
+
+                <p>
+                    Vercel va :
+                </p>
+                <ol class="steps">
+                    <li>Détecter automatiquement que c'est un projet Next.js</li>
+                    <li>Builder l'app</li>
+                    <li>La déployer sur une URL temporaire (<code>ton-projet.vercel.app</code>)</li>
+                    <li>Te donner le lien</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Étape 3 : Variables d'environnement</h2>
+                <p>
+                    Les clés API (Supabase, Stripe, etc.) ne doivent
+                    <strong>jamais</strong> être dans le code. Configure-les dans le
+                    dashboard Vercel :
+                </p>
+
+                <pre><code><span class="comment">// Dans le dashboard Vercel :</span>
+<span class="comment">// Settings → Environment Variables</span>
+
+<span class="keyword">NEXT_PUBLIC_SUPABASE_URL</span>=<span class="string">https://xxx.supabase.co</span>
+<span class="keyword">NEXT_PUBLIC_SUPABASE_ANON_KEY</span>=<span class="string">eyJhbG...</span>
+<span class="keyword">SUPABASE_SERVICE_ROLE_KEY</span>=<span class="string">eyJhbG...</span></code></pre>
+
+                <p class="note">
+                    <strong>Important :</strong> les variables qui commencent par
+                    <code>NEXT_PUBLIC_</code> sont visibles côté client (navigateur).
+                    Ne mets jamais de clé secrète avec ce préfixe.
+                </p>
+            </section>
+
+            <section>
+                <h2>Étape 4 : Domaine personnalisé</h2>
+                <p>
+                    L'URL <code>ton-projet.vercel.app</code> fonctionne, mais pour un
+                    vrai projet, tu veux un domaine propre :
+                </p>
+                <ol class="steps">
+                    <li>Achète un domaine (Vercel, Namecheap, OVH — ~10€/an)</li>
+                    <li>Dans Vercel → Settings → Domains → ajoute ton domaine</li>
+                    <li>Configure les DNS selon les instructions de Vercel</li>
+                    <li>Le SSL (HTTPS) est automatique</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Étape 5 : Déploiement automatique</h2>
+                <p>
+                    Une fois configuré, Vercel redéploie automatiquement à chaque
+                    <code>git push</code> sur la branche <code>main</code>. Ton workflow
+                    devient :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">Code<span class="label">Claude Code</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Commit<span class="label">/commit</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Push<span class="label">GitHub</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Live<span class="label">Vercel (auto)</span></span>
+                </div>
+
+                <p>
+                    Tu ne toucheras plus jamais au déploiement manuellement. Chaque
+                    <code>/commit</code> met à jour l'app en production en quelques secondes.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le livrable</h2>
+                <ol class="steps">
+                    <li>L'app est <strong>en ligne</strong> et accessible</li>
+                    <li>Les <strong>variables d'environnement</strong> sont configurées</li>
+                    <li>Le <strong>domaine</strong> est connecté (optionnel pour le MVP)</li>
+                    <li>Le <strong>déploiement automatique</strong> fonctionne</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Ton app est en production. Des vrais utilisateurs vont l'utiliser.
+                    Et c'est là que le vrai travail commence : écouter le feedback,
+                    corriger les bugs de production, prioriser les améliorations et
+                    planifier l'évolution. C'est l'étape <strong>Après</strong>.
+                </p>
+                <p>
+                    <a href="maintenance.html">Étape 7 : Après le lancement →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="tests.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Tests</span></a>
+                <a class="pager-next" href="maintenance.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Après</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

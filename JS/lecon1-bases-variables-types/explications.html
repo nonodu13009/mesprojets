@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 1 — Script.js, variables et opérateurs</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="explications.html" class="active">Script.js</a>
+            <a href="alert.html">Alertes</a>
+            <a href="types.html">Types</a>
+            <a href="chaines.html">Chaînes</a>
+            <a href="comparaisons.html">Comparaisons</a>
+            <a href="raccourcis.html">Raccourcis</a>
+        </nav>
+
+        <header>
+            <h1>Script.js — Premiers pas</h1>
+            <p>Leçon 1 · Chapitre 1 · Lier JavaScript au HTML, console.log, variables et opérateurs</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Par où commencer ?</h2>
+                <p>
+                    JavaScript est le langage qui rend les pages web <strong>interactives</strong>.
+                    Le HTML structure le contenu, le CSS le met en forme, et JavaScript lui
+                    donne vie : réagir aux clics, afficher des données, communiquer avec un
+                    serveur...
+                </p>
+                <p>
+                    Mais avant de faire tout ça, il faut savoir <strong>comment écrire du
+                    JavaScript</strong> et <strong>où le mettre</strong>. C'est le sujet
+                    de ce premier chapitre.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les 3 façons d'ajouter du JavaScript dans une page HTML</h2>
+                <p>
+                    Il existe trois méthodes pour intégrer du JavaScript dans un document HTML.
+                    Chacune a ses usages et ses limites.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Où ?</th>
+                            <th>Quand l'utiliser ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1. En ligne (inline)</strong></td>
+                            <td>Directement dans une balise HTML</td>
+                            <td>Presque jamais — difficile à maintenir</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2. Interne (balise script)</strong></td>
+                            <td>Dans une balise <code>&lt;script&gt;</code> dans le HTML</td>
+                            <td>Pour des tests rapides ou des pages uniques</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3. Externe (fichier .js)</strong></td>
+                            <td>Dans un fichier <code>.js</code> séparé</td>
+                            <td>La méthode recommandée pour tous les projets</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p><strong>1. JavaScript en ligne (inline)</strong></p>
+                <p>Le code est écrit directement dans un attribut HTML :</p>
+                <pre><code><span class="comment">&lt;!-- À éviter : mélange HTML et JS --&gt;</span>
+&lt;button <span class="keyword">onclick</span>=<span class="string">"alert('Bonjour !')"</span>&gt;Cliquez&lt;/button&gt;</code></pre>
+
+                <p><strong>2. JavaScript interne (balise script)</strong></p>
+                <p>Le code est écrit dans une balise <code>&lt;script&gt;</code> à l'intérieur du fichier HTML :</p>
+                <pre><code>&lt;<span class="keyword">script</span>&gt;
+  console.log(<span class="string">"Je suis dans le HTML"</span>);
+&lt;/<span class="keyword">script</span>&gt;</code></pre>
+
+                <p><strong>3. JavaScript externe (fichier .js)</strong></p>
+                <p>Le code est dans un fichier séparé, relié avec l'attribut <code>src</code> :</p>
+                <pre><code>&lt;<span class="keyword">script</span> <span class="keyword">src</span>=<span class="string">"script.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;</code></pre>
+
+                <p class="note">
+                    <strong>Bonne pratique :</strong> toujours utiliser un fichier externe.
+                    Cela sépare le contenu (HTML) du comportement (JS), ce qui rend le code
+                    plus lisible, réutilisable et facile à déboguer.
+                </p>
+
+                <p><strong>Où placer la balise <code>&lt;script&gt;</code> ?</strong></p>
+                <p>
+                    On la place juste avant <code>&lt;/body&gt;</code> pour que le HTML soit
+                    entièrement chargé avant l'exécution du script :
+                </p>
+                <pre><code>&lt;body&gt;
+  <span class="comment">&lt;!-- tout le contenu HTML ... --&gt;</span>
+
+  &lt;<span class="keyword">script</span> <span class="keyword">src</span>=<span class="string">"script.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+&lt;/body&gt;</code></pre>
+            </section>
+
+            <section>
+                <h2>console.log — ton premier outil</h2>
+                <p>
+                    <code>console.log()</code> est la toute première commande que tu vas utiliser.
+                    Elle affiche un message dans la <strong>console du navigateur</strong>
+                    (pas sur la page web). C'est ton outil de débogage n°1.
+                </p>
+
+                <div class="diagram">
+                    <span class="part">console<span class="label">objet</span></span>
+                    <span class="part">.<span class="label">accès</span></span>
+                    <span class="part">log<span class="label">méthode</span></span>
+                    <span class="part">( "Bonjour" )<span class="label">appel + argument</span></span>
+                </div>
+
+                <pre><code>console.log(<span class="string">"Bonjour, je suis un script JavaScript."</span>);</code></pre>
+
+                <p class="note">
+                    Autres méthodes utiles : <code>console.error()</code>,
+                    <code>console.warn()</code>, <code>console.table()</code>.
+                    Même principe : <strong>objet . méthode ( )</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les variables — stocker des valeurs</h2>
+                <p>
+                    Une <strong>variable</strong> est une boîte avec une étiquette. Tu y mets
+                    une valeur (un nombre, du texte, etc.) et tu la retrouves plus tard en
+                    utilisant son nom. En JavaScript, on déclare une variable avec <code>let</code>
+                    ou <code>const</code> :
+                </p>
+
+                <pre><code><span class="keyword">let</span> nombre = <span class="number">10</span>;       <span class="comment">// modifiable</span>
+<span class="keyword">let</span> nombre2 = <span class="number">20</span>;      <span class="comment">// modifiable</span>
+<span class="keyword">const</span> PI = <span class="number">3.14159</span>;    <span class="comment">// non modifiable (constante)</span></code></pre>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mot-clé</th>
+                            <th>Modifiable ?</th>
+                            <th>Quand l'utiliser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>const</code></td>
+                            <td>Non</td>
+                            <td>Par défaut — pour tout ce qui ne change pas</td>
+                        </tr>
+                        <tr>
+                            <td><code>let</code></td>
+                            <td>Oui</td>
+                            <td>Quand la valeur doit évoluer (compteur, score...)</td>
+                        </tr>
+                        <tr>
+                            <td><code>var</code></td>
+                            <td>Oui</td>
+                            <td>Jamais — ancien mot-clé, source de bugs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Les opérateurs arithmétiques</h2>
+                <p>
+                    Maintenant que tu sais stocker des nombres, tu peux les calculer.
+                    JavaScript fournit tous les opérateurs mathématiques classiques :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Opérateur</th>
+                            <th>Calcul</th>
+                            <th>Résultat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>+</code> Addition</td>
+                            <td>10 + 20</td>
+                            <td class="result">30</td>
+                        </tr>
+                        <tr>
+                            <td><code>-</code> Soustraction</td>
+                            <td>10 − 20</td>
+                            <td class="result">-10</td>
+                        </tr>
+                        <tr>
+                            <td><code>*</code> Multiplication</td>
+                            <td>10 × 20</td>
+                            <td class="result">200</td>
+                        </tr>
+                        <tr>
+                            <td><code>/</code> Division</td>
+                            <td>10 ÷ 20</td>
+                            <td class="result">0.5</td>
+                        </tr>
+                        <tr>
+                            <td><code>%</code> Modulo</td>
+                            <td>Reste de 10 ÷ 20</td>
+                            <td class="result">10</td>
+                        </tr>
+                        <tr>
+                            <td><code>**</code> Puissance</td>
+                            <td>10<sup>20</sup></td>
+                            <td class="result">100000000000000000000</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code><span class="keyword">let</span> nombre = <span class="number">10</span>;
+<span class="keyword">let</span> nombre2 = <span class="number">20</span>;
+
+console.log(nombre + nombre2);  <span class="comment">// 30</span>
+console.log(nombre - nombre2);  <span class="comment">// -10</span>
+console.log(nombre * nombre2);  <span class="comment">// 200</span>
+console.log(nombre / nombre2);  <span class="comment">// 0.5</span>
+console.log(nombre % nombre2);  <span class="comment">// 10</span>
+console.log(nombre ** nombre2); <span class="comment">// 100000000000000000000</span></code></pre>
+
+                <p class="note">
+                    <strong>Le modulo (<code>%</code>)</strong> retourne le reste d'une division
+                    entière. 10 ÷ 20 = 0 avec un reste de 10. C'est très utile pour savoir
+                    si un nombre est pair (<code>n % 2 === 0</code>).
+                </p>
+            </section>
+
+            <section>
+                <h2>Les raccourcis d'assignation</h2>
+                <p>
+                    Au lieu d'écrire <code>nombre = nombre + 10</code>, tu peux utiliser
+                    un raccourci :
+                </p>
+
+                <pre><code><span class="keyword">let</span> nombre = <span class="number">100</span>;
+
+nombre += <span class="number">10</span>;  <span class="comment">// nombre = nombre + 10  → 110</span>
+nombre -= <span class="number">10</span>;  <span class="comment">// nombre = nombre - 10  → 100</span>
+nombre *= <span class="number">10</span>;  <span class="comment">// nombre = nombre * 10  → 1000</span>
+nombre /= <span class="number">10</span>;  <span class="comment">// nombre = nombre / 10  → 100</span></code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre <a href="index.html">index.html</a> dans le navigateur</li>
+                    <li>Appuie sur <strong>F12</strong> (ou clic droit → Inspecter)</li>
+                    <li>Va dans l'onglet <strong>Console</strong> — tu verras les résultats du script</li>
+                    <li>Tape <code>let x = 5;</code> puis <code>x * 3</code> et observe le résultat</li>
+                    <li>Teste le modulo : <code>10 % 3</code> — quel est le reste ?</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant écrire du JavaScript, afficher des résultats dans la console
+                    et faire des calculs avec des variables. Mais <code>console.log</code> n'affiche
+                    rien sur la page — l'utilisateur ne voit rien. Dans le prochain chapitre, tu vas
+                    découvrir les <strong>alertes système</strong>, qui permettent d'interagir
+                    directement avec l'utilisateur.
+                </p>
+                <p>
+                    <a href="alert.html">Chapitre suivant : Les alertes système →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="alert.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Alertes</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 1 — Les types de valeurs en JavaScript</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="explications.html">Script.js</a>
+            <a href="alert.html">Alertes</a>
+            <a href="types.html" class="active">Types</a>
+            <a href="chaines.html">Chaînes</a>
+            <a href="comparaisons.html">Comparaisons</a>
+            <a href="raccourcis.html">Raccourcis</a>
+        </nav>
+
+        <header>
+            <h1>Les types de valeurs</h1>
+            <p>Leçon 1 · Chapitre 3 · Les 7 types fondamentaux de JavaScript</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi les types comptent</h2>
+                <p>
+                    Au chapitre précédent, tu as vu que <code>prompt()</code> retourne
+                    toujours un <strong>string</strong>, même quand l'utilisateur tape un nombre.
+                    Si tu fais <code>"5" + 3</code>, JavaScript te donnera <code>"53"</code>
+                    (concaténation de texte) au lieu de <code>8</code> (addition).
+                </p>
+                <p>
+                    Pour éviter ce genre de surprise, il faut comprendre les <strong>types
+                    de valeurs</strong> : chaque donnée en JavaScript appartient à un type,
+                    et le type détermine comment JavaScript la traite.
+                </p>
+            </section>
+
+            <section>
+                <h2>Deux grandes familles</h2>
+                <p>
+                    En JavaScript, il existe deux familles : les types <strong>primitifs</strong>
+                    (simples, immuables) et les types <strong>objets</strong> (complexes, modifiables).
+                </p>
+
+                <div class="diagram">
+                    <span class="part">Primitifs (6)<span class="label">valeurs simples</span></span>
+                    <span class="part">Object (1)<span class="label">valeurs complexes</span></span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Les 6 types primitifs</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>string</code></td>
+                            <td>Chaîne de caractères (texte)</td>
+                            <td class="result">"Bonjour"</td>
+                        </tr>
+                        <tr>
+                            <td><code>number</code></td>
+                            <td>Nombre entier ou décimal</td>
+                            <td class="result">42, 3.14</td>
+                        </tr>
+                        <tr>
+                            <td><code>boolean</code></td>
+                            <td>Vrai ou faux</td>
+                            <td class="result">true, false</td>
+                        </tr>
+                        <tr>
+                            <td><code>undefined</code></td>
+                            <td>Variable déclarée mais sans valeur</td>
+                            <td class="result">undefined</td>
+                        </tr>
+                        <tr>
+                            <td><code>null</code></td>
+                            <td>Absence intentionnelle de valeur</td>
+                            <td class="result">null</td>
+                        </tr>
+                        <tr>
+                            <td><code>symbol</code></td>
+                            <td>Identifiant unique (avancé)</td>
+                            <td class="result">Symbol("id")</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    Les trois premiers (<code>string</code>, <code>number</code>, <code>boolean</code>)
+                    sont ceux que tu utiliseras 90% du temps. Les autres sont plus spécifiques.
+                </p>
+            </section>
+
+            <section>
+                <h2>undefined vs null — la différence</h2>
+                <p>
+                    Ces deux types représentent "pas de valeur", mais pour des raisons différentes.
+                    Imagine un formulaire avec un champ "prénom" :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>undefined</th>
+                            <th>null</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Qui décide ?</strong></td>
+                            <td>JavaScript (automatique)</td>
+                            <td>Le développeur (volontaire)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Signification</strong></td>
+                            <td>"Aucune valeur n'a été donnée"</td>
+                            <td>"La valeur est volontairement vide"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Analogie</strong></td>
+                            <td>Un champ de formulaire jamais rempli</td>
+                            <td>Un champ effacé volontairement par l'utilisateur</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code><span class="comment">// undefined — JavaScript le met automatiquement</span>
+<span class="keyword">let</span> prénom;
+console.log(prénom); <span class="comment">// undefined (déclarée, mais pas de valeur)</span>
+
+<span class="comment">// null — c'est le développeur qui le décide</span>
+<span class="keyword">let</span> utilisateur = <span class="keyword">null</span>;
+console.log(utilisateur); <span class="comment">// null (on dit "pas d'utilisateur pour l'instant")</span></code></pre>
+
+                <p class="note">
+                    <strong>En résumé :</strong> <code>undefined</code> = "personne n'a mis de valeur ici".
+                    <code>null</code> = "quelqu'un a décidé que la valeur est vide".
+                    Dans le doute, utilise <code>=== null</code> ou <code>=== undefined</code>
+                    (triple égal) pour les distinguer.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le type Object</h2>
+                <p>
+                    Tout ce qui n'est pas primitif est un <strong>objet</strong>.
+                    Les objets sont des collections de paires clé/valeur.
+                    Plusieurs structures connues sont des objets :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Structure</th>
+                            <th>Description</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Object</code></td>
+                            <td>Collection de propriétés</td>
+                            <td class="result">{ nom: "Alice" }</td>
+                        </tr>
+                        <tr>
+                            <td><code>Array</code></td>
+                            <td>Liste ordonnée de valeurs</td>
+                            <td class="result">[1, 2, 3]</td>
+                        </tr>
+                        <tr>
+                            <td><code>Function</code></td>
+                            <td>Bloc de code réutilisable</td>
+                            <td class="result">function() {}</td>
+                        </tr>
+                        <tr>
+                            <td><code>Date</code></td>
+                            <td>Date et heure</td>
+                            <td class="result">new Date()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>typeof — connaître le type d'une valeur</h2>
+                <p>
+                    L'opérateur <code>typeof</code> retourne une chaîne indiquant le type
+                    d'une valeur. C'est ton outil de diagnostic quand quelque chose se comporte
+                    de façon inattendue :
+                </p>
+                <pre><code>console.log(<span class="keyword">typeof</span> <span class="string">"Bonjour"</span>);   <span class="comment">// "string"</span>
+console.log(<span class="keyword">typeof</span> <span class="number">42</span>);           <span class="comment">// "number"</span>
+console.log(<span class="keyword">typeof</span> <span class="keyword">true</span>);         <span class="comment">// "boolean"</span>
+console.log(<span class="keyword">typeof</span> <span class="keyword">undefined</span>);    <span class="comment">// "undefined"</span>
+console.log(<span class="keyword">typeof</span> <span class="keyword">null</span>);         <span class="comment">// "object" (bug historique !)</span>
+console.log(<span class="keyword">typeof</span> [<span class="number">1</span>, <span class="number">2</span>]);       <span class="comment">// "object"</span>
+console.log(<span class="keyword">typeof</span> {});           <span class="comment">// "object"</span></code></pre>
+
+                <p class="note">
+                    <strong>Piège classique :</strong> <code>typeof null</code> retourne <code>"object"</code>.
+                    C'est un bug historique de JavaScript qui n'a jamais été corrigé pour ne pas casser
+                    le web existant.
+                </p>
+            </section>
+
+            <section>
+                <h2>Primitif vs Objet — la différence clé</h2>
+                <p>
+                    Cette distinction aura de l'importance plus tard, quand tu manipuleras
+                    des objets complexes. Pour l'instant, retiens l'essentiel :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Primitif</th>
+                            <th>Objet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Modifiable ?</strong></td>
+                            <td>Non (immuable)</td>
+                            <td>Oui (modifiable)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Copie</strong></td>
+                            <td>Duplique la valeur</td>
+                            <td>Copie la référence</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code><span class="comment">// Primitif : copie indépendante</span>
+<span class="keyword">let</span> a = <span class="number">5</span>;
+<span class="keyword">let</span> b = a;
+b = <span class="number">10</span>;
+console.log(a); <span class="comment">// 5 (inchangé)</span>
+
+<span class="comment">// Objet : même référence</span>
+<span class="keyword">let</span> obj1 = { nom: <span class="string">"Alice"</span> };
+<span class="keyword">let</span> obj2 = obj1;
+obj2.nom = <span class="string">"Bob"</span>;
+console.log(obj1.nom); <span class="comment">// "Bob" (modifié aussi !)</span></code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console du navigateur (<strong>F12</strong> → Console)</li>
+                    <li>Tape <code>typeof "hello"</code> et appuie sur Entrée</li>
+                    <li>Essaie avec différentes valeurs : <code>typeof 42</code>, <code>typeof true</code>, <code>typeof null</code></li>
+                    <li>Teste le piège : <code>typeof null === "object"</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu connais maintenant les types de données. Le plus utilisé d'entre eux
+                    est le <code>string</code> — les chaînes de caractères. Elles ont
+                    tellement de méthodes et de subtilités qu'elles méritent un chapitre
+                    entier. C'est justement le prochain.
+                </p>
+                <p>
+                    <a href="chaines.html">Chapitre suivant : Les chaînes de caractères →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="alert.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Alertes</span></a>
+                <a class="pager-next" href="chaines.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Chaînes</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

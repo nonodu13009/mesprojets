@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — L'instruction switch</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html" class="active">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>L'instruction switch</h1>
+            <p>Leçon 2 · Chapitre 11 · Simplifier les comparaisons multiples</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Une alternative à else if</h2>
+                <p>
+                    Au chapitre précédent, tu as enchaîné des <code>else if</code> pour gérer
+                    plusieurs cas. Mais quand tu compares une <strong>même variable</strong> à
+                    plusieurs <strong>valeurs exactes</strong> (pas des intervalles), le code
+                    devient répétitif :
+                </p>
+
+                <pre><code><span class="comment">// Avec if...else if (répétitif) :</span>
+<span class="keyword">if</span> (jour === <span class="string">"lundi"</span>) { ... }
+<span class="keyword">else</span> <span class="keyword">if</span> (jour === <span class="string">"mardi"</span>) { ... }
+<span class="keyword">else</span> <span class="keyword">if</span> (jour === <span class="string">"mercredi"</span>) { ... }
+<span class="comment">// ...</span></code></pre>
+
+                <p>
+                    Le <code>switch</code> offre une syntaxe plus claire pour ce type de
+                    situation. Il liste les cas possibles de manière structurée.
+                </p>
+            </section>
+
+            <section>
+                <h2>Syntaxe du switch</h2>
+                <pre><code><span class="keyword">const</span> jour = <span class="string">"lundi"</span>;
+
+<span class="keyword">switch</span> (jour) {
+    <span class="keyword">case</span> <span class="string">"lundi"</span>:
+        console.log(<span class="string">"Début de semaine"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"mercredi"</span>:
+        console.log(<span class="string">"Milieu de semaine"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"vendredi"</span>:
+        console.log(<span class="string">"Bientôt le week-end !"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="string">"samedi"</span>:
+    <span class="keyword">case</span> <span class="string">"dimanche"</span>:
+        console.log(<span class="string">"Week-end !"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        console.log(<span class="string">"Jour ordinaire"</span>);
+}
+<span class="comment">// "Début de semaine"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Les éléments clés</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mot-clé</th>
+                            <th>Rôle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>switch(expr)</code></td>
+                            <td>L'expression à tester (souvent une variable)</td>
+                        </tr>
+                        <tr>
+                            <td><code>case valeur:</code></td>
+                            <td>Compare avec <code>expr === valeur</code> (égalité stricte)</td>
+                        </tr>
+                        <tr>
+                            <td><code>break</code></td>
+                            <td>Sort du switch — obligatoire après chaque cas !</td>
+                        </tr>
+                        <tr>
+                            <td><code>default</code></td>
+                            <td>S'exécute si aucun <code>case</code> ne correspond (comme <code>else</code>)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Attention :</strong> le <code>switch</code> utilise la comparaison
+                    <strong>stricte</strong> (<code>===</code>). <code>case 5</code> ne correspondra
+                    pas à la chaîne <code>"5"</code>. Tu retrouves ici l'importance du <code>===</code>
+                    vu en Leçon 1.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le piège du break oublié</h2>
+                <p>
+                    Sans <code>break</code>, le code « tombe » dans les <code>case</code> suivants.
+                    On appelle ça le <strong>fall-through</strong> — c'est presque toujours un bug :
+                </p>
+
+                <pre><code><span class="keyword">const</span> fruit = <span class="string">"pomme"</span>;
+
+<span class="comment">// SANS break → Fall-through !</span>
+<span class="keyword">switch</span> (fruit) {
+    <span class="keyword">case</span> <span class="string">"pomme"</span>:
+        console.log(<span class="string">"C'est une pomme"</span>);
+    <span class="keyword">case</span> <span class="string">"banane"</span>:
+        console.log(<span class="string">"C'est une banane"</span>);
+    <span class="keyword">case</span> <span class="string">"cerise"</span>:
+        console.log(<span class="string">"C'est une cerise"</span>);
+}
+<span class="comment">// Affiche les TROIS lignes ! (pas le comportement voulu)</span></code></pre>
+
+                <p class="note">
+                    <strong>Règle d'or :</strong> mets TOUJOURS un <code>break</code> à la fin
+                    de chaque <code>case</code>, sauf si tu regroupe volontairement des cas
+                    (voir ci-dessous).
+                </p>
+            </section>
+
+            <section>
+                <h2>Regrouper des cas</h2>
+                <p>
+                    Le fall-through est utile quand plusieurs valeurs doivent produire
+                    le même résultat. On empile les <code>case</code> sans <code>break</code>
+                    entre eux :
+                </p>
+
+                <pre><code><span class="keyword">const</span> mois = <span class="number">3</span>; <span class="comment">// Mars</span>
+
+<span class="keyword">switch</span> (mois) {
+    <span class="keyword">case</span> <span class="number">12</span>:
+    <span class="keyword">case</span> <span class="number">1</span>:
+    <span class="keyword">case</span> <span class="number">2</span>:
+        console.log(<span class="string">"Hiver"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">3</span>:
+    <span class="keyword">case</span> <span class="number">4</span>:
+    <span class="keyword">case</span> <span class="number">5</span>:
+        console.log(<span class="string">"Printemps"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">6</span>:
+    <span class="keyword">case</span> <span class="number">7</span>:
+    <span class="keyword">case</span> <span class="number">8</span>:
+        console.log(<span class="string">"Été"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">case</span> <span class="number">9</span>:
+    <span class="keyword">case</span> <span class="number">10</span>:
+    <span class="keyword">case</span> <span class="number">11</span>:
+        console.log(<span class="string">"Automne"</span>);
+        <span class="keyword">break</span>;
+    <span class="keyword">default</span>:
+        console.log(<span class="string">"Mois invalide"</span>);
+}
+<span class="comment">// "Printemps"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>switch vs if...else if : que choisir ?</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Critère</th>
+                            <th>switch</th>
+                            <th>if...else if</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Comparer à des valeurs précises</td>
+                            <td class="result">Idéal</td>
+                            <td>Possible mais verbeux</td>
+                        </tr>
+                        <tr>
+                            <td>Comparer avec des intervalles (<code>></code>, <code><</code>)</td>
+                            <td>Impossible</td>
+                            <td class="result">Idéal</td>
+                        </tr>
+                        <tr>
+                            <td>Beaucoup de cas (5+)</td>
+                            <td class="result">Plus lisible</td>
+                            <td>Verbeux</td>
+                        </tr>
+                        <tr>
+                            <td>Conditions complexes (<code>&&</code>, <code>||</code>)</td>
+                            <td>Impossible</td>
+                            <td class="result">Idéal</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    En résumé : utilise <code>switch</code> quand tu compares une variable à une
+                    liste de valeurs fixes. Utilise <code>if...else if</code> pour tout le reste.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Crée une variable <code>const jour = "mardi";</code></li>
+                    <li>Écris un <code>switch</code> sur les jours de la semaine</li>
+                    <li>Enlève un <code>break</code> pour observer le fall-through</li>
+                    <li>Teste le switch des saisons avec différents mois</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu maîtrises maintenant toutes les structures conditionnelles :
+                    <code>if</code>, <code>else if</code>, <code>else</code> et <code>switch</code>.
+                    Avant de passer aux fonctions, il reste un concept crucial à comprendre :
+                    la <strong>portée des variables</strong>. Où une variable existe-t-elle ?
+                    Peut-on y accéder depuis n'importe où ? Et comment contrôler finement
+                    les boucles avec <code>break</code> et <code>continue</code> ?
+                </p>
+                <p>
+                    <a href="portee-break.html">Chapitre suivant : Portée, break et continue →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="conditions-multiples.html"><span class="pager-dir">← Précédent</span><span class="pager-title">If multiples</span></a>
+                <a class="pager-next" href="portee-break.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Portée</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

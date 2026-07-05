@@ -1,0 +1,356 @@
+/* ============================================
+   CHARTE DESIGN — Apple HIG / iOS
+   ============================================
+
+   RÈGLES IMPÉRATIVES — à respecter partout :
+
+   1. TYPOGRAPHIE
+      - Police : -apple-system, "SF Pro Display", "SF Pro Text"
+      - Monospace : "SF Mono", "Fira Code", "Menlo"
+      - Titres : font-weight 700, letter-spacing négatif (-0.03em)
+      - Sous-titres : font-weight 600, letter-spacing -0.02em
+      - Corps : font-weight 400, line-height 1.6, font-size 17px (1.0625rem)
+      - Lissage : -webkit-font-smoothing: antialiased
+
+   2. COULEURS (Light Mode)
+      - Fond principal : #ffffff
+      - Fond surface/cards : #f5f5f7
+      - Texte principal : #1d1d1f
+      - Texte secondaire : #424245 (corps)
+      - Texte tertiaire : #86868b (légendes, meta)
+      - Accent principal : #0071e3 (Apple Blue)
+      - Accent hover : #0077ed
+      - Accent lien : #06c (inline links)
+      - Séparateurs : #d2d2d7
+      - Code bg inline : #f5f5f7
+      - Code bg bloc : #1d1d1f (dark pour contraste)
+
+   3. COULEURS SYNTAXE (blocs code dark)
+      - Texte : #f5f5f7
+      - Commentaire : #6e6e73
+      - Mot-clé : #0a84ff
+      - Chaîne : #ff9f0a
+      - Nombre : #30d158
+
+   4. ESPACEMENTS
+      - Padding page : 1.5rem lateral
+      - Espacement vertical entre sections : 3rem (gap)
+      - Padding interne section : 2rem vertical
+      - Marges paragraphes : 0.75rem bottom
+      - Respiration généreuse — jamais d'entassement
+
+   5. FORMES ET RAYONS
+      - Boutons / pills / nav : border-radius 980px
+      - Cards / blocs / pre : border-radius 12px
+      - Petits éléments (code inline, kbd) : border-radius 4-6px
+      - Images : border-radius 12px
+
+   6. EFFETS
+      - Transitions : 0.2s ease par défaut
+      - Hover boutons : changement de background, scale(0.98) au clic
+      - Hover cards : translateY(-2px) + ombre subtile
+      - Nav fixe : backdrop-filter blur(20px) + fond semi-transparent
+      - Ombres : subtiles, jamais noires — rgba(0,0,0, 0.04-0.08)
+
+   7. LAYOUT
+      - Max-width contenu : 980px (large), 720px (narrow/leçons)
+      - Centré horizontalement
+      - Pas de sidebar, pas de grille complexe
+      - Responsive : breakpoint 600px pour mobile
+
+   8. NAV
+      - Sticky top, fond blanc semi-transparent + blur
+      - Liens en pills arrondies (980px radius)
+      - Active : fond Apple Blue #0071e3, texte blanc
+      - Bouton Hub calé à gauche avec margin-right auto
+
+   9. COMPOSANTS
+      - Notes : fond #f5f5f7, border-left 3px #0071e3
+      - Tableaux : sans bordure externe, séparateurs #d2d2d7
+      - Diagrammes : fond #f5f5f7, éléments en pills blanches bordurées
+      - kbd : fond #f5f5f7, border + box-shadow subtil
+
+   10. INTERDIT
+       - Pas de dégradés colorés sur le texte
+       - Pas de dark mode (sauf blocs code)
+       - Pas de couleurs vives en dehors de l'accent blue
+       - Pas de border-radius > 16px sur les cards
+       - Pas d'ombres lourdes (drop-shadow noir)
+       - Pas de font-size < 12px
+
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff;
+    min-height: 100vh;
+    color: #1d1d1f;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout */
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 5rem 1.5rem 4rem;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #1d1d1f;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1.25rem;
+    color: #86868b;
+    font-weight: 400;
+}
+
+/* Formation blocks */
+.formation-block {
+    background: #f5f5f7;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.formation-block--upcoming {
+    opacity: 0.5;
+}
+
+.formation-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.formation-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #1d1d1f;
+}
+
+.badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: rgba(0, 113, 227, 0.1);
+    color: #0071e3;
+    padding: 0.25rem 0.75rem;
+    border-radius: 980px;
+}
+
+.badge--soon {
+    background: rgba(0, 0, 0, 0.06);
+    color: #86868b;
+}
+
+.formation-desc {
+    color: #424245;
+    margin-bottom: 2rem;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+}
+
+/* Lessons grid */
+.lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+}
+
+.lesson-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.lesson-number {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #0071e3;
+}
+
+.lesson-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    letter-spacing: -0.01em;
+}
+
+.lesson-chapters {
+    font-size: 0.8125rem;
+    color: #86868b;
+}
+
+.lesson-topics {
+    font-size: 0.8125rem;
+    color: #86868b;
+    margin-top: 0.25rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 2rem 1.5rem;
+    border-top: 1px solid #d2d2d7;
+    color: #86868b;
+    font-size: 0.875rem;
+}
+
+footer a {
+    color: #06c;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .hero {
+        padding: 3rem 1rem 2.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .formation-block {
+        padding: 1.5rem;
+    }
+
+    .lessons-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   EFFETS — micro-animations Apple / iOS
+   Subtiles, avec quelques touches "wow".
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+@keyframes fx-fade-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Entrée du hero */
+.hero h1 {
+    animation: fx-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero .subtitle {
+    animation: fx-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* Halo lumineux subtil derrière le titre */
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    width: 620px;
+    height: 620px;
+    max-width: 120%;
+    transform: translateX(-50%);
+    background: radial-gradient(circle, rgba(0, 113, 227, 0.12), rgba(0, 113, 227, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+    animation: fx-glow 6s ease-in-out infinite alternate;
+}
+
+@keyframes fx-glow {
+    from { opacity: 0.55; transform: translateX(-50%) scale(0.95); }
+    to   { opacity: 1;    transform: translateX(-50%) scale(1.06); }
+}
+
+/* Reveal des blocs au scroll — natif */
+@supports (animation-timeline: view()) {
+    .formation-block {
+        animation: fx-fade-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 20%;
+    }
+}
+
+/* Cards : ressort iOS + lueur d'accent au survol */
+.lesson-card {
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lesson-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10), 0 0 0 1px rgba(0, 113, 227, 0.08);
+}
+
+.lesson-card:active {
+    transform: translateY(-1px) scale(0.99);
+}
+
+.lesson-card .lesson-number {
+    transition: letter-spacing 0.3s ease;
+}
+
+.lesson-card:hover .lesson-number {
+    letter-spacing: 0.09em;
+}
+
+/* Accessibilité : mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}

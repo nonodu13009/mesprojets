@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Générateur de brief projet : un formulaire dynamique réutilisable pour tout nouveau projet, avec sauvegarde locale et export PDF.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Générateur de Brief — Méthode Projet</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="generateur.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html" class="active">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Générateur de Brief</h1>
+            <p>Un formulaire réutilisable pour cadrer n'importe quel nouveau projet, puis l'exporter en PDF.</p>
+        </header>
+
+        <p class="note gen-intro">
+            Remplis les champs à gauche : l'aperçu du document se met à jour en direct à droite.
+            Ton travail est <strong>sauvegardé localement</strong> dans ce navigateur. Quand c'est prêt,
+            clique sur <strong>Exporter en PDF</strong> et choisis « Enregistrer au format PDF » dans la boîte d'impression.
+        </p>
+
+        <div class="gen-toolbar">
+            <button type="button" id="btn-pdf">Exporter en PDF</button>
+            <button type="button" id="btn-save" class="btn-secondary">Sauvegarder</button>
+            <button type="button" id="btn-load" class="btn-secondary">Charger</button>
+            <button type="button" id="btn-reset" class="btn-secondary">Réinitialiser</button>
+            <span class="gen-saved" id="gen-saved"></span>
+        </div>
+
+        <main>
+            <div class="gen-layout">
+                <!-- ---------- FORMULAIRE ---------- -->
+                <form class="gen-form" id="brief-form" autocomplete="off">
+                    <fieldset>
+                        <legend>Projet</legend>
+                        <div class="field">
+                            <label for="projet-nom">Nom du projet</label>
+                            <input type="text" id="projet-nom" placeholder="ex : TaskFlow">
+                        </div>
+                        <div class="field">
+                            <label for="projet-pitch">Pitch en une phrase</label>
+                            <input type="text" id="projet-pitch" placeholder="ex : L'app qui organise tes journées sans effort">
+                        </div>
+                        <div class="field">
+                            <label for="projet-auteur">Auteur</label>
+                            <input type="text" id="projet-auteur" placeholder="Ton nom">
+                        </div>
+                        <div class="field">
+                            <label for="projet-date">Date</label>
+                            <input type="date" id="projet-date">
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Problème & Solution</legend>
+                        <div class="field">
+                            <label for="probleme">Quel problème résous-tu ?</label>
+                            <textarea id="probleme" placeholder="Décris la douleur de l'utilisateur…"></textarea>
+                        </div>
+                        <div class="field">
+                            <label for="solution">Ta solution</label>
+                            <textarea id="solution" placeholder="Comment ton produit résout ce problème…"></textarea>
+                        </div>
+                        <div class="field">
+                            <label for="cible">Public cible</label>
+                            <input type="text" id="cible" placeholder="ex : Freelances et petites équipes">
+                        </div>
+                        <div class="field">
+                            <label for="valeur">Proposition de valeur</label>
+                            <textarea id="valeur" placeholder="Pourquoi choisir ta solution plutôt qu'une autre…"></textarea>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Personas</legend>
+                        <div id="personas-list"></div>
+                        <button type="button" class="btn-add" id="add-persona">+ Ajouter un persona</button>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Fonctionnalités (MoSCoW)</legend>
+                        <div id="features-list"></div>
+                        <button type="button" class="btn-add" id="add-feature">+ Ajouter une fonctionnalité</button>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Stack technique</legend>
+                        <div class="chips">
+                            <label class="chip"><input type="checkbox" name="stack" value="Next.js">Next.js</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="React">React</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Vue">Vue</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Tailwind CSS">Tailwind CSS</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="TypeScript">TypeScript</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Node.js">Node.js</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Python">Python</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Supabase">Supabase</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="PostgreSQL">PostgreSQL</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Vercel">Vercel</label>
+                            <label class="chip"><input type="checkbox" name="stack" value="Shadcn UI">Shadcn UI</label>
+                        </div>
+                        <div class="field" style="margin-top:1rem;">
+                            <label for="stack-libre">Autres outils (séparés par des virgules)</label>
+                            <input type="text" id="stack-libre" placeholder="ex : Stripe, Resend, Clerk">
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Cadrage</legend>
+                        <div class="field">
+                            <label for="contraintes">Contraintes</label>
+                            <textarea id="contraintes" placeholder="Budget, délai, techniques, légales…"></textarea>
+                        </div>
+                        <div class="field">
+                            <label for="risques">Risques</label>
+                            <textarea id="risques" placeholder="Ce qui pourrait mal tourner…"></textarea>
+                        </div>
+                        <div class="field">
+                            <label for="objectifs">Objectifs / KPIs</label>
+                            <textarea id="objectifs" placeholder="Comment mesurer le succès…"></textarea>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <!-- ---------- APERÇU ---------- -->
+                <div class="gen-preview">
+                    <div id="brief-doc"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="generateur.js"></script>
+</body>
+</html>

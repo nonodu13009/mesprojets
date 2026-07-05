@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 1 — Raccourcis clavier Mac pour coder</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="explications.html">Script.js</a>
+            <a href="alert.html">Alertes</a>
+            <a href="types.html">Types</a>
+            <a href="chaines.html">Chaînes</a>
+            <a href="comparaisons.html">Comparaisons</a>
+            <a href="raccourcis.html" class="active">Raccourcis</a>
+        </nav>
+
+        <header>
+            <h1>Raccourcis clavier Mac</h1>
+            <p>Leçon 1 · Chapitre 6 · Les touches essentielles pour coder sur MacBook Pro</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi ce chapitre ?</h2>
+                <p>
+                    Avant d'aller plus loin dans le JavaScript, un petit détour pratique.
+                    Sur un clavier Mac AZERTY, les caractères qu'on utilise constamment
+                    en code — accolades <code>{ }</code>, crochets <code>[ ]</code>,
+                    backticks <code>`</code> — ne sont <strong>pas visibles sur les touches</strong>.
+                    Il faut connaître les combinaisons par cœur.
+                </p>
+                <p>
+                    Cette page te servira de référence rapide. Garde-la sous la main le
+                    temps de les mémoriser.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les touches spéciales du Mac</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Symbole</th>
+                            <th>Nom</th>
+                            <th>Position sur le clavier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="result">⌘</td>
+                            <td>Command (Cmd)</td>
+                            <td>À côté de la barre d'espace</td>
+                        </tr>
+                        <tr>
+                            <td class="result">⌥</td>
+                            <td>Option (Alt)</td>
+                            <td>À côté de Command</td>
+                        </tr>
+                        <tr>
+                            <td class="result">⇧</td>
+                            <td>Shift (Maj)</td>
+                            <td>Flèche vers le haut, au-dessus de Ctrl</td>
+                        </tr>
+                        <tr>
+                            <td class="result">⌃</td>
+                            <td>Control (Ctrl)</td>
+                            <td>En bas à gauche</td>
+                        </tr>
+                        <tr>
+                            <td class="result">fn</td>
+                            <td>Function</td>
+                            <td>Tout en bas à gauche</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Les caractères spéciaux pour coder</h2>
+                <p>
+                    C'est LA partie la plus importante. Sur un Mac AZERTY, ces caractères
+                    ne sont pas affichés sur les touches — il faut connaître les combinaisons :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Caractère</th>
+                            <th>Nom</th>
+                            <th>Raccourci Mac</th>
+                            <th>Usage en JS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="result">`</td>
+                            <td>Backtick</td>
+                            <td><kbd>⌥</kbd> + <kbd>\</kbd></td>
+                            <td>Template literals</td>
+                        </tr>
+                        <tr>
+                            <td class="result">{</td>
+                            <td>Accolade ouvrante</td>
+                            <td><kbd>⌥</kbd> + <kbd>(</kbd></td>
+                            <td>Objets, blocs if/for</td>
+                        </tr>
+                        <tr>
+                            <td class="result">}</td>
+                            <td>Accolade fermante</td>
+                            <td><kbd>⌥</kbd> + <kbd>)</kbd></td>
+                            <td>Fermer un bloc</td>
+                        </tr>
+                        <tr>
+                            <td class="result">[</td>
+                            <td>Crochet ouvrant</td>
+                            <td><kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>(</kbd></td>
+                            <td>Tableaux, index</td>
+                        </tr>
+                        <tr>
+                            <td class="result">]</td>
+                            <td>Crochet fermant</td>
+                            <td><kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>)</kbd></td>
+                            <td>Fermer un tableau</td>
+                        </tr>
+                        <tr>
+                            <td class="result">|</td>
+                            <td>Pipe (barre verticale)</td>
+                            <td><kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>L</kbd></td>
+                            <td>OR logique ||</td>
+                        </tr>
+                        <tr>
+                            <td class="result">\</td>
+                            <td>Antislash</td>
+                            <td><kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>/</kbd></td>
+                            <td>Caractères d'échappement</td>
+                        </tr>
+                        <tr>
+                            <td class="result">~</td>
+                            <td>Tilde</td>
+                            <td><kbd>⌥</kbd> + <kbd>N</kbd></td>
+                            <td>Chemin home, NOT binaire</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Astuce mémo :</strong> la touche <kbd>⌥</kbd> (Option) est la clé
+                    pour accéder à presque tous les caractères spéciaux. Retiens surtout :
+                    <kbd>⌥</kbd> + <kbd>(</kbd> pour <code>{</code> et
+                    <kbd>⌥</kbd> + <kbd>)</kbd> pour <code>}</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Aide-mémoire visuel</h2>
+                <p>Les combinaisons les plus utilisées en JavaScript :</p>
+
+                <div class="diagram">
+                    <span class="part">{ }<span class="label">⌥ + ( )</span></span>
+                    <span class="part">[ ]<span class="label">⌥ + ⇧ + ( )</span></span>
+                    <span class="part">`<span class="label">⌥ + \</span></span>
+                    <span class="part">|<span class="label">⌥ + ⇧ + L</span></span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Raccourcis pour le navigateur (Chrome / Safari)</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Raccourci</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Ouvrir les DevTools (Console)</td>
+                            <td><kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>I</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Ouvrir directement la Console</td>
+                            <td><kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Rafraîchir la page</td>
+                            <td><kbd>⌘</kbd> + <kbd>R</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Rafraîchir sans cache</td>
+                            <td><kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>R</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Inspecter un élément</td>
+                            <td><kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>C</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Raccourcis pour VS Code</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Raccourci</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sauvegarder</td>
+                            <td><kbd>⌘</kbd> + <kbd>S</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Annuler</td>
+                            <td><kbd>⌘</kbd> + <kbd>Z</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Commenter une ligne</td>
+                            <td><kbd>⌘</kbd> + <kbd>/</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Dupliquer une ligne</td>
+                            <td><kbd>⌥</kbd> + <kbd>⇧</kbd> + <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Déplacer une ligne</td>
+                            <td><kbd>⌥</kbd> + <kbd>↑</kbd> / <kbd>↓</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Ouvrir le terminal intégré</td>
+                            <td><kbd>⌃</kbd> + <kbd>`</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Rechercher dans le fichier</td>
+                            <td><kbd>⌘</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Rechercher dans tout le projet</td>
+                            <td><kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>F</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Ouvrir un fichier rapidement</td>
+                            <td><kbd>⌘</kbd> + <kbd>P</kbd></td>
+                        </tr>
+                        <tr>
+                            <td>Palette de commandes</td>
+                            <td><kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>P</kbd></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Bravo, tu as terminé la leçon 1 !</h2>
+                <p>
+                    Tu maîtrises maintenant les <strong>bases de JavaScript</strong> :
+                    lier un script au HTML, afficher des messages, déclarer des variables,
+                    comprendre les types, manipuler du texte et comparer des valeurs.
+                </p>
+                <p>
+                    Tu es prêt pour la suite : en
+                    <a href="../lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>,
+                    tu apprendras à contrôler le flux de ton programme avec les
+                    <strong>boucles</strong>, les <strong>conditions</strong> et les
+                    <strong>fonctions</strong>.
+                </p>
+                <p>
+                    <a href="../lecon2-boucles-conditions-fonctions/index.html">Leçon suivante : Boucles, conditions et fonctions →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="comparaisons.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Comparaisons</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

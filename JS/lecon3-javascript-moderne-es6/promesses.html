@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Promesses et async/await</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="destructuring.html">Destructuring</a>
+            <a href="spread-rest.html">Spread / Rest</a>
+            <a href="methodes-tableaux.html">Tableaux</a>
+            <a href="classes.html">Classes</a>
+            <a href="promesses.html" class="active">Promesses</a>
+            <a href="modules.html">Modules</a>
+            <a href="operateurs-modernes.html">Opérateurs</a>
+        </nav>
+
+        <header>
+            <h1>Promesses et async/await</h1>
+            <p>Leçon 3 · Chapitre 28 · Gérer le code qui prend du temps</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Un nouveau type de problème</h2>
+                <p>
+                    Jusqu'ici, tout le code que tu as écrit s'exécutait <strong>instantanément</strong>,
+                    ligne après ligne. Mais dans la vraie vie, beaucoup d'opérations prennent
+                    du temps : charger des données depuis un serveur, lire un fichier,
+                    attendre la réponse d'une API, ou même simplement attendre 3 secondes
+                    avant d'afficher un message.
+                </p>
+                <p>
+                    Si JavaScript attendait sagement que chaque opération se termine avant de
+                    passer à la suivante, ta page web serait <strong>figée</strong> pendant
+                    chaque chargement. Ce n'est évidemment pas acceptable. C'est pour ça que
+                    JavaScript est <strong>asynchrone</strong> : il lance l'opération et
+                    continue d'exécuter le reste du code sans attendre.
+                </p>
+                <p>
+                    Ce chapitre t'apprend à gérer cette asynchronicité proprement, avec les
+                    <strong>Promesses</strong> et la syntaxe <strong>async/await</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Synchrone vs asynchrone : la différence en action</h2>
+                <p>
+                    Avant de plonger dans les Promesses, observons le comportement asynchrone
+                    de JavaScript avec un exemple simple :
+                </p>
+
+                <pre><code><span class="comment">// Code synchrone : chaque ligne attend la précédente</span>
+console.log(<span class="string">"1"</span>);
+console.log(<span class="string">"2"</span>);
+console.log(<span class="string">"3"</span>);
+<span class="comment">// Affiche : 1, 2, 3 (dans l'ordre, comme prévu)</span>
+
+<span class="comment">// Code asynchrone : setTimeout lance un timer, mais n'attend pas</span>
+console.log(<span class="string">"A"</span>);
+setTimeout(() => console.log(<span class="string">"B"</span>), <span class="number">1000</span>);
+console.log(<span class="string">"C"</span>);
+<span class="comment">// Affiche : A, C, B</span>
+<span class="comment">// "B" arrive 1 seconde après, APRÈS "C" !</span></code></pre>
+
+                <p>
+                    C'est surprenant la première fois : "C" s'affiche avant "B" ! JavaScript
+                    n'a pas attendu la fin du timer. Il a lancé le <code>setTimeout</code>,
+                    puis est immédiatement passé à la ligne suivante. Quand le timer se termine,
+                    la fonction callback est exécutée.
+                </p>
+                <p>
+                    Maintenant, imagine que tu charges des données utilisateur depuis un serveur.
+                    Tu ne peux pas utiliser les données tant qu'elles ne sont pas arrivées.
+                    Comment dire à JavaScript : "quand les données arrivent, <strong>alors</strong>
+                    fais ceci" ? C'est là que les Promesses entrent en jeu.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les Promesses (Promise)</h2>
+                <p>
+                    Une <strong>Promise</strong> est un objet qui représente une valeur qui
+                    n'est <strong>pas encore disponible</strong> mais qui le sera dans le futur.
+                    C'est comme un ticket de commande au restaurant : tu ne l'as pas encore,
+                    mais tu as la promesse que ça va arriver.
+                </p>
+                <p>
+                    Une Promise a 3 états possibles :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>État</th>
+                            <th>Signification</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pending</code></td>
+                            <td>En attente — l'opération est en cours</td>
+                        </tr>
+                        <tr>
+                            <td><code>fulfilled</code></td>
+                            <td>Tenue — l'opération a réussi, on a le résultat</td>
+                        </tr>
+                        <tr>
+                            <td><code>rejected</code></td>
+                            <td>Rejetée — une erreur s'est produite</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code><span class="comment">// Créer une promesse</span>
+<span class="keyword">const</span> maPromesse = <span class="keyword">new</span> Promise((resolve, reject) => {
+    <span class="keyword">const</span> succès = <span class="keyword">true</span>;
+
+    <span class="keyword">if</span> (succès) {
+        resolve(<span class="string">"Tout s'est bien passé !"</span>); <span class="comment">// → fulfilled</span>
+    } <span class="keyword">else</span> {
+        reject(<span class="string">"Quelque chose a échoué."</span>);  <span class="comment">// → rejected</span>
+    }
+});
+
+<span class="comment">// Consommer la promesse</span>
+maPromesse
+    .then((résultat) => console.log(résultat))  <span class="comment">// si fulfilled</span>
+    .catch((erreur) => console.log(erreur));     <span class="comment">// si rejected</span></code></pre>
+
+                <p>
+                    <code>.then()</code> est appelé quand la promesse est tenue (succès),
+                    <code>.catch()</code> quand elle est rejetée (erreur). C'est un peu comme
+                    un <code>if/else</code> pour le code asynchrone.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple concret : simuler un appel serveur</h2>
+                <p>
+                    En vrai, les Promesses sont rarement créées à la main. Mais pour bien
+                    comprendre le mécanisme, simulons un appel API qui met 1,5 seconde
+                    à répondre :
+                </p>
+
+                <pre><code><span class="keyword">function</span> chargerUtilisateur(id) {
+    <span class="keyword">return new</span> Promise((resolve, reject) => {
+        setTimeout(() => {
+            <span class="keyword">if</span> (id > <span class="number">0</span>) {
+                resolve({ id: id, nom: <span class="string">"Jean-Michel"</span>, ville: <span class="string">"Marseille"</span> });
+            } <span class="keyword">else</span> {
+                reject(<span class="string">"ID invalide"</span>);
+            }
+        }, <span class="number">1500</span>); <span class="comment">// Simule 1,5s de chargement</span>
+    });
+}
+
+<span class="comment">// Utilisation</span>
+chargerUtilisateur(<span class="number">1</span>)
+    .then((user) => console.log(<span class="string">`Bonjour ${user.nom} !`</span>))
+    .catch((err) => console.log(<span class="string">`Erreur : ${err}`</span>));
+
+console.log(<span class="string">"Ce message s'affiche AVANT le résultat !"</span>);
+
+<span class="comment">// Affiche immédiatement : "Ce message s'affiche AVANT le résultat !"</span>
+<span class="comment">// Puis après 1,5s : "Bonjour Jean-Michel !"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>async/await : écrire de l'asynchrone comme du synchrone</h2>
+                <p>
+                    La syntaxe <code>.then().catch()</code> fonctionne, mais quand tu enchaînes
+                    plusieurs opérations asynchrones, ça devient vite difficile à lire.
+                    <code>async/await</code> est du <strong>sucre syntaxique</strong> :
+                    ça fait exactement la même chose, mais avec une syntaxe qui ressemble
+                    à du code synchrone classique.
+                </p>
+
+                <pre><code><span class="comment">// Le mot-clé "async" devant la fonction</span>
+<span class="keyword">async function</span> afficherUtilisateur() {
+    <span class="keyword">try</span> {
+        <span class="comment">// "await" met en pause CETTE fonction jusqu'au résultat</span>
+        <span class="keyword">const</span> user = <span class="keyword">await</span> chargerUtilisateur(<span class="number">1</span>);
+        console.log(<span class="string">`Bonjour ${user.nom} de ${user.ville} !`</span>);
+    } <span class="keyword">catch</span> (erreur) {
+        console.log(<span class="string">`Erreur : ${erreur}`</span>);
+    }
+}
+
+afficherUtilisateur();
+<span class="comment">// Après 1,5s : "Bonjour Jean-Michel de Marseille !"</span></code></pre>
+
+                <p>
+                    Compare avec la version <code>.then()</code> précédente : c'est beaucoup
+                    plus lisible. On lit le code de haut en bas, comme du code normal.
+                    Les erreurs sont gérées avec un <code>try/catch</code> classique au lieu
+                    d'un <code>.catch()</code> chaîné.
+                </p>
+
+                <p class="note">
+                    <strong>Deux règles à retenir :</strong> <code>await</code> ne peut être
+                    utilisé que dans une fonction déclarée <code>async</code>. Et une fonction
+                    <code>async</code> retourne toujours une Promesse, même si tu ne le
+                    vois pas.
+                </p>
+            </section>
+
+            <section>
+                <h2>fetch : faire de vrais appels HTTP</h2>
+                <p>
+                    Assez de simulation ! <code>fetch</code> est la méthode native du navigateur
+                    pour faire des requêtes HTTP (appeler une API, charger des données JSON...).
+                    Elle retourne une Promesse, donc tout ce que tu viens d'apprendre s'applique :
+                </p>
+
+                <pre><code><span class="comment">// Version avec .then() (pour comprendre)</span>
+fetch(<span class="string">"https://jsonplaceholder.typicode.com/users/1"</span>)
+    .then((response) => response.json()) <span class="comment">// convertir la réponse en JSON</span>
+    .then((data) => console.log(data.name))
+    .catch((err) => console.log(<span class="string">"Erreur :"</span>, err));
+
+<span class="comment">// Version avec async/await (à privilégier)</span>
+<span class="keyword">async function</span> chargerDepuisAPI() {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">"https://jsonplaceholder.typicode.com/users/1"</span>);
+        <span class="keyword">const</span> data = <span class="keyword">await</span> response.json();
+        console.log(data.name); <span class="comment">// "Leanne Graham"</span>
+    } <span class="keyword">catch</span> (erreur) {
+        console.log(<span class="string">"Erreur :"</span>, erreur);
+    }
+}
+
+chargerDepuisAPI();</code></pre>
+
+                <p>
+                    Note qu'il y a <strong>deux <code>await</code></strong> : un pour la requête
+                    HTTP elle-même, et un pour la conversion de la réponse en JSON. Ce sont
+                    deux opérations asynchrones distinctes.
+                </p>
+            </section>
+
+            <section>
+                <h2>Quand utiliser quoi ?</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Syntaxe</th>
+                            <th>Avantage</th>
+                            <th>Quand l'utiliser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.then().catch()</code></td>
+                            <td>Chaînage facile, compact</td>
+                            <td>Opérations simples, callbacks rapides</td>
+                        </tr>
+                        <tr>
+                            <td><code>async/await</code></td>
+                            <td>Lisibilité, gestion d'erreurs claire</td>
+                            <td>Logique complexe, plusieurs appels successifs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    En pratique, <code>async/await</code> est devenu le standard dans le code
+                    moderne. Tu verras <code>.then()</code> surtout dans du code existant ou
+                    pour des cas simples en une ligne.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Teste le comportement asynchrone : <code>console.log("A"); setTimeout(() => console.log("B"), 2000); console.log("C");</code></li>
+                    <li>Colle la fonction <code>chargerUtilisateur</code> et appelle-la avec <code>.then()</code></li>
+                    <li>Appelle la même fonction avec <code>async/await</code> dans une fonction <code>async</code></li>
+                    <li>Teste un vrai <code>fetch</code> avec l'URL jsonplaceholder ci-dessus</li>
+                    <li>Provoque une erreur (mauvaise URL) et observe le <code>catch</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant gérer le code asynchrone, ce qui est indispensable
+                    pour toute application web qui communique avec un serveur. Mais au fur
+                    et à mesure que ton code grandit, le garder dans un seul fichier devient
+                    ingérable. Le prochain chapitre t'apprend à <strong>découper ton code
+                    en modules</strong> avec <code>import</code> et <code>export</code> —
+                    la façon standard d'organiser un projet JavaScript.
+                </p>
+                <p>
+                    <a href="modules.html">Chapitre suivant : Les modules →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="classes.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Classes</span></a>
+                <a class="pager-next" href="modules.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Modules</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

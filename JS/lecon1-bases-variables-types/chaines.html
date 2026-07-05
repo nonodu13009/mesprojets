@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 1 — Les chaînes de caractères en JavaScript</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="explications.html">Script.js</a>
+            <a href="alert.html">Alertes</a>
+            <a href="types.html">Types</a>
+            <a href="chaines.html" class="active">Chaînes</a>
+            <a href="comparaisons.html">Comparaisons</a>
+            <a href="raccourcis.html">Raccourcis</a>
+        </nav>
+
+        <header>
+            <h1>Les chaînes de caractères</h1>
+            <p>Leçon 1 · Chapitre 4 · Créer, manipuler et combiner du texte</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le type le plus utilisé</h2>
+                <p>
+                    Tu sais maintenant que <code>string</code> est l'un des types primitifs
+                    de JavaScript. En pratique, c'est celui que tu manipuleras le plus souvent :
+                    noms d'utilisateurs, emails, messages, URLs, contenu de formulaires...
+                    tout est du texte.
+                </p>
+                <p>
+                    Ce chapitre te montre comment créer des chaînes, les assembler, accéder
+                    à leurs caractères et utiliser les <strong>méthodes intégrées</strong>
+                    qui les rendent si pratiques.
+                </p>
+            </section>
+
+            <section>
+                <h2>Trois façons de créer une chaîne</h2>
+
+                <div class="diagram">
+                    <span class="part">"Bonjour"<span class="label">guillemets doubles</span></span>
+                    <span class="part">'Bonjour'<span class="label">guillemets simples</span></span>
+                    <span class="part">`Bonjour`<span class="label">backticks (template)</span></span>
+                </div>
+
+                <pre><code><span class="keyword">const</span> prénom = <span class="string">"Jean-Michel"</span>;
+<span class="keyword">const</span> ville = <span class="string">'Marseille'</span>;
+<span class="keyword">const</span> phrase = <span class="string">`Bonjour tout le monde`</span>;
+
+console.log(prénom); <span class="comment">// "Jean-Michel"</span>
+console.log(ville);  <span class="comment">// "Marseille"</span>
+console.log(phrase); <span class="comment">// "Bonjour tout le monde"</span></code></pre>
+
+                <p>
+                    Les guillemets doubles et simples sont équivalents. Les backticks
+                    (<code>`</code>) offrent des fonctionnalités supplémentaires qu'on va
+                    voir juste après.
+                </p>
+            </section>
+
+            <section>
+                <h2>Concaténation — assembler des chaînes</h2>
+                <p>
+                    On peut coller des chaînes entre elles avec l'opérateur <code>+</code> :
+                </p>
+                <pre><code><span class="keyword">const</span> prénom = <span class="string">"Jean-Michel"</span>;
+<span class="keyword">const</span> message = <span class="string">"Bonjour "</span> + prénom + <span class="string">" !"</span>;
+
+console.log(message); <span class="comment">// "Bonjour Jean-Michel !"</span></code></pre>
+
+                <p>
+                    Attention aux espaces : <code>"Bonjour"</code> + <code>"Jean"</code> donne
+                    <code>"BonjourJean"</code>. Il faut ajouter un espace dans la chaîne.
+                </p>
+            </section>
+
+            <section>
+                <h2>Template literals — la méthode moderne</h2>
+                <p>
+                    Avec les backticks (<code>`</code>), on peut insérer des variables directement
+                    dans la chaîne grâce à <code>${...}</code>. C'est plus lisible que la concaténation :
+                </p>
+                <pre><code><span class="keyword">const</span> prénom = <span class="string">"Jean-Michel"</span>;
+<span class="keyword">const</span> age = <span class="number">30</span>;
+
+<span class="comment">// Concaténation classique (difficile à lire)</span>
+<span class="keyword">const</span> msg1 = <span class="string">"Je m'appelle "</span> + prénom + <span class="string">" et j'ai "</span> + age + <span class="string">" ans."</span>;
+
+<span class="comment">// Template literal (plus clair)</span>
+<span class="keyword">const</span> msg2 = <span class="string">`Je m'appelle ${prénom} et j'ai ${age} ans.`</span>;
+
+console.log(msg2); <span class="comment">// "Je m'appelle Jean-Michel et j'ai 30 ans."</span></code></pre>
+
+                <p>On peut aussi mettre des calculs dans <code>${...}</code> :</p>
+                <pre><code>console.log(<span class="string">`Dans 10 ans, j'aurai ${age + <span class="number">10</span>} ans.`</span>);
+<span class="comment">// "Dans 10 ans, j'aurai 40 ans."</span></code></pre>
+
+                <p class="note">
+                    <strong>Retiens :</strong> dès que tu mélanges du texte et des variables,
+                    utilise les backticks <code>`...${variable}...`</code>. C'est la méthode
+                    recommandée en JavaScript moderne (ES6+).
+                </p>
+            </section>
+
+            <section>
+                <h2>Longueur et accès aux caractères</h2>
+                <p>
+                    La propriété <code>.length</code> donne le nombre de caractères.
+                    Chaque caractère a un <strong>index</strong> qui commence à <strong>0</strong> :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">B<span class="label">index 0</span></span>
+                    <span class="part">o<span class="label">index 1</span></span>
+                    <span class="part">n<span class="label">index 2</span></span>
+                    <span class="part">j<span class="label">index 3</span></span>
+                    <span class="part">o<span class="label">index 4</span></span>
+                    <span class="part">u<span class="label">index 5</span></span>
+                    <span class="part">r<span class="label">index 6</span></span>
+                </div>
+
+                <pre><code><span class="keyword">const</span> mot = <span class="string">"Bonjour"</span>;
+
+console.log(mot.length);           <span class="comment">// 7</span>
+console.log(mot[<span class="number">0</span>]);               <span class="comment">// "B" (premier caractère)</span>
+console.log(mot[<span class="number">3</span>]);               <span class="comment">// "j"</span>
+console.log(mot[mot.length - <span class="number">1</span>]);  <span class="comment">// "r" (dernier caractère)</span></code></pre>
+
+                <p class="note">
+                    <strong>Attention :</strong> l'index commence à <strong>0</strong>, pas à 1.
+                    Le premier caractère est à l'index 0, le deuxième à l'index 1, etc.
+                </p>
+            </section>
+
+            <section>
+                <h2>Méthodes utiles sur les chaînes</h2>
+                <p>
+                    Les chaînes ont de nombreuses méthodes intégrées. Voici les plus
+                    courantes — tu les utiliseras constamment :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Méthode</th>
+                            <th>Rôle</th>
+                            <th>Exemple</th>
+                            <th>Résultat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.toUpperCase()</code></td>
+                            <td>Tout en majuscules</td>
+                            <td><code>"bonjour".toUpperCase()</code></td>
+                            <td class="result">"BONJOUR"</td>
+                        </tr>
+                        <tr>
+                            <td><code>.toLowerCase()</code></td>
+                            <td>Tout en minuscules</td>
+                            <td><code>"BONJOUR".toLowerCase()</code></td>
+                            <td class="result">"bonjour"</td>
+                        </tr>
+                        <tr>
+                            <td><code>.trim()</code></td>
+                            <td>Supprime les espaces aux extrémités</td>
+                            <td><code>"  hello  ".trim()</code></td>
+                            <td class="result">"hello"</td>
+                        </tr>
+                        <tr>
+                            <td><code>.includes()</code></td>
+                            <td>Vérifie si un texte est présent</td>
+                            <td><code>"Bonjour".includes("jour")</code></td>
+                            <td class="result">true</td>
+                        </tr>
+                        <tr>
+                            <td><code>.indexOf()</code></td>
+                            <td>Position de la première occurrence</td>
+                            <td><code>"Bonjour".indexOf("j")</code></td>
+                            <td class="result">3</td>
+                        </tr>
+                        <tr>
+                            <td><code>.slice()</code></td>
+                            <td>Extrait une partie</td>
+                            <td><code>"Bonjour".slice(0, 3)</code></td>
+                            <td class="result">"Bon"</td>
+                        </tr>
+                        <tr>
+                            <td><code>.replace()</code></td>
+                            <td>Remplace du texte</td>
+                            <td><code>"Bonjour".replace("jour", "soir")</code></td>
+                            <td class="result">"Bonsoir"</td>
+                        </tr>
+                        <tr>
+                            <td><code>.split()</code></td>
+                            <td>Découpe en tableau</td>
+                            <td><code>"a,b,c".split(",")</code></td>
+                            <td class="result">["a", "b", "c"]</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    Un exemple concret — nettoyer un email saisi par un utilisateur :
+                </p>
+
+                <pre><code><span class="keyword">const</span> email = <span class="string">"  Jean@Gmail.COM  "</span>;
+
+<span class="comment">// Nettoyer l'email</span>
+<span class="keyword">const</span> clean = email.trim().toLowerCase();
+console.log(clean); <span class="comment">// "jean@gmail.com"</span>
+
+<span class="comment">// Vérifier si c'est un Gmail</span>
+console.log(clean.includes(<span class="string">"gmail"</span>)); <span class="comment">// true</span>
+
+<span class="comment">// Extraire le nom avant le @</span>
+<span class="keyword">const</span> nom = clean.slice(<span class="number">0</span>, clean.indexOf(<span class="string">"@"</span>));
+console.log(nom); <span class="comment">// "jean"</span></code></pre>
+
+                <p class="note">
+                    <strong>Important :</strong> les méthodes de chaînes ne modifient jamais
+                    la chaîne d'origine (les strings sont <strong>immuables</strong>).
+                    Elles retournent toujours une <strong>nouvelle</strong> chaîne.
+                </p>
+            </section>
+
+            <section>
+                <h2>Caractères spéciaux</h2>
+                <p>
+                    Certains caractères ne peuvent pas être tapés directement dans une chaîne.
+                    On utilise un <strong>antislash</strong> (<code>\</code>) pour les insérer :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Séquence</th>
+                            <th>Caractère</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>\n</code></td>
+                            <td>Retour à la ligne</td>
+                        </tr>
+                        <tr>
+                            <td><code>\t</code></td>
+                            <td>Tabulation</td>
+                        </tr>
+                        <tr>
+                            <td><code>\\</code></td>
+                            <td>Antislash</td>
+                        </tr>
+                        <tr>
+                            <td><code>\"</code></td>
+                            <td>Guillemet dans une chaîne</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <pre><code>console.log(<span class="string">"Ligne 1\nLigne 2"</span>);
+<span class="comment">// Affiche :</span>
+<span class="comment">// Ligne 1</span>
+<span class="comment">// Ligne 2</span>
+
+<span class="comment">// Avec les backticks, le retour à la ligne est naturel :</span>
+console.log(<span class="string">`Ligne 1
+Ligne 2`</span>);
+<span class="comment">// Même résultat, plus lisible</span></code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console du navigateur (<strong>F12</strong> → Console)</li>
+                    <li>Tape <code>"Bonjour".toUpperCase()</code> et appuie sur Entrée</li>
+                    <li>Essaie les autres méthodes : <code>"hello world".includes("world")</code></li>
+                    <li>Teste les template literals : <code>`J'ai ${10 + 5} ans`</code></li>
+                    <li>Nettoie un email : <code>"  Test@Gmail.COM  ".trim().toLowerCase()</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant créer et manipuler du texte. Mais comment
+                    <strong>comparer</strong> des valeurs entre elles ? Savoir si un nombre
+                    est plus grand qu'un autre, si deux chaînes sont identiques, ou si un
+                    utilisateur a le bon mot de passe ? C'est le rôle des <strong>opérateurs
+                    de comparaison</strong>, qu'on voit au prochain chapitre.
+                </p>
+                <p>
+                    <a href="comparaisons.html">Chapitre suivant : Les opérateurs de comparaison →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="types.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Types</span></a>
+                <a class="pager-next" href="comparaisons.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Comparaisons</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

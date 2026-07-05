@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — Introduction aux fonctions</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html" class="active">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>Introduction aux fonctions</h1>
+            <p>Leçon 2 · Chapitre 13 · Organiser et réutiliser son code</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le problème de la répétition</h2>
+                <p>
+                    Depuis le début de cette leçon, tu écris du code dans des boucles et
+                    des conditions. Mais imagine que tu aies besoin du <strong>même calcul</strong>
+                    à plusieurs endroits de ton programme — par exemple, calculer une TVA,
+                    valider un email, ou afficher un message formaté. Copier-coller le code
+                    à chaque fois pose deux problèmes :
+                </p>
+                <ul>
+                    <li>Si tu dois le modifier, tu dois le modifier <strong>partout</strong></li>
+                    <li>Ton code devient long, illisible et difficile à maintenir</li>
+                </ul>
+                <p>
+                    Les <strong>fonctions</strong> résolvent ce problème. Tu écris le code
+                    une seule fois, tu lui donnes un nom, et tu l'<strong>appelles</strong>
+                    autant de fois que nécessaire.
+                </p>
+
+                <div class="diagram">
+                    <span class="part">Définir<span class="label">écrire le code de la fonction</span></span>
+                    <span class="part">Appeler<span class="label">exécuter la fonction</span></span>
+                    <span class="part">Retourner<span class="label">récupérer un résultat</span></span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Déclarer et appeler une fonction</h2>
+                <pre><code><span class="comment">// Déclaration de fonction</span>
+<span class="keyword">function</span> direBonjour() {
+    console.log(<span class="string">"Bonjour !"</span>);
+}
+
+<span class="comment">// Appel de la fonction (exécute le code à l'intérieur)</span>
+direBonjour(); <span class="comment">// "Bonjour !"</span>
+direBonjour(); <span class="comment">// "Bonjour !" (on peut l'appeler autant de fois qu'on veut)</span></code></pre>
+
+                <p>
+                    La déclaration <strong>ne fait rien</strong> en elle-même — elle prépare
+                    le code. C'est l'<strong>appel</strong> (avec les parenthèses <code>()</code>)
+                    qui l'exécute réellement.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les paramètres</h2>
+                <p>
+                    Les <strong>paramètres</strong> permettent de passer des valeurs à la fonction
+                    pour la rendre flexible. Chaque appel peut donner des valeurs différentes :
+                </p>
+
+                <pre><code><span class="keyword">function</span> direBonjour(prénom) {
+    console.log(<span class="string">`Bonjour ${prénom} !`</span>);
+}
+
+direBonjour(<span class="string">"Jean-Michel"</span>); <span class="comment">// "Bonjour Jean-Michel !"</span>
+direBonjour(<span class="string">"Alice"</span>);        <span class="comment">// "Bonjour Alice !"</span>
+
+<span class="comment">// Plusieurs paramètres</span>
+<span class="keyword">function</span> addition(a, b) {
+    console.log(<span class="string">`${a} + ${b} = ${a + b}`</span>);
+}
+
+addition(<span class="number">3</span>, <span class="number">5</span>); <span class="comment">// "3 + 5 = 8"</span>
+addition(<span class="number">10</span>, <span class="number">20</span>); <span class="comment">// "10 + 20 = 30"</span></code></pre>
+
+                <p class="note">
+                    <strong>Vocabulaire :</strong> on parle de <em>paramètres</em> dans la
+                    déclaration et d'<em>arguments</em> dans l'appel. En pratique, les deux
+                    termes sont souvent utilisés de manière interchangeable.
+                </p>
+            </section>
+
+            <section>
+                <h2>La valeur de retour (return)</h2>
+                <p>
+                    <code>return</code> permet à la fonction de <strong>renvoyer un résultat</strong>
+                    qu'on peut stocker dans une variable ou utiliser dans une expression :
+                </p>
+
+                <pre><code><span class="keyword">function</span> addition(a, b) {
+    <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">const</span> résultat = addition(<span class="number">3</span>, <span class="number">5</span>);
+console.log(résultat); <span class="comment">// 8</span>
+
+<span class="comment">// On peut utiliser le retour directement</span>
+console.log(addition(<span class="number">10</span>, <span class="number">20</span>)); <span class="comment">// 30</span>
+console.log(addition(<span class="number">1</span>, <span class="number">2</span>) + addition(<span class="number">3</span>, <span class="number">4</span>)); <span class="comment">// 10</span></code></pre>
+
+                <p class="note">
+                    <strong>Important :</strong> <code>return</code> arrête immédiatement la fonction.
+                    Tout code écrit après un <code>return</code> ne sera jamais exécuté.
+                    C'est comme <code>break</code> dans une boucle, mais pour les fonctions.
+                </p>
+            </section>
+
+            <section>
+                <h2>Paramètres par défaut</h2>
+                <p>
+                    Tu peux donner une valeur par défaut à un paramètre. Si l'appel ne fournit
+                    pas d'argument, la valeur par défaut est utilisée :
+                </p>
+
+                <pre><code><span class="keyword">function</span> direBonjour(prénom = <span class="string">"inconnu"</span>) {
+    console.log(<span class="string">`Bonjour ${prénom} !`</span>);
+}
+
+direBonjour(<span class="string">"Alice"</span>); <span class="comment">// "Bonjour Alice !"</span>
+direBonjour();         <span class="comment">// "Bonjour inconnu !" (valeur par défaut)</span></code></pre>
+
+                <p>
+                    C'est une fonctionnalité ES6 que tu retrouveras en Leçon 3 avec le
+                    destructuring et le rest/spread.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les fonctions fléchées (arrow functions)</h2>
+                <p>
+                    Syntaxe moderne et concise pour écrire des fonctions, introduite avec ES6.
+                    Tu les verras partout dans le JavaScript contemporain :
+                </p>
+
+                <pre><code><span class="comment">// Fonction classique</span>
+<span class="keyword">function</span> carré(n) {
+    <span class="keyword">return</span> n * n;
+}
+
+<span class="comment">// Fonction fléchée équivalente</span>
+<span class="keyword">const</span> carré = (n) => {
+    <span class="keyword">return</span> n * n;
+};
+
+<span class="comment">// Version ultra-courte (une seule expression → return implicite)</span>
+<span class="keyword">const</span> carré = (n) => n * n;
+
+console.log(carré(<span class="number">4</span>)); <span class="comment">// 16</span>
+console.log(carré(<span class="number">9</span>)); <span class="comment">// 81</span></code></pre>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Forme</th>
+                            <th>Syntaxe</th>
+                            <th>Quand l'utiliser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Classique</td>
+                            <td><code>function nom() { }</code></td>
+                            <td>Fonctions principales, hoisting nécessaire</td>
+                        </tr>
+                        <tr>
+                            <td>Fléchée</td>
+                            <td><code>const nom = () => { }</code></td>
+                            <td>Callbacks, fonctions courtes</td>
+                        </tr>
+                        <tr>
+                            <td>Fléchée courte</td>
+                            <td><code>const nom = (x) => x * 2</code></td>
+                            <td>Expression unique, retour implicite</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Pour l'instant :</strong> utilise la forme classique (<code>function</code>)
+                    pour tes fonctions principales. Tu adopteras les fonctions fléchées
+                    naturellement en Leçon 3 avec les méthodes de tableaux comme
+                    <code>map()</code> et <code>filter()</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple concret : calculatrice</h2>
+                <p>
+                    Cet exemple combine tout ce que tu as appris : fonction, paramètres,
+                    return, et switch :
+                </p>
+
+                <pre><code><span class="keyword">function</span> calculer(a, b, opération) {
+    <span class="keyword">switch</span> (opération) {
+        <span class="keyword">case</span> <span class="string">"+"</span>:
+            <span class="keyword">return</span> a + b;
+        <span class="keyword">case</span> <span class="string">"-"</span>:
+            <span class="keyword">return</span> a - b;
+        <span class="keyword">case</span> <span class="string">"*"</span>:
+            <span class="keyword">return</span> a * b;
+        <span class="keyword">case</span> <span class="string">"/"</span>:
+            <span class="keyword">if</span> (b === <span class="number">0</span>) {
+                <span class="keyword">return</span> <span class="string">"Erreur : division par zéro"</span>;
+            }
+            <span class="keyword">return</span> a / b;
+        <span class="keyword">default</span>:
+            <span class="keyword">return</span> <span class="string">"Opération inconnue"</span>;
+    }
+}
+
+console.log(calculer(<span class="number">10</span>, <span class="number">3</span>, <span class="string">"+"</span>)); <span class="comment">// 13</span>
+console.log(calculer(<span class="number">10</span>, <span class="number">3</span>, <span class="string">"-"</span>)); <span class="comment">// 7</span>
+console.log(calculer(<span class="number">10</span>, <span class="number">3</span>, <span class="string">"*"</span>)); <span class="comment">// 30</span>
+console.log(calculer(<span class="number">10</span>, <span class="number">3</span>, <span class="string">"/"</span>)); <span class="comment">// 3.333...</span>
+console.log(calculer(<span class="number">10</span>, <span class="number">0</span>, <span class="string">"/"</span>)); <span class="comment">// "Erreur : division par zéro"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Exemple : fonction qui filtre un tableau</h2>
+                <p>
+                    Les fonctions et les boucles se combinent parfaitement. Voici une
+                    fonction qui prend un tableau et retourne un nouveau tableau contenant
+                    uniquement les nombres pairs :
+                </p>
+
+                <pre><code><span class="keyword">function</span> filtrerPairs(nombres) {
+    <span class="keyword">const</span> pairs = [];
+    <span class="keyword">for</span> (<span class="keyword">const</span> n <span class="keyword">of</span> nombres) {
+        <span class="keyword">if</span> (n % <span class="number">2</span> === <span class="number">0</span>) {
+            pairs.push(n);
+        }
+    }
+    <span class="keyword">return</span> pairs;
+}
+
+<span class="keyword">const</span> mesNombres = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>];
+console.log(filtrerPairs(mesNombres));
+<span class="comment">// [2, 4, 6, 8]</span></code></pre>
+
+                <p>
+                    En Leçon 3, tu découvriras que cette opération peut s'écrire en une seule
+                    ligne avec <code>mesNombres.filter(n => n % 2 === 0)</code>. Mais pour
+                    l'instant, cette version « manuelle » te permet de bien comprendre le
+                    mécanisme.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Crée une fonction <code>function bonjour(nom) { return "Salut " + nom; }</code></li>
+                    <li>Appelle-la : <code>bonjour("Alice")</code></li>
+                    <li>Teste une fonction fléchée : <code>const double = (n) => n * 2;</code></li>
+                    <li>Crée la calculatrice et teste toutes les opérations</li>
+                    <li>Écris une fonction qui retourne le plus grand nombre d'un tableau</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Bravo, tu as terminé la leçon 2 !</h2>
+                <p>
+                    Tu maîtrises maintenant les trois piliers du contrôle de flux :
+                    les <strong>boucles</strong> (for, while), les <strong>conditions</strong>
+                    (if/else, switch) et les <strong>fonctions</strong>. Combinés avec les
+                    bases de la Leçon 1, tu as tous les outils pour écrire des programmes
+                    complets et logiques.
+                </p>
+                <p>
+                    En <a href="../lecon3-javascript-moderne-es6/index.html">Leçon 3</a>,
+                    tu découvriras le <strong>JavaScript moderne (ES6+)</strong> : destructuring,
+                    spread/rest, méthodes de tableaux puissantes (<code>map</code>,
+                    <code>filter</code>, <code>reduce</code>), classes, promesses et
+                    modules. Ces outils te permettront d'écrire du code plus concis,
+                    plus élégant et plus professionnel.
+                </p>
+                <p>
+                    <a href="../lecon3-javascript-moderne-es6/index.html">Leçon suivante : JavaScript Moderne (ES6+) →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="portee-break.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Portée</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

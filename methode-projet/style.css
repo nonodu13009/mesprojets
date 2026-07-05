@@ -1,0 +1,578 @@
+/* ============================================
+   CSS Leçons — Charte Apple HIG / iOS
+   Fichier identique pour les 3 leçons.
+   Voir /style.css pour la charte complète.
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #fff;
+    min-height: 100vh;
+    color: #1d1d1f;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Layout ---- */
+
+.container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.container--narrow {
+    max-width: 720px;
+}
+
+/* ---- Nav (sticky + blur) ---- */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 0;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid #d2d2d7;
+    flex-wrap: wrap;
+}
+
+/* Sur les pages étroites, la nav garde la largeur standard (980px)
+   pour que les 9 liens tiennent sur une seule ligne. */
+.container--narrow nav {
+    margin-inline: calc((100% - (min(980px, 100vw) - 3rem)) / 2);
+}
+
+nav a {
+    padding: 0.4rem 0.875rem;
+    border-radius: 980px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #424245;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+nav a:hover {
+    background: #f5f5f7;
+    color: #1d1d1f;
+    text-decoration: none;
+}
+
+nav a.active {
+    background: #0071e3;
+    color: #fff;
+}
+
+nav .nav-hub {
+    margin-right: auto;
+    background: none;
+    color: #0071e3;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    padding: 0.4rem 0.75rem;
+}
+
+nav .nav-hub:hover {
+    background: rgba(0, 113, 227, 0.08);
+    color: #0071e3;
+}
+
+/* ---- Header ---- */
+
+header {
+    padding: 3.5rem 1.5rem 2.5rem;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #1d1d1f;
+}
+
+header p {
+    margin-top: 0.5rem;
+    color: #86868b;
+    font-size: 1.125rem;
+    font-weight: 400;
+}
+
+/* ---- Main ---- */
+
+main {
+    padding: 2rem 0 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* ---- Sections ---- */
+
+section {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid #d2d2d7;
+}
+
+section:last-child {
+    border-bottom: none;
+}
+
+section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #1d1d1f;
+    margin-bottom: 1rem;
+}
+
+.container--narrow section h2 {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #d2d2d7;
+}
+
+/* ---- Typography ---- */
+
+p {
+    color: #424245;
+    line-height: 1.6;
+    font-size: 1.0625rem;
+}
+
+.container--narrow p {
+    margin-bottom: 0.75rem;
+}
+
+a {
+    color: #06c;
+    font-weight: 400;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #0077ed;
+    text-decoration: underline;
+}
+
+strong {
+    color: #1d1d1f;
+}
+
+/* ---- Code ---- */
+
+code {
+    font-family: "SF Mono", "Fira Code", "Menlo", monospace;
+    font-size: 0.875em;
+    background: #f5f5f7;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: #1d1d1f;
+}
+
+pre {
+    background: #1d1d1f;
+    color: #f5f5f7;
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.75;
+    margin: 1rem 0;
+}
+
+pre code {
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+}
+
+.comment  { color: #6e6e73; }
+.keyword  { color: #0a84ff; }
+.string   { color: #ff9f0a; }
+.number   { color: #30d158; }
+
+/* ---- Tables ---- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 1rem;
+}
+
+th,
+td {
+    padding: 0.875rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #d2d2d7;
+}
+
+th {
+    background: transparent;
+    color: #86868b;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+}
+
+.result {
+    font-family: "SF Mono", "Fira Code", monospace;
+    color: #0071e3;
+    font-weight: 600;
+}
+
+/* ---- Diagram ---- */
+
+.diagram {
+    background: #f5f5f7;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.9375rem;
+    text-align: center;
+}
+
+.diagram .part {
+    display: inline-block;
+    padding: 0.4rem 0.75rem;
+    margin: 0.25rem;
+    border-radius: 8px;
+    background: #fff;
+    border: 1px solid #d2d2d7;
+}
+
+.diagram .label {
+    display: block;
+    font-size: 0.75rem;
+    color: #86868b;
+    font-family: -apple-system, "SF Pro Text", sans-serif;
+    margin-top: 0.25rem;
+}
+
+/* ---- Lists ---- */
+
+ul,
+ol,
+ol.steps {
+    padding-left: 1.25rem;
+    color: #424245;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    font-size: 1.0625rem;
+}
+
+/* ---- Note / callout ---- */
+
+.note {
+    background: #f5f5f7;
+    border-left: 3px solid #0071e3;
+    padding: 1rem 1.25rem;
+    border-radius: 0 12px 12px 0;
+    font-size: 1rem;
+    color: #424245;
+}
+
+/* ---- Keyboard keys ---- */
+
+kbd {
+    display: inline-block;
+    padding: 0.2em 0.5em;
+    font-family: -apple-system, "SF Pro Text", sans-serif;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #1d1d1f;
+    background: #f5f5f7;
+    border: 1px solid #d2d2d7;
+    border-radius: 6px;
+    box-shadow: 0 1px 0 #d2d2d7;
+    line-height: 1;
+}
+
+/* ---- Buttons ---- */
+
+button {
+    background: #0071e3;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 980px;
+    font-size: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: -0.01em;
+}
+
+button:hover {
+    background: #0077ed;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* ---- Form fields ---- */
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #1d1d1f;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+input[type="text"]:focus,
+select:focus {
+    outline: none;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+}
+
+label {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1d1d1f;
+    margin-bottom: 0.5rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+/* ---- Images ---- */
+
+img {
+    display: block;
+    max-width: 160px;
+    margin-top: 1rem;
+    border-radius: 12px;
+}
+
+/* ---- Footer ---- */
+
+footer {
+    padding: 2rem 1.5rem;
+    border-top: 1px solid #d2d2d7;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #86868b;
+}
+
+footer a {
+    color: #06c;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* ---- Responsive ---- */
+
+@media (max-width: 600px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    header {
+        padding: 2.5rem 1rem 2rem;
+    }
+
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    nav a {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.6rem;
+    }
+
+    .container--narrow nav {
+        margin-inline: 0;
+    }
+
+    section {
+        padding: 2rem 0;
+    }
+
+    .pager a {
+        flex: 1 1 100%;
+    }
+}
+
+/* ============================================
+   EFFETS — micro-animations Apple / iOS
+   Subtiles, jamais tape-à-l'œil. Respectent
+   prefers-reduced-motion.
+   ============================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+@keyframes fx-fade-up {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* Entrée douce du header au chargement */
+header h1 {
+    animation: fx-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+header p {
+    animation: fx-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both;
+}
+
+/* Reveal au scroll — natif, sans JS (Safari 26+, Chrome récents) */
+@supports (animation-timeline: view()) {
+    main > section {
+        animation: fx-fade-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 22%;
+    }
+}
+
+/* Liens inline : soulignement animé façon iOS */
+main p a,
+li a {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s;
+}
+
+main p a:hover,
+li a:hover {
+    background-size: 100% 1px;
+    text-decoration: none;
+}
+
+/* Nav pills : léger ressort au clic */
+nav a {
+    transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+nav a:active {
+    transform: scale(0.95);
+}
+
+/* Blocs code : profondeur douce + halo au survol */
+pre {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+}
+
+pre:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Diagramme : les parts s'illuminent au survol */
+.diagram .part {
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.diagram .part:hover {
+    transform: translateY(-2px);
+    border-color: #0071e3;
+    box-shadow: 0 6px 16px rgba(0, 113, 227, 0.15);
+}
+
+/* ---- Pager précédent / suivant ---- */
+
+.pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.pager a {
+    flex: 1 1 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 1rem 1.25rem;
+    background: #f5f5f7;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s, border-color 0.25s;
+}
+
+.pager a:hover {
+    transform: translateY(-2px);
+    border-color: #d2d2d7;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+}
+
+.pager .pager-next {
+    text-align: right;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+.pager-dir {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #86868b;
+}
+
+.pager-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: #0071e3;
+    letter-spacing: -0.01em;
+}
+
+.footer-credit {
+    margin-top: 1.5rem;
+    color: #86868b;
+    font-size: 0.875rem;
+}
+
+/* Accessibilité : mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}

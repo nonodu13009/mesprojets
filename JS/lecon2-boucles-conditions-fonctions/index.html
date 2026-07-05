@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — Boucles, Conditions et Fonctions</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html" class="active">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>Leçon 2</h1>
+            <p>Boucles, Conditions et Fonctions en JavaScript</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Où en es-tu ?</h2>
+                <p>
+                    En <a href="../lecon1-bases-variables-types/index.html">Leçon 1</a>, tu as appris
+                    à déclarer des variables, comprendre les types, manipuler du texte et comparer
+                    des valeurs. Tu sais écrire des instructions simples — mais ton code s'exécute
+                    toujours du début à la fin, ligne après ligne, sans jamais dévier.
+                </p>
+                <p>
+                    Dans la vraie vie, un programme doit <strong>répéter des actions</strong>,
+                    <strong>prendre des décisions</strong> et <strong>organiser son code</strong>
+                    en blocs réutilisables. C'est exactement ce que tu vas apprendre dans cette
+                    leçon : contrôler le <strong>flux d'exécution</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Programme de cette leçon</h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Chapitre</th>
+                            <th>Ce que tu apprendras</th>
+                            <th>Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>7</td>
+                            <td>La boucle <code>for</code></td>
+                            <td>Répéter un bloc un nombre connu de fois</td>
+                            <td><a href="boucle-for.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>La boucle <code>while</code></td>
+                            <td>Répéter tant qu'une condition est vraie</td>
+                            <td><a href="boucle-while.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>Les conditions <code>if / else</code></td>
+                            <td>Prendre des décisions dans le code</td>
+                            <td><a href="conditions.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>Les conditions multiples</td>
+                            <td>Gérer plusieurs cas avec <code>else if</code></td>
+                            <td><a href="conditions-multiples.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td>L'instruction <code>switch</code></td>
+                            <td>Simplifier les comparaisons multiples</td>
+                            <td><a href="switch.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>Portée, <code>break</code> et <code>continue</code></td>
+                            <td>Comprendre où vivent les variables et contrôler les boucles</td>
+                            <td><a href="portee-break.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td>Introduction aux fonctions</td>
+                            <td>Organiser et réutiliser son code</td>
+                            <td><a href="fonctions.html">Ouvrir</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Comment aborder cette leçon ?</h2>
+                <p>
+                    Les chapitres sont conçus pour être suivis dans l'ordre. Chaque notion s'appuie
+                    sur la précédente : les boucles te préparent aux conditions (tu verras pourquoi),
+                    et les fonctions combinent tout ce que tu auras appris avant.
+                </p>
+                <p>
+                    Pour chaque chapitre, <strong>teste les exemples dans la console</strong>
+                    (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd> sur Chrome Mac). Modifie les
+                    valeurs, provoque des erreurs, observe ce qui se passe. C'est en
+                    expérimentant que tu mémorises.
+                </p>
+            </section>
+
+            <section>
+                <h2>Prérequis</h2>
+                <p>
+                    Avant de commencer, assure-toi d'avoir compris les notions de la
+                    <a href="../lecon1-bases-variables-types/index.html">Leçon 1</a> :
+                    variables (<code>let</code> / <code>const</code>), types de données,
+                    chaînes de caractères et opérateurs de comparaison (<code>===</code>,
+                    <code>></code>, <code><</code>). Les comparaisons sont le socle des
+                    conditions que tu vas découvrir ici.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-next" href="boucle-for.html"><span class="pager-dir">Suivant →</span><span class="pager-title">For</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 4 : Développement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html" class="active">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Développement</h1>
+            <p>Étape 4 · Coder avec Claude Code — du setup au premier écran</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le moment de coder</h2>
+                <p>
+                    Tu as un brief, un cadrage, des maquettes. Tu sais exactement ce que
+                    tu construis. C'est maintenant que Claude Code entre en jeu. Ton rôle :
+                    <strong>piloter</strong>. Le rôle de Claude Code : <strong>exécuter</strong>.
+                </p>
+                <p>
+                    Cette étape suit une séquence précise. Ne brûle pas les étapes —
+                    un projet bien structuré au départ économise des heures de galère ensuite.
+                </p>
+            </section>
+
+            <section>
+                <h2>Phase 1 : Setup du projet</h2>
+                <p>
+                    Avant d'écrire la moindre fonctionnalité, pose les fondations.
+                    Demande à Claude Code :
+                </p>
+
+                <pre><code><span class="string">Crée un projet Next.js avec :
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Structure App Router (app/)
+- Un layout de base avec header et sidebar
+
+Initialise aussi un repo git local.</span></code></pre>
+
+                <p>
+                    Claude Code va créer toute l'arborescence, installer les dépendances,
+                    configurer les fichiers. Tu n'as qu'à valider.
+                </p>
+
+                <p class="note">
+                    <strong>Première chose à faire ensuite :</strong> crée un fichier
+                    <code>CLAUDE.md</code> à la racine avec ton brief, tes personas,
+                    ta stack et ton système de design. Claude Code le lira automatiquement
+                    à chaque session.
+                </p>
+            </section>
+
+            <section>
+                <h2>Phase 2 : Le CLAUDE.md</h2>
+                <p>
+                    C'est le fichier le plus important de ton projet. Il donne à Claude Code
+                    tout le contexte pour travailler efficacement. Structure recommandée :
+                </p>
+
+                <pre><code><span class="comment"># CLAUDE.md — [Nom du projet]</span>
+
+<span class="keyword">## 1. Brief</span>
+<span class="string">[Colle ton brief ici — problème, persona, solution]</span>
+
+<span class="keyword">## 2. Stack</span>
+<span class="string">- Next.js 15 (App Router)
+- TypeScript strict
+- Tailwind CSS + shadcn/ui
+- Supabase (auth + BDD)
+- Vercel (déploiement)</span>
+
+<span class="keyword">## 3. Design System</span>
+<span class="string">- Couleur principale : #0071e3
+- Fond : blanc #fff, surfaces #f5f5f7
+- Typo : system font (-apple-system)
+- Border radius : 12px cards, 980px boutons
+- Style : Apple HIG, minimaliste</span>
+
+<span class="keyword">## 4. Conventions</span>
+<span class="string">- const par défaut, let si réassignation, jamais var
+- Composants en PascalCase, fichiers en kebab-case
+- Un composant par fichier
+- Pas de console.log en production</span>
+
+<span class="keyword">## 5. Structure</span>
+<span class="string">app/
+├── layout.tsx        (layout global)
+├── page.tsx          (dashboard)
+├── leads/
+│   ├── page.tsx      (liste des leads)
+│   └── [id]/page.tsx (détail d'un lead)
+components/
+├── ui/               (shadcn/ui)
+├── lead-card.tsx
+├── lead-table.tsx
+└── status-badge.tsx</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Phase 3 : Développer par user story</h2>
+                <p>
+                    Ne demande jamais « code-moi toute l'app ». Procède
+                    <strong>user story par user story</strong>. C'est plus fiable,
+                    plus facile à vérifier, et plus facile à corriger.
+                </p>
+
+                <pre><code><span class="comment">// Session 1 : le layout</span>
+<span class="string">"Crée le layout global avec un header qui affiche le nom
+de l'app et un bouton 'Ajouter un lead'. Pas de sidebar
+pour le MVP. Style Apple HIG."</span>
+
+<span class="comment">// Session 2 : la liste des leads</span>
+<span class="string">"Implémente cette user story : En tant qu'agent, je veux
+voir tous mes leads sur une page, avec colonnes Nom, Email,
+Téléphone, Statut et Date. Utilise un tableau shadcn/ui.
+Données mockées en dur pour l'instant."</span>
+
+<span class="comment">// Session 3 : les filtres</span>
+<span class="string">"Ajoute des filtres par statut au-dessus du tableau.
+4 boutons : Tous, Nouveaux, En cours, Gagnés.
+Le filtre actif est en bleu."</span>
+
+<span class="comment">// Session 4 : la BDD</span>
+<span class="string">"Remplace les données mockées par Supabase.
+Crée une table 'leads' avec les colonnes nécessaires.
+Connecte le tableau à la BDD."</span></code></pre>
+
+                <p class="note">
+                    <strong>Règle :</strong> chaque session = 1 fonctionnalité. Teste et
+                    valide avant de passer à la suivante. Commite après chaque session
+                    réussie (<code>/commit</code>).
+                </p>
+            </section>
+
+            <section>
+                <h2>La boucle de travail</h2>
+                <p>
+                    Voici le cycle que tu répètes pour chaque fonctionnalité :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">1. Demander<span class="label">décris la user story</span></span>
+                    <span class="part">2. Vérifier<span class="label">teste dans le navigateur</span></span>
+                    <span class="part">3. Ajuster<span class="label">corrige / affine</span></span>
+                    <span class="part">4. Commiter<span class="label">sauvegarde le code</span></span>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Étape</th>
+                            <th>Toi</th>
+                            <th>Claude Code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Demander</td>
+                            <td>Décris ce que tu veux en langage naturel</td>
+                            <td>Écrit le code</td>
+                        </tr>
+                        <tr>
+                            <td>Vérifier</td>
+                            <td>Ouvre l'app dans Chrome, teste</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Ajuster</td>
+                            <td>« Le bouton est trop petit », « Ajoute un hover »</td>
+                            <td>Modifie le code</td>
+                        </tr>
+                        <tr>
+                            <td>Commiter</td>
+                            <td>Tape <code>/commit</code></td>
+                            <td>Stage, commit, push</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Commandes Claude Code essentielles</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Commande</th>
+                            <th>Ce qu'elle fait</th>
+                            <th>Quand l'utiliser</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>/commit</code></td>
+                            <td>Stage + commit + push avec message auto</td>
+                            <td>Après chaque fonctionnalité validée</td>
+                        </tr>
+                        <tr>
+                            <td><code>/help</code></td>
+                            <td>Affiche l'aide</td>
+                            <td>Quand tu es perdu</td>
+                        </tr>
+                        <tr>
+                            <td><code>⌘ + R</code></td>
+                            <td>Efface le contexte de conversation</td>
+                            <td>Quand Claude Code perd le fil</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Erreurs courantes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Erreur</th>
+                            <th>Conséquence</th>
+                            <th>Solution</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Demander trop en une fois</td>
+                            <td>Code fragile, difficile à débugger</td>
+                            <td>1 user story = 1 session</td>
+                        </tr>
+                        <tr>
+                            <td>Ne pas tester entre chaque étape</td>
+                            <td>Les bugs s'accumulent</td>
+                            <td>Ouvre le navigateur après chaque changement</td>
+                        </tr>
+                        <tr>
+                            <td>Oublier de commiter</td>
+                            <td>Tu perds du travail</td>
+                            <td><code>/commit</code> après chaque validation</td>
+                        </tr>
+                        <tr>
+                            <td>Pas de CLAUDE.md</td>
+                            <td>Claude Code n'a pas le contexte du projet</td>
+                            <td>Crée-le en premier, mets-le à jour</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Ton app fonctionne en local. Les fonctionnalités du MVP sont en place.
+                    Avant de la mettre en ligne, il faut la <strong>tester sérieusement</strong> :
+                    est-ce que tout marche sur mobile ? Que se passe-t-il avec des données
+                    vides ? Les erreurs sont-elles gérées proprement ?
+                </p>
+                <p>
+                    <a href="tests.html">Étape 5 : Tests →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="design.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Design</span></a>
+                <a class="pager-next" href="tests.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Tests</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

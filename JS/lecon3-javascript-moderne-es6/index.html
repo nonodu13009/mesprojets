@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — JavaScript Moderne (ES6+)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html" class="active">Accueil</a>
+            <a href="destructuring.html">Destructuring</a>
+            <a href="spread-rest.html">Spread / Rest</a>
+            <a href="methodes-tableaux.html">Tableaux</a>
+            <a href="classes.html">Classes</a>
+            <a href="promesses.html">Promesses</a>
+            <a href="modules.html">Modules</a>
+            <a href="operateurs-modernes.html">Opérateurs</a>
+        </nav>
+
+        <header>
+            <h1>Leçon 3</h1>
+            <p>JavaScript Moderne — ES6 et Plus</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Où en es-tu ?</h2>
+                <p>
+                    Dans les leçons précédentes, tu as appris les <strong>fondations</strong> de
+                    JavaScript : les variables, les types, les boucles, les conditions et les fonctions.
+                    Avec ces outils, tu es capable d'écrire des programmes qui fonctionnent.
+                </p>
+                <p>
+                    Mais si tu regardes du code JavaScript écrit aujourd'hui — dans un projet React,
+                    une application Node.js ou même un tutoriel récent — tu vas tomber sur des syntaxes
+                    que tu ne reconnais pas encore : des <code>{ }</code> à gauche d'un <code>=</code>,
+                    des <code>...</code> devant des variables, des <code>=></code> partout,
+                    des <code>await</code> mystérieux...
+                </p>
+                <p>
+                    C'est parce que JavaScript a énormément évolué depuis 2015 avec la mise à jour
+                    <strong>ES6 (ECMAScript 2015)</strong>. Cette leçon va te faire passer du
+                    "JavaScript qui marche" au <strong>"JavaScript moderne qu'on écrit vraiment
+                    en production"</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas apprendre</h2>
+                <p>
+                    Cette leçon est organisée en 7 chapitres progressifs. Chacun introduit
+                    une syntaxe ou un concept moderne, avec des exemples concrets et des
+                    exercices à tester dans la console.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Sujet</th>
+                            <th>Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>24</td>
+                            <td>Destructuration (objets et tableaux)</td>
+                            <td><a href="destructuring.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>25</td>
+                            <td>Opérateurs Spread et Rest</td>
+                            <td><a href="spread-rest.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>Méthodes modernes des tableaux</td>
+                            <td><a href="methodes-tableaux.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>27</td>
+                            <td>Les classes ES6</td>
+                            <td><a href="classes.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>28</td>
+                            <td>Promesses et <code>async</code> / <code>await</code></td>
+                            <td><a href="promesses.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>29</td>
+                            <td>Les modules (<code>import</code> / <code>export</code>)</td>
+                            <td><a href="modules.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>30</td>
+                            <td>Opérateurs modernes (<code>?.</code>, <code>??</code>, ternaire)</td>
+                            <td><a href="operateurs-modernes.html">Ouvrir</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Comment aborder cette leçon ?</h2>
+                <p>
+                    Suis les chapitres <strong>dans l'ordre</strong>. Chaque notion s'appuie sur
+                    la précédente : la destructuration prépare le terrain pour le spread/rest,
+                    qui lui-même est utilisé partout dans les méthodes de tableaux et les classes.
+                    Les promesses et les modules arrivent en fin de parcours car ils nécessitent
+                    une bonne maîtrise des fonctions fléchées et du reste.
+                </p>
+                <p>
+                    À chaque page, <strong>teste chaque exemple dans la console</strong> avant
+                    de passer au suivant. Comprendre en lisant c'est bien, mais c'est en tapant
+                    le code et en observant le résultat que ça rentre vraiment.
+                </p>
+            </section>
+
+            <section>
+                <h2>Prérequis</h2>
+                <p>
+                    Avant de commencer, assure-toi d'avoir compris les notions de la
+                    <a href="../lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a> : boucles, conditions et surtout
+                    les <strong>fonctions</strong> (déclaration, paramètres, return et fonctions
+                    fléchées). Les arrow functions seront utilisées à chaque page de cette leçon.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-next" href="destructuring.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Destructuring</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

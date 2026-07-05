@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 2 — Les conditions multiples if...else if...else</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="boucle-for.html">For</a>
+            <a href="boucle-while.html">While</a>
+            <a href="conditions.html">If / Else</a>
+            <a href="conditions-multiples.html" class="active">If multiples</a>
+            <a href="switch.html">Switch</a>
+            <a href="portee-break.html">Portée</a>
+            <a href="fonctions.html">Fonctions</a>
+        </nav>
+
+        <header>
+            <h1>Les conditions multiples</h1>
+            <p>Leçon 2 · Chapitre 10 · Gérer plusieurs cas avec if...else if...else</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Au-delà du vrai/faux</h2>
+                <p>
+                    Au chapitre précédent, tu as appris <code>if...else</code> — un choix
+                    entre deux options. Mais la réalité est rarement binaire. Pour attribuer
+                    une mention à un examen, calculer un tarif selon l'âge, ou afficher un
+                    message selon le jour, il faut pouvoir tester <strong>plusieurs
+                    conditions</strong> les unes après les autres.
+                </p>
+                <p>
+                    C'est le rôle de la structure <code>if...else if...else</code> : elle
+                    teste les conditions <strong>dans l'ordre</strong>, et exécute le premier
+                    bloc dont la condition est vraie.
+                </p>
+            </section>
+
+            <section>
+                <h2>Syntaxe if...else if...else</h2>
+                <pre><code><span class="keyword">const</span> note = <span class="number">15</span>;
+
+<span class="keyword">if</span> (note >= <span class="number">16</span>) {
+    console.log(<span class="string">"Très bien"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (note >= <span class="number">14</span>) {
+    console.log(<span class="string">"Bien"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (note >= <span class="number">12</span>) {
+    console.log(<span class="string">"Assez bien"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (note >= <span class="number">10</span>) {
+    console.log(<span class="string">"Passable"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Insuffisant"</span>);
+}
+<span class="comment">// "Bien" (15 >= 14)</span></code></pre>
+
+                <p class="note">
+                    <strong>Important :</strong> les conditions sont testées <strong>dans l'ordre</strong>,
+                    de haut en bas. Dès que l'une est <code>true</code>, son bloc s'exécute et
+                    toutes les suivantes sont <strong>ignorées</strong> — même si elles seraient
+                    aussi vraies.
+                </p>
+            </section>
+
+            <section>
+                <h2>L'ordre des conditions compte !</h2>
+                <p>
+                    C'est un piège classique. Si tu mets les conditions dans le mauvais ordre,
+                    tu obtiens des résultats incorrects :
+                </p>
+
+                <pre><code><span class="keyword">const</span> note = <span class="number">18</span>;
+
+<span class="comment">// MAUVAIS ordre :</span>
+<span class="keyword">if</span> (note >= <span class="number">10</span>) {
+    console.log(<span class="string">"Passable"</span>); <span class="comment">// 18 >= 10 → true, on entre ici !</span>
+} <span class="keyword">else</span> <span class="keyword">if</span> (note >= <span class="number">16</span>) {
+    console.log(<span class="string">"Très bien"</span>); <span class="comment">// Jamais atteint pour 18</span>
+}
+
+<span class="comment">// BON ordre (du plus restrictif au moins restrictif) :</span>
+<span class="keyword">if</span> (note >= <span class="number">16</span>) {
+    console.log(<span class="string">"Très bien"</span>); <span class="comment">// 18 >= 16 → true, correct !</span>
+} <span class="keyword">else</span> <span class="keyword">if</span> (note >= <span class="number">10</span>) {
+    console.log(<span class="string">"Passable"</span>);
+}</code></pre>
+
+                <p class="note">
+                    <strong>Règle :</strong> quand tu compares des valeurs numériques avec des
+                    intervalles, commence toujours par la condition la <strong>plus restrictive</strong>
+                    (la plus grande valeur) et descends progressivement.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple : catégorie d'âge</h2>
+                <pre><code><span class="keyword">const</span> age = <span class="number">25</span>;
+
+<span class="keyword">if</span> (age < <span class="number">3</span>) {
+    console.log(<span class="string">"Bébé"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (age < <span class="number">12</span>) {
+    console.log(<span class="string">"Enfant"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (age < <span class="number">18</span>) {
+    console.log(<span class="string">"Adolescent"</span>);
+} <span class="keyword">else</span> <span class="keyword">if</span> (age < <span class="number">65</span>) {
+    console.log(<span class="string">"Adulte"</span>);
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Senior"</span>);
+}
+<span class="comment">// "Adulte"</span></code></pre>
+
+                <p>
+                    Ici, l'ordre est naturel (du plus petit au plus grand) car on utilise
+                    <code><</code> au lieu de <code>>=</code>. Les deux approches fonctionnent,
+                    tant que la logique reste cohérente.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple : tarif cinéma</h2>
+                <p>
+                    Un cas réaliste qui combine âge, statut et opérateurs logiques :
+                </p>
+
+                <pre><code><span class="keyword">const</span> age = <span class="number">14</span>;
+<span class="keyword">const</span> estÉtudiant = <span class="keyword">true</span>;
+<span class="keyword">let</span> tarif;
+
+<span class="keyword">if</span> (age < <span class="number">4</span>) {
+    tarif = <span class="number">0</span>;           <span class="comment">// Gratuit pour les moins de 4 ans</span>
+} <span class="keyword">else</span> <span class="keyword">if</span> (age < <span class="number">12</span>) {
+    tarif = <span class="number">6</span>;           <span class="comment">// Tarif enfant</span>
+} <span class="keyword">else</span> <span class="keyword">if</span> (estÉtudiant) {
+    tarif = <span class="number">8</span>;           <span class="comment">// Tarif étudiant</span>
+} <span class="keyword">else</span> <span class="keyword">if</span> (age >= <span class="number">65</span>) {
+    tarif = <span class="number">7</span>;           <span class="comment">// Tarif senior</span>
+} <span class="keyword">else</span> {
+    tarif = <span class="number">12</span>;          <span class="comment">// Plein tarif</span>
+}
+
+console.log(<span class="string">`Tarif : ${tarif} euros`</span>);
+<span class="comment">// "Tarif : 8 euros"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Conditions imbriquées</h2>
+                <p>
+                    On peut aussi mettre un <code>if</code> à l'intérieur d'un autre <code>if</code>.
+                    C'est parfois nécessaire, mais attention à la lisibilité :
+                </p>
+
+                <pre><code><span class="keyword">const</span> age = <span class="number">20</span>;
+<span class="keyword">const</span> aPermis = <span class="keyword">true</span>;
+<span class="keyword">const</span> aVoiture = <span class="keyword">false</span>;
+
+<span class="keyword">if</span> (age >= <span class="number">18</span>) {
+    <span class="keyword">if</span> (aPermis) {
+        <span class="keyword">if</span> (aVoiture) {
+            console.log(<span class="string">"Tu peux conduire ta voiture"</span>);
+        } <span class="keyword">else</span> {
+            console.log(<span class="string">"Tu as le permis mais pas de voiture"</span>);
+        }
+    } <span class="keyword">else</span> {
+        console.log(<span class="string">"Passe d'abord le permis"</span>);
+    }
+} <span class="keyword">else</span> {
+    console.log(<span class="string">"Tu es trop jeune"</span>);
+}
+<span class="comment">// "Tu as le permis mais pas de voiture"</span></code></pre>
+
+                <p class="note">
+                    <strong>Conseil :</strong> si tu as plus de 2 niveaux d'imbrication,
+                    essaie de simplifier avec des opérateurs logiques (<code>&&</code>) ou
+                    des fonctions (que tu verras au chapitre 13).
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<kbd>⌘</kbd> + <kbd>⌥</kbd> + <kbd>J</kbd>)</li>
+                    <li>Teste le système de notes avec différentes valeurs</li>
+                    <li>Inverse l'ordre des conditions pour observer le bug</li>
+                    <li>Crée ton propre système de tarification (cinéma, transport, musée...)</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    La structure <code>if...else if</code> est très flexible, mais quand tu
+                    compares une <strong>même variable</strong> à de nombreuses <strong>valeurs
+                    précises</strong> (le jour de la semaine, un code d'erreur, un nom de mois),
+                    elle devient verbeuse. JavaScript propose une syntaxe plus élégante pour
+                    ces cas : l'instruction <code>switch</code>.
+                </p>
+                <p>
+                    <a href="switch.html">Chapitre suivant : L'instruction switch →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="conditions.html"><span class="pager-dir">← Précédent</span><span class="pager-title">If / Else</span></a>
+                <a class="pager-next" href="switch.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Switch</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

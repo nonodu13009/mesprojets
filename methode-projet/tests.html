@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 5 : Tests</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html" class="active">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Tests</h1>
+            <p>Étape 5 · Vérifier, casser et corriger avant la mise en ligne</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi tester ?</h2>
+                <p>
+                    Ton app fonctionne sur ton écran. Mais fonctionne-t-elle sur un iPhone ?
+                    Avec un réseau lent ? Quand l'utilisateur tape n'importe quoi dans un
+                    formulaire ? Quand la base de données est vide ?
+                </p>
+                <p>
+                    Tester, ce n'est pas « vérifier que ça marche ». C'est
+                    <strong>essayer de casser l'app</strong> avant que tes utilisateurs
+                    ne le fassent.
+                </p>
+            </section>
+
+            <section>
+                <h2>La checklist de test MVP</h2>
+                <p>
+                    Avant chaque mise en ligne, passe systématiquement cette checklist.
+                    Tu peux demander à Claude Code de t'aider pour chaque point.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Catégorie</th>
+                            <th>Vérification</th>
+                            <th>Comment tester</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Fonctionnel</strong></td>
+                            <td>Chaque user story fonctionne</td>
+                            <td>Rejoue chaque scénario manuellement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cas limites</strong></td>
+                            <td>Données vides, textes très longs, caractères spéciaux</td>
+                            <td>Tape des valeurs extrêmes dans chaque champ</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mobile</strong></td>
+                            <td>L'app est utilisable sur petit écran</td>
+                            <td>DevTools → mode responsive (⌘ + ⌥ + I)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Erreurs</strong></td>
+                            <td>Les erreurs affichent un message clair</td>
+                            <td>Coupe le réseau, soumets des formulaires incomplets</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance</strong></td>
+                            <td>La page charge en moins de 3 secondes</td>
+                            <td>DevTools → onglet Lighthouse</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Navigation</strong></td>
+                            <td>Tous les liens fonctionnent, pas de page 404</td>
+                            <td>Clique sur chaque lien et bouton</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Tester avec Claude Code</h2>
+                <p>
+                    Tu n'as pas besoin d'écrire les tests toi-même. Demande à Claude Code
+                    de le faire. Voici les prompts utiles :
+                </p>
+
+                <pre><code><span class="comment">// Demander un audit rapide</span>
+<span class="string">"Passe en revue le code du projet. Identifie les bugs potentiels,
+les erreurs non gérées, les problèmes de sécurité et les soucis
+de responsive. Liste-les par priorité."</span>
+
+<span class="comment">// Demander des tests automatisés</span>
+<span class="string">"Écris des tests pour le composant LeadTable.
+Teste : affichage avec données, affichage sans données,
+filtrage par statut, changement de statut."</span>
+
+<span class="comment">// Vérifier le responsive</span>
+<span class="string">"Vérifie que toutes les pages sont responsive.
+Corrige les problèmes de layout sur mobile (< 640px)."</span>
+
+<span class="comment">// Vérifier l'accessibilité</span>
+<span class="string">"Ajoute les attributs d'accessibilité manquants :
+aria-labels, rôles, alt text, focus visible."</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Le test le plus important : le test humain</h2>
+                <p>
+                    Demande à quelqu'un (collègue, ami, famille) d'utiliser l'app
+                    <strong>sans aucune explication</strong>. Observe silencieusement :
+                </p>
+                <ol class="steps">
+                    <li>Est-ce qu'il comprend tout de suite ce que fait l'app ?</li>
+                    <li>Est-ce qu'il trouve les boutons sans aide ?</li>
+                    <li>Est-ce qu'il hésite ou bloque quelque part ?</li>
+                    <li>Quelles questions pose-t-il ?</li>
+                </ol>
+                <p>
+                    Chaque hésitation est un bug d'UX. Note-les et corrige-les avant
+                    le déploiement.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le livrable</h2>
+                <ol class="steps">
+                    <li>La <strong>checklist</strong> cochée (tous les tests passent)</li>
+                    <li>Les <strong>bugs corrigés</strong></li>
+                    <li>Les <strong>retours du test humain</strong> intégrés</li>
+                    <li>Un <strong>commit propre</strong> : « App prête pour déploiement »</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Ton app est testée, stable, fonctionnelle. Il est temps de la rendre
+                    accessible au monde : <strong>déploiement</strong>. Domaine, hébergement,
+                    variables d'environnement — on met tout en ligne avec Vercel.
+                </p>
+                <p>
+                    <a href="deploiement.html">Étape 6 : Déploiement →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="developpement.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Code</span></a>
+                <a class="pager-next" href="deploiement.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Deploy</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>

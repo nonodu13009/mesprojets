@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Methode projet : de l'idee a l'app deployee, brief, cadrage, design, code, tests, deploiement et maintenance.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>&#8594;</text></svg>">
+    <title>Méthode — Étape 3 : Design</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="idee-brief.html">Idée</a>
+            <a href="recherche-cadrage.html">Cadrage</a>
+            <a href="design.html" class="active">Design</a>
+            <a href="developpement.html">Code</a>
+            <a href="tests.html">Tests</a>
+            <a href="deploiement.html">Deploy</a>
+            <a href="maintenance.html">Après</a>
+            <a href="generateur-brief.html">Générateur</a>
+        </nav>
+
+        <header>
+            <h1>Design</h1>
+            <p>Étape 3 · Donner forme à l'app avant d'écrire du code</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi designer avant de coder ?</h2>
+                <p>
+                    La tentation est forte de sauter directement dans le code. Mais
+                    modifier un wireframe prend 2 minutes. Modifier du code prend 2 heures.
+                    Le design te permet de <strong>tester des idées gratuitement</strong>,
+                    de voir les problèmes d'UX avant qu'ils ne deviennent des bugs, et de
+                    donner une direction visuelle claire à Claude Code.
+                </p>
+                <p>
+                    Tu n'as pas besoin d'être designer. Tu as <strong>Claude Design</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les 3 niveaux de design</h2>
+                <p>
+                    Ne passe pas directement à la maquette finale. Il y a 3 niveaux,
+                    chacun plus détaillé que le précédent :
+                </p>
+
+                <div class="diagram">
+                    <span class="part">Wireframe<span class="label">structure (squelette)</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Maquette<span class="label">visuel (apparence)</span></span>
+                    <span class="part">→</span>
+                    <span class="part">Prototype<span class="label">interactif (cliquable)</span></span>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Niveau</th>
+                            <th>Ce que c'est</th>
+                            <th>Outil</th>
+                            <th>Temps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Wireframe</strong></td>
+                            <td>Des boîtes grises, pas de couleurs. « Quoi va où »</td>
+                            <td>Papier, Claude Design</td>
+                            <td>15-30 min</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Maquette</strong></td>
+                            <td>Couleurs, typo, vrais textes. « À quoi ça ressemble »</td>
+                            <td>Claude Design, Figma</td>
+                            <td>1-2 h</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prototype</strong></td>
+                            <td>Maquette cliquable. « Comment ça se navigue »</td>
+                            <td>Claude Code (HTML/CSS direct)</td>
+                            <td>2-3 h</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="note">
+                    <strong>Pour un MVP :</strong> wireframe + maquette suffisent. Le prototype
+                    n'est utile que si tu dois montrer l'app à quelqu'un avant de la coder
+                    (investisseur, associé, client).
+                </p>
+            </section>
+
+            <section>
+                <h2>Étape A : les wireframes (papier)</h2>
+                <p>
+                    Prends une feuille A4 et dessine les écrans principaux de ton app.
+                    Pas besoin de talent artistique — des rectangles et du texte suffisent.
+                    L'objectif est de répondre à ces questions :
+                </p>
+                <ol class="steps">
+                    <li><strong>Combien d'écrans</strong> a mon app ? (liste-les)</li>
+                    <li><strong>Que voit l'utilisateur</strong> sur chaque écran ?</li>
+                    <li><strong>Comment navigue-t-il</strong> d'un écran à l'autre ?</li>
+                    <li><strong>Où sont les actions principales</strong> (boutons, formulaires) ?</li>
+                </ol>
+
+                <pre><code><span class="comment">// Exemple — LeadTracker : liste des écrans</span>
+
+<span class="keyword">Écran 1 :</span> <span class="string">Dashboard (liste des leads + filtres + stats rapides)</span>
+<span class="keyword">Écran 2 :</span> <span class="string">Détail d'un lead (infos + historique + actions)</span>
+<span class="keyword">Écran 3 :</span> <span class="string">Formulaire d'ajout/édition de lead</span>
+<span class="keyword">Écran 4 :</span> <span class="string">Login (email + mot de passe)</span></code></pre>
+
+                <p>
+                    4 écrans. Pas 20. C'est un MVP.
+                </p>
+            </section>
+
+            <section>
+                <h2>Étape B : maquettes avec Claude Design</h2>
+                <p>
+                    Une fois tes wireframes papier validés, utilise <strong>Claude Design</strong>
+                    (dans claude.ai) pour générer des maquettes visuelles. Le prompt est
+                    crucial — plus tu es précis, meilleur est le résultat.
+                </p>
+
+                <pre><code><span class="string">Crée une maquette pour un dashboard de gestion de leads.
+
+Style : Apple HIG, minimaliste, fond blanc, accent bleu #0071e3.
+Typo : SF Pro / system font.
+
+L'écran contient :
+- En haut : barre de navigation avec logo + nom de l'app
+- En dessous : 4 compteurs (Nouveaux, Contactés, En cours, Gagnés)
+- Au centre : tableau des leads avec colonnes :
+  Nom | Email | Téléphone | Statut | Date | Actions
+- Chaque ligne a un badge de statut coloré
+- Bouton "Ajouter un lead" en haut à droite (bleu, pill shape)
+- Filtres par statut au-dessus du tableau
+
+Desktop, 1440px de large.
+Montre des données réalistes (noms français, vrais emails).</span></code></pre>
+
+                <p class="note">
+                    <strong>Itère :</strong> le premier résultat ne sera pas parfait.
+                    Demande des ajustements : « Plus d'espace entre les lignes »,
+                    « Change le badge rouge en orange », « Ajoute une sidebar ».
+                    3-4 itérations suffisent généralement.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le système de design</h2>
+                <p>
+                    Avant de coder, fige tes choix visuels. Ça évitera les incohérences
+                    et donnera des instructions claires à Claude Code. Définis au minimum :
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Élément</th>
+                            <th>Décision</th>
+                            <th>Exemple</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Couleur principale</td>
+                            <td>L'accent de l'app</td>
+                            <td class="result">#0071e3</td>
+                        </tr>
+                        <tr>
+                            <td>Couleur fond</td>
+                            <td>Background principal</td>
+                            <td class="result">#ffffff</td>
+                        </tr>
+                        <tr>
+                            <td>Couleur texte</td>
+                            <td>Corps de texte</td>
+                            <td class="result">#1d1d1f</td>
+                        </tr>
+                        <tr>
+                            <td>Police</td>
+                            <td>Titres + corps</td>
+                            <td class="result">SF Pro / system</td>
+                        </tr>
+                        <tr>
+                            <td>Border radius</td>
+                            <td>Coins des éléments</td>
+                            <td class="result">12px cards, 980px boutons</td>
+                        </tr>
+                        <tr>
+                            <td>Composants UI</td>
+                            <td>Bibliothèque de composants</td>
+                            <td class="result">shadcn/ui</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>
+                    Ces choix iront dans ton <code>CLAUDE.md</code>. Claude Code les
+                    appliquera automatiquement à chaque fichier qu'il génère.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le livrable</h2>
+                <ol class="steps">
+                    <li>La <strong>liste des écrans</strong> de ton app</li>
+                    <li>Les <strong>maquettes</strong> des écrans principaux (screenshots Claude Design)</li>
+                    <li>Le <strong>système de design</strong> (couleurs, typo, composants)</li>
+                    <li>Le <strong>flux de navigation</strong> (quel écran mène à quel autre)</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu as un brief, un cadrage et des maquettes. Tu sais exactement quoi
+                    construire, pour qui, avec quoi, et à quoi ça ressemble. Il est temps
+                    d'ouvrir le terminal. L'étape suivante : <strong>le développement</strong>
+                    avec Claude Code — setup du projet, architecture des fichiers et premiers
+                    écrans fonctionnels.
+                </p>
+                <p>
+                    <a href="developpement.html">Étape 4 : Développement →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="recherche-cadrage.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Cadrage</span></a>
+                <a class="pager-next" href="developpement.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Code</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+</body>
+</html>
