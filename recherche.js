@@ -63,7 +63,8 @@ const PAGES = [
     { titre: "Étape 5 — Tests & QA", contexte: "Méthode & Projet · Étape 5", url: "methode-projet/tests.html", mots: "tests qa qualite bugs verification" },
     { titre: "Étape 6 — Déploiement", contexte: "Méthode & Projet · Étape 6", url: "methode-projet/deploiement.html", mots: "deploiement vercel production mise en ligne hosting" },
     { titre: "Étape 7 — Maintenance & évolution", contexte: "Méthode & Projet · Étape 7", url: "methode-projet/maintenance.html", mots: "maintenance evolution suivi ameliorations apres" },
-    { titre: "Générateur de Brief", contexte: "Méthode & Projet · Outil", url: "methode-projet/generateur-brief.html", mots: "generateur brief formulaire pdf export personas moscow outil" }
+    { titre: "Générateur de Brief", contexte: "Méthode & Projet · Outil", url: "methode-projet/generateur-brief.html", mots: "generateur brief formulaire pdf export personas moscow outil" },
+    { titre: "Console JS", contexte: "Outil · Exercices", url: "console.html", mots: "console js code executer tester exercices bac a sable playground editeur" }
 ];
 
 // Racine du site, déduite de l'emplacement de ce script :

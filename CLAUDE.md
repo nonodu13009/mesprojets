@@ -29,6 +29,10 @@ FormationJS/
 ├── style.css               → CSS du hub uniquement
 ├── CLAUDE.md               → Ce fichier
 ├── 0_INDEX.md              → Plan du site
+├── recherche.js            → Recherche globale (injectée dans la nav)
+├── console.html            → Console JS (bac à sable d'exercices)
+├── console-js.js           → Moteur console : page dédiée + widget
+│                             « Essaie toi-même » injecté dans les chapitres
 ├── JS/
 │   ├── style.css           → CSS PARTAGÉ par les 4 leçons
 │   ├── lecon1-bases-variables-types/     (index + 6 chapitres, script.js)

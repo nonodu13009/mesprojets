@@ -5,12 +5,19 @@ Point d'entrée de navigation du projet.
 ## Table des Matières
 
 - [Hub](#hub)
+- [Outils](#outils)
 - [Formation JavaScript](#formation-javascript)
 - [Méthode & Projet](#méthode--projet)
 
 ## Hub
 
 - `index.html` — page d'accueil, liens vers les deux formations.
+
+## Outils
+
+- `console.html` — Console JS : bac à sable d'exercices (éditeur + sortie
+  console). Un widget « Essaie toi-même » est aussi injecté en bas de chaque
+  chapitre des leçons via `console-js.js`.
 
 ## Formation JavaScript
 
