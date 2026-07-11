@@ -940,6 +940,11 @@ nav {
     overflow: hidden;
 }
 
+/* L'attribut hidden doit gagner sur le display: flex ci-dessus */
+.tuteur-panneau[hidden] {
+    display: none;
+}
+
 .tuteur-entete {
     display: flex;
     align-items: center;
