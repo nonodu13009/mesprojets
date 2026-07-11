@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : application meteo en JavaScript, partie 1 — structure HTML, appel API et affichage des donnees.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Application Météo (Partie 1)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Application Météo — Partie 1</h1>
+            <p>Leçon 6 · Projet 36 · Structure, API et premières données</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Construire une application qui affiche la <strong>météo actuelle
+                    d'une ville</strong> saisie par l'utilisateur : température,
+                    description du ciel, humidité, vent. Cette partie 1 pose les
+                    fondations : la structure HTML, l'appel à l'API et l'affichage
+                    des données brutes.
+                </p>
+                <p>
+                    C'est LE projet type du développeur web : un formulaire, un appel
+                    d'API, un affichage dynamique. Si tu sais faire ça, tu sais faire
+                    80 % des applications du web.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li><code>fetch</code> + <code>async/await</code> + <code>try/catch</code> (leçon 5)</li>
+                    <li>Lire un objet JSON complexe renvoyé par une API (leçon 3)</li>
+                    <li><code>querySelector</code>, <code>textContent</code>, <code>addEventListener</code> (leçon 4)</li>
+                    <li>Template literals pour composer l'URL et les textes</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>L'API météo</h2>
+                <p>
+                    Le cours utilise une API météo (type OpenWeatherMap). Le principe
+                    est toujours le même :
+                </p>
+                <ol class="steps">
+                    <li>Crée un compte gratuit sur le site de l'API pour obtenir une <strong>clé API</strong></li>
+                    <li>Compose l'URL avec la ville et ta clé :
+                        <code>https://api.openweathermap.org/data/2.5/weather?q=Marseille&appid=TA_CLE&units=metric&lang=fr</code></li>
+                    <li>Teste l'URL directement dans le navigateur pour voir le JSON brut</li>
+                    <li>Repère les données utiles : <code>main.temp</code>, <code>weather[0].description</code>, <code>main.humidity</code>, <code>wind.speed</code></li>
+                </ol>
+                <p class="note">
+                    <strong>Sécurité :</strong> une clé API dans du JavaScript front est
+                    visible par tout le monde. Acceptable pour un projet d'apprentissage
+                    avec une clé gratuite, mais ne fais jamais ça avec une clé payante
+                    ou sensible.
+                </p>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>Structure HTML</strong> : un <code>&lt;input&gt;</code> pour la ville, un <code>&lt;button&gt;</code> "Rechercher", une zone <code>&lt;div id="resultat"&gt;</code> vide</li>
+                    <li><strong>Brancher l'événement</strong> : au clic sur le bouton, récupère la valeur de l'input et affiche-la en <code>console.log</code> — vérifie que ça marche avant d'aller plus loin</li>
+                    <li><strong>Fonction <code>obtenirMeteo(ville)</code></strong> : <code>async</code>, compose l'URL, <code>fetch</code>, teste <code>reponse.ok</code>, renvoie le JSON</li>
+                    <li><strong>Afficher en console</strong> : appelle la fonction et explore l'objet reçu — repère où se cachent la température et la description</li>
+                    <li><strong>Afficher dans la page</strong> : injecte ville, température arrondie et description dans <code>#resultat</code> avec <code>textContent</code> ou <code>createElement</code></li>
+                    <li><strong>Gérer les erreurs</strong> : ville inexistante → message clair pour l'utilisateur, pas un écran vide</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>Température en Kelvin</strong> : sans <code>units=metric</code> dans l'URL, tu afficheras 293° à Marseille</li>
+                    <li><strong><code>weather</code> est un tableau</strong> : c'est <code>donnees.weather[0].description</code>, pas <code>donnees.weather.description</code></li>
+                    <li><strong>404 silencieux</strong> : <code>fetch</code> ne lève pas d'erreur pour une ville inconnue — pense au <code>if (!reponse.ok)</code></li>
+                    <li><strong>Input vide</strong> : vérifie que l'utilisateur a saisi quelque chose avant d'appeler l'API</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Checklist de fin de partie 1</h2>
+                <ul>
+                    <li>Je saisis "Marseille", je clique, la température s'affiche</li>
+                    <li>Je saisis "Zzzville", un message d'erreur clair s'affiche</li>
+                    <li>Je saisis rien, l'application ne plante pas</li>
+                    <li>Le code utilise <code>async/await</code> avec <code>try/catch</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Les données arrivent et s'affichent : les fondations sont posées.
+                    La partie 2 transforme ce prototype en <strong>vraie application</strong> :
+                    interface soignée, icônes météo, détails complets et confort d'usage.
+                </p>
+                <p>
+                    <a href="meteo-partie2.html">Projet suivant : Application météo — Partie 2 →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="meteo-partie2.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Météo — Partie 2</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

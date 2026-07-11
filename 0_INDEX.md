@@ -20,6 +20,8 @@ Point d'entrée de navigation du projet.
 | 2     | `JS/lecon2-boucles-conditions-fonctions/`   | Boucles, conditions, switch, fonctions    |
 | 3     | `JS/lecon3-javascript-moderne-es6/`         | Fléchées, objets, destructuration, DRY    |
 | 4     | `JS/lecon4-manipulation-dom/`               | DOM, sélecteurs, éléments, CSS dynamique  |
+| 5     | `JS/lecon5-javascript-asynchrone/`          | Callbacks, promesses, async/await         |
+| 6     | `JS/lecon6-projets-pratiques-api/`          | 7 fiches projets : météo, calculatrice... |
 
 ## Méthode & Projet
 

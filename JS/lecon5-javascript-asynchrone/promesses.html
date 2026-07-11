@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne, DOM et JavaScript asynchrone, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 5 — Les Promesses (Promises)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html" class="active">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Les Promesses (Promises)</h1>
+            <p>Leçon 5 · Chapitre 34 · L'asynchrone efficace et lisible</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>C'est quoi, une promesse ?</h2>
+                <p>
+                    Une <strong>promesse</strong> est un objet qui représente le
+                    <strong>résultat futur</strong> d'une opération asynchrone. Comme un
+                    ticket de retrait au pressing : tu ne repars pas avec ta veste, mais
+                    avec la <em>promesse</em> de la récupérer — ou d'être prévenu s'il y
+                    a un problème.
+                </p>
+                <p>
+                    Une promesse est toujours dans l'un de ces trois états :
+                </p>
+                <ul>
+                    <li><strong>pending</strong> (en attente) : l'opération est en cours</li>
+                    <li><strong>fulfilled</strong> (tenue) : succès, le résultat est disponible</li>
+                    <li><strong>rejected</strong> (rompue) : échec, une erreur est disponible</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Consommer une promesse : <code>.then</code> et <code>.catch</code></h2>
+                <p>
+                    Dans 95 % des cas, tu <strong>consommes</strong> des promesses créées
+                    par d'autres (le navigateur, une bibliothèque). L'exemple parfait :
+                    <code>fetch</code>, qui appelle une URL et renvoie une promesse :
+                </p>
+
+                <pre><code><span class="comment">// À tester dans la console : une vraie API publique</span>
+fetch(<span class="string">"https://api.github.com/users/github"</span>)
+    .then(reponse => reponse.json())   <span class="comment">// convertit la réponse en objet JS</span>
+    .then(donnees => {
+        console.log(donnees.name);     <span class="comment">// "GitHub"</span>
+    })
+    .catch(erreur => {
+        console.error(<span class="string">"Ça a échoué :"</span>, erreur);
+    });</code></pre>
+
+                <ul>
+                    <li><code>.then(callback)</code> : exécuté quand la promesse <strong>réussit</strong></li>
+                    <li><code>.catch(callback)</code> : exécuté si <strong>n'importe quelle étape échoue</strong></li>
+                    <li><code>.finally(callback)</code> : exécuté <strong>dans tous les cas</strong> (pratique pour masquer un spinner de chargement)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La fin du callback hell : le chaînage</h2>
+                <p>
+                    La force des promesses : chaque <code>.then</code> renvoie une
+                    <strong>nouvelle promesse</strong>. Les opérations en série
+                    s'écrivent donc <strong>à plat</strong>, plus en pyramide :
+                </p>
+
+                <pre><code><span class="comment">// Hier : la pyramide de callbacks 😱</span>
+<span class="comment">// chargerUtilisateur(1, (u) => {</span>
+<span class="comment">//     chargerCommandes(u.id, (c) => {</span>
+<span class="comment">//         chargerDetail(c[0].id, (d) => { ... });</span>
+<span class="comment">//     });</span>
+<span class="comment">// });</span>
+
+<span class="comment">// Aujourd'hui : une chaîne plate et lisible ✅</span>
+chargerUtilisateur(<span class="number">1</span>)
+    .then(utilisateur => chargerCommandes(utilisateur.id))
+    .then(commandes => chargerDetail(commandes[<span class="number">0</span>].id))
+    .then(detail => console.log(detail))
+    .catch(erreur => console.error(erreur)); <span class="comment">// UN SEUL catch pour tout !</span></code></pre>
+
+                <p>
+                    Même nombre d'étapes, mais le code se lit de haut en bas, et un seul
+                    <code>.catch</code> final attrape l'erreur de n'importe quelle étape.
+                </p>
+            </section>
+
+            <section>
+                <h2>Créer sa propre promesse</h2>
+                <p>
+                    Pour comprendre la mécanique, créons-en une avec le constructeur
+                    <code>new Promise</code>. Il reçoit un callback avec deux fonctions :
+                    <code>resolve</code> (succès) et <code>reject</code> (échec) :
+                </p>
+
+                <pre><code><span class="keyword">const</span> chargerUtilisateur = (id) => {
+    <span class="keyword">return</span> <span class="keyword">new</span> Promise((resolve, reject) => {
+        setTimeout(() => {
+            <span class="keyword">if</span> (id > <span class="number">0</span>) {
+                resolve({ id, nom: <span class="string">"Nogaro"</span> });  <span class="comment">// promesse tenue</span>
+            } <span class="keyword">else</span> {
+                reject(<span class="keyword">new</span> Error(<span class="string">"Id invalide"</span>)); <span class="comment">// promesse rompue</span>
+            }
+        }, <span class="number">1000</span>);
+    });
+};
+
+chargerUtilisateur(<span class="number">1</span>)
+    .then(u => console.log(<span class="string">`Bienvenue ${u.nom}`</span>))
+    .catch(e => console.error(e.message));
+
+chargerUtilisateur(<span class="number">-5</span>)
+    .then(u => console.log(u))
+    .catch(e => console.error(e.message)); <span class="comment">// "Id invalide"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Plusieurs promesses en parallèle : <code>Promise.all</code></h2>
+                <p>
+                    Quand des opérations sont <strong>indépendantes</strong>, inutile de
+                    les enchaîner : lance-les en même temps et attends qu'elles soient
+                    <strong>toutes</strong> terminées :
+                </p>
+
+                <pre><code><span class="keyword">const</span> profil = fetch(<span class="string">"https://api.github.com/users/github"</span>).then(r => r.json());
+<span class="keyword">const</span> depots = fetch(<span class="string">"https://api.github.com/users/github/repos"</span>).then(r => r.json());
+
+Promise.all([profil, depots])
+    .then(([utilisateur, repos]) => { <span class="comment">// destructuration de tableau !</span>
+        console.log(utilisateur.name);
+        console.log(<span class="string">`${repos.length} dépôts chargés`</span>);
+    })
+    .catch(e => console.error(e));</code></pre>
+
+                <p class="note">
+                    <strong>À retenir :</strong> opérations dépendantes → chaînage
+                    <code>.then</code>. Opérations indépendantes →
+                    <code>Promise.all</code> (plus rapide : tout part en même temps).
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Appelle <code>fetch("https://api.github.com/users/github")</code> et observe la promesse <em>pending</em> renvoyée</li>
+                    <li>Ajoute <code>.then(r => r.json()).then(d => console.log(d))</code> et explore l'objet reçu</li>
+                    <li>Remplace l'URL par ton pseudo GitHub ou un autre utilisateur</li>
+                    <li>Provoque une erreur (URL invalide comme <code>"https://api.githubxyz.com"</code>) et vérifie que <code>.catch</code> la capture</li>
+                    <li>Recrée <code>chargerUtilisateur</code> avec <code>new Promise</code> et teste le cas succès et le cas échec</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Les promesses ont aplati la pyramide, mais le code reste truffé de
+                    <code>.then(...)</code>. ES2017 a ajouté une dernière couche de
+                    confort : <code>async/await</code>, qui fait ressembler le code
+                    asynchrone... à du code normal.
+                </p>
+                <p>
+                    <a href="async-await.html">Chapitre suivant : Async/Await →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="callbacks.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Les callbacks</span></a>
+                <a class="pager-next" href="async-await.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Async/Await</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

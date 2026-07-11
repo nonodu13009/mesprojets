@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne, DOM et JavaScript asynchrone, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 5 — Le JavaScript Asynchrone</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html" class="active">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Leçon 5</h1>
+            <p>Le JavaScript Asynchrone</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Où en es-tu ?</h2>
+                <p>
+                    Jusqu'ici, ton code s'exécute <strong>ligne après ligne</strong>, dans
+                    l'ordre, instantanément. Mais le web réel est plein d'opérations qui
+                    prennent du temps : appeler une API, charger une image, attendre un
+                    minuteur, lire un fichier...
+                </p>
+                <p>
+                    Si JavaScript attendait la fin de chaque opération avant de continuer,
+                    la page serait <strong>gelée</strong> pendant ce temps : plus de clics,
+                    plus de scroll, plus rien. La solution : l'<strong>asynchrone</strong> —
+                    lancer une opération, continuer à travailler, et réagir
+                    <strong>quand le résultat arrive</strong>.
+                </p>
+                <p>
+                    C'est un cap conceptuel important : cette leçon le franchit en trois
+                    étapes, dans l'ordre historique du langage — chaque outil corrige les
+                    défauts du précédent.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas apprendre</h2>
+                <p>
+                    Cette leçon est organisée en 3 chapitres progressifs, avec des exemples
+                    concrets à tester dans la console.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Sujet</th>
+                            <th>Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>33</td>
+                            <td>Les fonctions de rappel (callbacks)</td>
+                            <td><a href="callbacks.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>34</td>
+                            <td>Les promesses (Promises)</td>
+                            <td><a href="promesses.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>35</td>
+                            <td><code>async</code> / <code>await</code></td>
+                            <td><a href="async-await.html">Ouvrir</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Comment aborder cette leçon ?</h2>
+                <p>
+                    Suis les chapitres <strong>dans l'ordre</strong>, c'est essentiel ici :
+                    les promesses n'ont de sens que si tu as compris les limites des
+                    callbacks, et <code>async/await</code> n'est qu'une écriture plus
+                    confortable... des promesses. C'est une seule et même histoire,
+                    racontée en trois chapitres.
+                </p>
+                <p>
+                    Les exemples utilisent <code>setTimeout</code> (un minuteur) pour
+                    simuler la lenteur, puis <code>fetch</code> pour appeler de vraies
+                    API. Tout se teste dans la console, comme d'habitude.
+                </p>
+            </section>
+
+            <section>
+                <h2>Prérequis</h2>
+                <p>
+                    Avant de commencer, assure-toi d'être à l'aise avec les
+                    <strong>fonctions fléchées</strong> et le fait de
+                    <strong>passer une fonction en argument</strong> d'une autre
+                    (<a href="../lecon3-javascript-moderne-es6/fonctions-flechees.html">Leçon 3,
+                    chapitre 24</a>) : tout l'asynchrone repose là-dessus.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="../lecon4-manipulation-dom/manipuler-css.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Leçon 4 : Manipuler le CSS</span></a>
+                <a class="pager-next" href="callbacks.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Les callbacks</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

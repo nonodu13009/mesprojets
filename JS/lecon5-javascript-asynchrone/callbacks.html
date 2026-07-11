@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne, DOM et JavaScript asynchrone, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 5 — Les Fonctions de Rappel (Callbacks)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html" class="active">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Les Fonctions de Rappel (Callbacks)</h1>
+            <p>Leçon 5 · Chapitre 33 · Le point de départ de l'asynchrone</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>C'est quoi, un callback ?</h2>
+                <p>
+                    Un <strong>callback</strong> (fonction de rappel) est une fonction
+                    passée <strong>en argument</strong> à une autre fonction, pour être
+                    exécutée <strong>plus tard</strong>. Tu en utilises déjà depuis la
+                    leçon 3 sans le savoir :
+                </p>
+
+                <pre><code><span class="comment">// La fléchée passée à forEach est... un callback !</span>
+[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].forEach(n => console.log(n));
+
+<span class="comment">// Pareil pour map, filter, find...</span>
+<span class="keyword">const</span> doubles = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].map(n => n * <span class="number">2</span>);</code></pre>
+
+                <p>
+                    L'idée clé : tu ne <strong>l'appelles pas</strong> toi-même (pas de
+                    parenthèses !), tu la <strong>confies</strong> à une autre fonction
+                    qui l'appellera au bon moment.
+                </p>
+            </section>
+
+            <section>
+                <h2>Le temps entre en jeu : <code>setTimeout</code></h2>
+                <p>
+                    <code>setTimeout</code> exécute un callback <strong>après un délai</strong>
+                    (en millisecondes). C'est l'exemple le plus simple d'asynchrone :
+                </p>
+
+                <pre><code>console.log(<span class="string">"1. Je commence"</span>);
+
+setTimeout(() => {
+    console.log(<span class="string">"3. Deux secondes plus tard..."</span>);
+}, <span class="number">2000</span>);
+
+console.log(<span class="string">"2. Je continue sans attendre !"</span>);
+
+<span class="comment">// Ordre d'affichage : 1, 2, puis 3</span></code></pre>
+
+                <p>
+                    Regarde bien l'ordre : JavaScript <strong>n'attend pas</strong> les
+                    2 secondes. Il note le rendez-vous, continue son travail, et exécute
+                    le callback quand le minuteur sonne. C'est ça, l'asynchrone.
+                </p>
+
+                <p class="note">
+                    <strong>Piège classique :</strong> écrire
+                    <code>setTimeout(maFonction(), 2000)</code> avec des parenthèses
+                    exécute la fonction <strong>immédiatement</strong>. On passe la
+                    fonction elle-même : <code>setTimeout(maFonction, 2000)</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les callbacks d'événements</h2>
+                <p>
+                    Le DOM (leçon 4) utilise aussi les callbacks : c'est comme ça qu'on
+                    réagit aux actions de l'utilisateur, avec
+                    <code>addEventListener</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> titre = document.querySelector(<span class="string">"h1"</span>);
+
+<span class="comment">// "Quand on clique sur le titre, exécute ce callback"</span>
+titre.addEventListener(<span class="string">"click"</span>, () => {
+    titre.textContent = <span class="string">"Tu m'as cliqué !"</span>;
+});</code></pre>
+
+                <p>
+                    Même logique que <code>setTimeout</code> : on ne sait pas
+                    <strong>quand</strong> le clic arrivera, alors on confie un callback
+                    qui sera appelé à ce moment-là. Teste ce code dans la console, ici même !
+                </p>
+            </section>
+
+            <section>
+                <h2>Simuler une opération lente</h2>
+                <p>
+                    Écrivons notre propre fonction asynchrone : elle simule un appel
+                    serveur qui met 1,5 seconde à répondre, puis "rappelle" avec le
+                    résultat :
+                </p>
+
+                <pre><code><span class="keyword">const</span> chargerUtilisateur = (id, callback) => {
+    console.log(<span class="string">`Chargement de l'utilisateur ${id}...`</span>);
+    setTimeout(() => {
+        <span class="keyword">const</span> utilisateur = { id, nom: <span class="string">"Nogaro"</span>, prenom: <span class="string">"Jean-Michel"</span> };
+        callback(utilisateur); <span class="comment">// on "rappelle" avec le résultat</span>
+    }, <span class="number">1500</span>);
+};
+
+chargerUtilisateur(<span class="number">1</span>, (utilisateur) => {
+    console.log(<span class="string">`Reçu : ${utilisateur.prenom} ${utilisateur.nom}`</span>);
+});</code></pre>
+
+                <p>
+                    C'est exactement le contrat d'un callback asynchrone :
+                    "lance l'opération, et <strong>quand c'est prêt</strong>, appelle
+                    cette fonction avec le résultat".
+                </p>
+            </section>
+
+            <section>
+                <h2>La limite : le callback hell</h2>
+                <p>
+                    Le problème surgit quand les opérations <strong>s'enchaînent</strong> :
+                    charger un utilisateur, PUIS ses commandes, PUIS le détail d'une
+                    commande... Chaque étape s'imbrique dans la précédente :
+                </p>
+
+                <pre><code><span class="comment">// La "pyramide de la mort" 😱</span>
+chargerUtilisateur(<span class="number">1</span>, (utilisateur) => {
+    chargerCommandes(utilisateur.id, (commandes) => {
+        chargerDetail(commandes[<span class="number">0</span>].id, (detail) => {
+            chargerFacture(detail.id, (facture) => {
+                console.log(facture);
+                <span class="comment">// ... et la gestion d'erreurs de chaque niveau ?</span>
+            });
+        });
+    });
+});</code></pre>
+
+                <p>
+                    Ce code en escalier est surnommé le <strong>callback hell</strong> :
+                    difficile à lire, difficile à modifier, et cauchemardesque pour gérer
+                    les erreurs. C'est précisément pour résoudre ça qu'ES6 a introduit
+                    les <strong>promesses</strong> — le sujet du prochain chapitre.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Affiche un message après 3 secondes avec <code>setTimeout</code></li>
+                    <li>Écris trois <code>console.log</code> autour d'un <code>setTimeout</code> et prédis l'ordre d'affichage avant d'exécuter</li>
+                    <li>Ajoute un <code>addEventListener("click", ...)</code> sur le <code>h1</code> de cette page</li>
+                    <li>Recrée <code>chargerUtilisateur</code> et appelle-la avec ton propre callback</li>
+                    <li>Imbrique deux <code>setTimeout</code> l'un dans l'autre pour ressentir le début du callback hell</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu as compris le mécanisme fondamental : confier une fonction qui sera
+                    rappelée plus tard. Et tu as vu sa limite : l'imbrication. Les
+                    <strong>promesses</strong> gardent l'idée mais aplatissent la
+                    pyramide.
+                </p>
+                <p>
+                    <a href="promesses.html">Chapitre suivant : Les promesses →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="promesses.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Les promesses</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

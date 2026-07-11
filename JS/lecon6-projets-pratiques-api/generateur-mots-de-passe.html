@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : generateur de mots de passe en JavaScript — options de longueur et de caracteres, copie en un clic.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Générateur de Mots de Passe</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Générateur de Mots de Passe</h1>
+            <p>Leçon 6 · Projet 38 · Logique pure et manipulation de chaînes</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Construire un outil qui génère des <strong>mots de passe
+                    aléatoires robustes</strong> : l'utilisateur choisit la longueur et
+                    les types de caractères (majuscules, minuscules, chiffres, symboles),
+                    clique, et peut copier le résultat en un clic.
+                </p>
+                <p>
+                    Pas d'API ici : c'est un projet de <strong>logique pure</strong>.
+                    Parfait pour muscler les fonctions, les chaînes et les conditions.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li><code>Math.random()</code> et l'accès aux caractères d'une chaîne par index</li>
+                    <li>Les checkboxes : lire l'état <code>checked</code> d'un input (leçon 4)</li>
+                    <li>Composer une fonction pure : options en entrée → mot de passe en sortie</li>
+                    <li>L'API presse-papiers : <code>navigator.clipboard.writeText()</code> (asynchrone, leçon 5 !)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fonctionnalités attendues</h2>
+                <ul>
+                    <li>Slider ou input numérique pour la longueur (8 à 32 caractères)</li>
+                    <li>4 checkboxes : majuscules, minuscules, chiffres, symboles</li>
+                    <li>Bouton "Générer" → le mot de passe s'affiche</li>
+                    <li>Bouton "Copier" → mot de passe dans le presse-papiers + feedback visuel ("Copié !")</li>
+                    <li>Au moins une case doit être cochée, sinon message d'erreur</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>HTML</strong> : le formulaire d'options + zone de résultat + les deux boutons</li>
+                    <li><strong>Les alphabets</strong> : quatre constantes —
+                        <code>const MINUSCULES = "abcdefghijklmnopqrstuvwxyz"</code>,
+                        pareil pour majuscules, chiffres et symboles</li>
+                    <li><strong>Caractère aléatoire</strong> : écris
+                        <code>const caractereAleatoire = chaine => chaine[Math.floor(Math.random() * chaine.length)]</code>
+                        et teste-la en console</li>
+                    <li><strong>Construire l'alphabet actif</strong> : selon les cases cochées, concatène les alphabets dans une seule chaîne</li>
+                    <li><strong>Boucle de génération</strong> : une boucle <code>for</code> de la longueur choisie, qui ajoute un caractère aléatoire à chaque tour</li>
+                    <li><strong>Affichage + copie</strong> : injecte le résultat, puis branche <code>navigator.clipboard.writeText(motDePasse)</code> sur le bouton copier (avec <code>await</code>)</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>Valeur d'input = chaîne</strong> : la longueur lue vaut <code>"12"</code>, pas <code>12</code> — convertis avec <code>Number()</code></li>
+                    <li><strong>Aucune case cochée</strong> : alphabet vide → boucle qui produit <code>undefined</code>. Valide avant de générer</li>
+                    <li><strong><code>clipboard</code> est asynchrone</strong> : c'est une promesse, gère-la avec <code>await</code> et <code>try/catch</code></li>
+                    <li><strong>Feedback copie</strong> : pense à remettre le texte du bouton à l'état initial après 2 secondes (<code>setTimeout</code> !)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Pour aller plus loin</h2>
+                <ul>
+                    <li>Indicateur de force du mot de passe (faible / moyen / fort) selon longueur et variété</li>
+                    <li>Garantir au moins un caractère de chaque type coché</li>
+                    <li>Historique des 5 derniers mots de passe générés</li>
+                    <li>Pour du vrai usage sécurité : remplace <code>Math.random()</code> par <code>crypto.getRandomValues()</code>, l'aléatoire cryptographique du navigateur</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Après la logique des chaînes, place à la logique des nombres et des
+                    états : la <strong>calculatrice</strong>, un classique redoutablement
+                    formateur.
+                </p>
+                <p>
+                    <a href="calculatrice.html">Projet suivant : Calculatrice moderne →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="meteo-partie2.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Météo — Partie 2</span></a>
+                <a class="pager-next" href="calculatrice.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Calculatrice moderne</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

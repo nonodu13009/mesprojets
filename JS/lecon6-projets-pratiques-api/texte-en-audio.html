@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : convertisseur texte-en-audio en HTML5, CSS3 et JavaScript — API Web Speech, voix, vitesse et controles.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Convertisseur Texte-en-Audio</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Convertisseur Texte-en-Audio</h1>
+            <p>Leçon 6 · Projet 41 · L'API Web Speech du navigateur</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Construire une application qui <strong>lit à voix haute</strong>
+                    n'importe quel texte saisi : choix de la voix, réglage de la vitesse
+                    et du ton, boutons lecture / pause / stop. Le tout <strong>sans
+                    aucun serveur</strong> : le navigateur embarque nativement un moteur
+                    de synthèse vocale, la <strong>Web Speech API</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li>Découvrir une API navigateur par sa documentation (MDN) — compétence clé de développeur</li>
+                    <li>Objets et propriétés : configurer un <code>SpeechSynthesisUtterance</code> (leçon 3)</li>
+                    <li>Remplir un <code>&lt;select&gt;</code> dynamiquement à partir d'un tableau d'objets (leçons 3 et 4)</li>
+                    <li>Inputs <code>range</code> (sliders) et leur événement <code>input</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>L'API Web Speech en 30 secondes</h2>
+                <p>
+                    Teste ça immédiatement dans la console — ta machine va parler :
+                </p>
+
+                <pre><code><span class="comment">// L'objet "énoncé" : le texte + sa configuration</span>
+<span class="keyword">const</span> enonce = <span class="keyword">new</span> SpeechSynthesisUtterance(<span class="string">"Bonjour Jean-Michel !"</span>);
+enonce.lang = <span class="string">"fr-FR"</span>;
+enonce.rate = <span class="number">1</span>;   <span class="comment">// vitesse (0.1 à 10)</span>
+enonce.pitch = <span class="number">1</span>;  <span class="comment">// ton (0 à 2)</span>
+
+<span class="comment">// Le moteur global du navigateur</span>
+speechSynthesis.speak(enonce);
+
+<span class="comment">// Les voix disponibles (un array d'objets !)</span>
+console.log(speechSynthesis.getVoices());</code></pre>
+            </section>
+
+            <section>
+                <h2>Fonctionnalités attendues</h2>
+                <ul>
+                    <li>Zone de texte multiligne (<code>&lt;textarea&gt;</code>)</li>
+                    <li>Menu déroulant des voix disponibles (filtrées en français, ou toutes)</li>
+                    <li>Deux sliders : vitesse et ton, avec leur valeur affichée en direct</li>
+                    <li>Boutons Lire / Pause / Reprendre / Stop</li>
+                    <li>Indicateur visuel pendant la lecture (bouton actif, animation...)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>Console d'abord</strong> : joue avec <code>speechSynthesis</code> dans la console jusqu'à bien comprendre <code>speak</code>, <code>pause</code>, <code>resume</code>, <code>cancel</code></li>
+                    <li><strong>HTML/CSS</strong> : textarea, select, deux sliders, la barre de boutons</li>
+                    <li><strong>Charger les voix</strong> : <code>getVoices()</code> renvoie un array d'objets — <code>forEach</code> pour créer les <code>&lt;option&gt;</code> du select</li>
+                    <li><strong>Lecture</strong> : au clic sur Lire, crée l'énoncé, applique voix / vitesse / ton depuis les contrôles, lance <code>speak</code></li>
+                    <li><strong>Contrôles</strong> : branche <code>pause()</code>, <code>resume()</code> et <code>cancel()</code> sur les autres boutons</li>
+                    <li><strong>État visuel</strong> : les événements <code>start</code> et <code>end</code> de l'énoncé te disent quand activer/désactiver l'indicateur de lecture</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>Liste de voix vide</strong> : <code>getVoices()</code> se charge de façon asynchrone. Écoute l'événement <code>speechSynthesis.onvoiceschanged</code> pour remplir le select au bon moment</li>
+                    <li><strong>Lectures qui s'empilent</strong> : appelle <code>speechSynthesis.cancel()</code> avant chaque nouveau <code>speak</code></li>
+                    <li><strong>Slider = chaîne</strong> : comme toujours, <code>Number()</code> avant d'affecter à <code>rate</code> ou <code>pitch</code></li>
+                    <li><strong>Voix selon l'OS</strong> : chaque machine a des voix différentes — ton select doit s'adapter, pas coder les noms en dur</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Pour aller plus loin</h2>
+                <ul>
+                    <li>Surligner le mot en cours de lecture (événement <code>boundary</code> de l'énoncé)</li>
+                    <li>Mémoriser les réglages préférés dans <code>localStorage</code></li>
+                    <li>Compteur de caractères sous le textarea</li>
+                    <li>Explore l'autre moitié de la Web Speech API : la <strong>reconnaissance</strong> vocale (<code>SpeechRecognition</code>)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Dernier projet de la formation : le <strong>formulaire de connexion /
+                    inscription animé</strong> — validation, design et animations, le
+                    composant que tu recroiseras dans chaque application.
+                </p>
+                <p>
+                    <a href="formulaire-connexion.html">Projet suivant : Formulaire de connexion animé →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="generateur-qr-code.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Générateur de QR Code</span></a>
+                <a class="pager-next" href="formulaire-connexion.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Formulaire de connexion</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

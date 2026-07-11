@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : application meteo en JavaScript, partie 2 — interface complete, icones, details et confort d'usage.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Application Météo (Partie 2)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Application Météo — Partie 2</h1>
+            <p>Leçon 6 · Projet 37 · L'interface complète</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Transformer le prototype de la partie 1 en <strong>application
+                    aboutie</strong> : carte météo design, icône correspondant au ciel,
+                    détails complets (ressenti, humidité, vent), état de chargement et
+                    petites attentions qui font la différence. C'est le plus gros
+                    chapitre du cours (1 h 38) — prends ton temps.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li>Générer du HTML depuis des données : <code>createElement</code> ou template literals (leçon 4)</li>
+                    <li><code>classList</code> pour les états visuels : chargement, erreur, succès (leçon 4)</li>
+                    <li>Destructuration d'objets imbriqués pour extraire les données API (leçon 3)</li>
+                    <li>CSS : carte centrée, ombres douces, transitions</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fonctionnalités attendues</h2>
+                <ul>
+                    <li>Carte météo : nom de la ville + pays, grande température, description</li>
+                    <li>Icône météo (l'API fournit un code icône : <code>https://openweathermap.org/img/wn/CODE@2x.png</code>)</li>
+                    <li>Trois détails : ressenti (<code>feels_like</code>), humidité, vitesse du vent</li>
+                    <li>Indicateur de chargement pendant l'appel API</li>
+                    <li>Message d'erreur stylé (ville inconnue, réseau coupé)</li>
+                    <li>Recherche au clavier : la touche <strong>Entrée</strong> déclenche la recherche</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>Maquette statique d'abord</strong> : construis la carte en HTML/CSS avec des données en dur ("Marseille, 24°, ensoleillé"). Peaufine le design sans te soucier du JS</li>
+                    <li><strong>Fonction <code>afficherMeteo(donnees)</code></strong> : remplace les données en dur par celles de l'objet API. Destructure ce dont tu as besoin dès l'entrée de la fonction</li>
+                    <li><strong>Icône</strong> : récupère <code>weather[0].icon</code> et compose l'URL de l'image dans un <code>&lt;img&gt;</code></li>
+                    <li><strong>États d'interface</strong> : trois classes CSS — <code>.chargement</code>, <code>.erreur</code>, <code>.succes</code> — et une fonction qui bascule de l'une à l'autre avec <code>classList</code></li>
+                    <li><strong>Touche Entrée</strong> : écoute l'événement <code>keydown</code> sur l'input, teste <code>event.key === "Enter"</code></li>
+                    <li><strong>Finitions</strong> : vider l'input après recherche, arrondir les températures avec <code>Math.round</code>, première lettre de la description en majuscule</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>Afficher avant d'avoir reçu</strong> : tout affichage doit se faire <em>après</em> le <code>await</code>, jamais avant</li>
+                    <li><strong>Résultats qui s'empilent</strong> : vide la zone de résultat (<code>innerHTML = ""</code> ou <code>replaceChildren()</code>) avant chaque nouvelle recherche</li>
+                    <li><strong>innerHTML + saisie utilisateur</strong> : le nom de ville vient de l'utilisateur — préfère <code>textContent</code> pour l'afficher (réflexe anti-XSS)</li>
+                    <li><strong>Spinner fantôme</strong> : pense à masquer le chargement aussi en cas d'<strong>erreur</strong> (c'est le rôle de <code>finally</code>)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Pour aller plus loin</h2>
+                <ul>
+                    <li>Mémorise la dernière ville dans <code>localStorage</code> et recharge-la à l'ouverture</li>
+                    <li>Change le fond de la carte selon la météo (bleu = pluie, jaune = soleil...)</li>
+                    <li>Ajoute la géolocalisation avec <code>navigator.geolocation</code></li>
+                    <li>Affiche les prévisions sur 5 jours (endpoint <code>/forecast</code> de l'API)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Première vraie application terminée ! Le prochain projet est plus
+                    court mais très formateur : un <strong>générateur de mots de
+                    passe</strong>, 100 % logique JavaScript.
+                </p>
+                <p>
+                    <a href="generateur-mots-de-passe.html">Projet suivant : Générateur de mots de passe →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="meteo-partie1.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Météo — Partie 1</span></a>
+                <a class="pager-next" href="generateur-mots-de-passe.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Générateur de mots de passe</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

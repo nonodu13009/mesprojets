@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : generateur de QR Code moderne en HTML5, CSS3 et JavaScript ES6 — API de generation et telechargement.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Générateur de QR Code</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Générateur de QR Code</h1>
+            <p>Leçon 6 · Projet 40 · API d'images et expérience utilisateur</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Construire un outil qui transforme <strong>n'importe quel texte ou
+                    URL en QR Code</strong> : l'utilisateur saisit, le QR Code apparaît,
+                    et il peut le télécharger en image. Projet court mais très
+                    gratifiant — et l'occasion de découvrir les API qui renvoient des
+                    <strong>images</strong> plutôt que du JSON.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li>API par URL : composer une URL de génération avec des paramètres</li>
+                    <li><code>encodeURIComponent()</code> : encoder proprement la saisie utilisateur dans une URL</li>
+                    <li>Manipuler des <code>&lt;img&gt;</code> dynamiquement : <code>src</code>, événement <code>load</code> (leçon 4)</li>
+                    <li>États d'interface : vide → chargement → affiché (classes CSS)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>L'API QR Code</h2>
+                <p>
+                    Le cours utilise une API de génération (type
+                    <code>api.qrserver.com</code>). Pas de clé nécessaire : toute la
+                    configuration passe par l'URL :
+                </p>
+
+                <pre><code><span class="comment">// Structure de l'URL de génération</span>
+<span class="keyword">const</span> texte = encodeURIComponent(saisie);
+<span class="keyword">const</span> url = <span class="string">`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${texte}`</span>;
+
+<span class="comment">// Il suffit de la mettre dans le src d'une image !</span>
+image.src = url;</code></pre>
+
+                <p class="note">
+                    <strong>À comprendre :</strong> pas de <code>fetch</code> ici — le
+                    navigateur charge l'image lui-même quand tu changes le
+                    <code>src</code>. C'est l'événement <code>load</code> de l'image qui
+                    te dit quand c'est prêt.
+                </p>
+            </section>
+
+            <section>
+                <h2>Fonctionnalités attendues</h2>
+                <ul>
+                    <li>Champ texte + bouton "Générer"</li>
+                    <li>Choix de la taille (petit / moyen / grand)</li>
+                    <li>Affichage du QR Code avec une petite animation d'apparition</li>
+                    <li>Bouton "Télécharger" l'image</li>
+                    <li>Saisie vide → message d'erreur, pas de QR Code cassé</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>HTML/CSS</strong> : carte centrée avec input, select de taille, bouton et zone d'image (cachée au départ)</li>
+                    <li><strong>Génération</strong> : au clic, valide la saisie, compose l'URL avec <code>encodeURIComponent</code>, affecte-la au <code>src</code></li>
+                    <li><strong>État de chargement</strong> : affiche un message "Génération...", et masque-le dans l'écouteur <code>image.addEventListener("load", ...)</code></li>
+                    <li><strong>Animation</strong> : une classe CSS <code>.visible</code> avec transition d'opacité, ajoutée au <code>load</code></li>
+                    <li><strong>Téléchargement</strong> : <code>fetch</code> l'URL de l'image, convertis en blob (<code>await reponse.blob()</code>), crée un lien avec <code>URL.createObjectURL(blob)</code> et l'attribut <code>download</code>, puis déclenche son <code>click()</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>Caractères spéciaux</strong> : sans <code>encodeURIComponent</code>, un texte avec <code>&amp;</code>, <code>?</code> ou des espaces casse l'URL</li>
+                    <li><strong>Ancien QR affiché</strong> : pendant le chargement du nouveau, l'ancien reste visible — masque-le d'abord</li>
+                    <li><strong>Le téléchargement direct par lien simple ne marche pas</strong> : l'attribut <code>download</code> est ignoré pour les images d'un autre domaine, d'où le passage par le blob</li>
+                    <li><strong>Événement <code>load</code> jamais déclenché</strong> si l'URL est invalide : écoute aussi <code>error</code> sur l'image</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Pour aller plus loin</h2>
+                <ul>
+                    <li>Génération en direct pendant la frappe (avec un petit délai — cherche "debounce")</li>
+                    <li>Choix des couleurs du QR Code (paramètres <code>color</code> et <code>bgcolor</code> de l'API)</li>
+                    <li>Historique des derniers QR Codes générés dans <code>localStorage</code></li>
+                    <li>Bouton "Copier l'image" dans le presse-papiers</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Prochain projet : faire <strong>parler le navigateur</strong> avec
+                    le convertisseur texte-en-audio et l'API Web Speech — une API
+                    intégrée, sans serveur du tout.
+                </p>
+                <p>
+                    <a href="texte-en-audio.html">Projet suivant : Convertisseur texte-en-audio →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="calculatrice.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Calculatrice moderne</span></a>
+                <a class="pager-next" href="texte-en-audio.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Texte-en-audio</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

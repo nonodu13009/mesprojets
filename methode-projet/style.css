@@ -576,3 +576,109 @@ pre:hover {
         scroll-behavior: auto !important;
     }
 }
+
+/* ---- Recherche (barre injectée dans la nav) ---- */
+
+.recherche--nav {
+    position: relative;
+    margin-left: 0.5rem;
+}
+
+.recherche--nav .recherche-barre {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #f5f5f7;
+    border: 1px solid transparent;
+    border-radius: 980px;
+    padding: 0.3rem 0.8rem;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recherche--nav .recherche-barre:focus-within {
+    background: #fff;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.12);
+}
+
+.recherche-loupe {
+    width: 14px;
+    height: 14px;
+    color: #86868b;
+    flex-shrink: 0;
+}
+
+#recherche-champ {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.8125rem;
+    color: #1d1d1f;
+    width: 110px;
+    transition: width 0.25s ease;
+}
+
+#recherche-champ:focus {
+    width: 180px;
+}
+
+#recherche-champ::placeholder {
+    color: #86868b;
+}
+
+#recherche-champ::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+.recherche-panneau {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: min(340px, 82vw);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    padding: 0.4rem;
+    max-height: 340px;
+    overflow-y: auto;
+    z-index: 50;
+}
+
+nav .recherche-resultat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+nav .recherche-resultat:hover,
+nav .recherche-resultat:focus {
+    background: rgba(0, 113, 227, 0.08);
+    color: inherit;
+}
+
+.recherche-titre {
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #1d1d1f;
+}
+
+.recherche-contexte {
+    font-size: 0.75rem;
+    color: #86868b;
+}
+
+.recherche-vide {
+    padding: 0.85rem;
+    font-size: 0.9rem;
+    color: #86868b;
+    text-align: center;
+}

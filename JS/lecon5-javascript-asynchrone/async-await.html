@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne, DOM et JavaScript asynchrone, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 5 — Async / Await</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html" class="active">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Async / Await</h1>
+            <p>Leçon 5 · Chapitre 35 · L'asynchrone qui se lit comme du code normal</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>La dernière marche</h2>
+                <p>
+                    <code>async/await</code> n'est <strong>pas</strong> un nouveau système :
+                    c'est une <strong>écriture plus confortable des promesses</strong> du
+                    chapitre précédent. Sous le capot, ce sont exactement les mêmes
+                    mécanismes — mais le code se lit enfin de haut en bas, comme du
+                    code synchrone.
+                </p>
+
+                <pre><code><span class="comment">// Avec .then (chapitre 34)</span>
+<span class="keyword">const</span> chargerProfil = () => {
+    fetch(<span class="string">"https://api.github.com/users/github"</span>)
+        .then(reponse => reponse.json())
+        .then(donnees => console.log(donnees.name));
+};
+
+<span class="comment">// Avec async/await : la même chose, lisible ligne par ligne</span>
+<span class="keyword">const</span> chargerProfil2 = <span class="keyword">async</span> () => {
+    <span class="keyword">const</span> reponse = <span class="keyword">await</span> fetch(<span class="string">"https://api.github.com/users/github"</span>);
+    <span class="keyword">const</span> donnees = <span class="keyword">await</span> reponse.json();
+    console.log(donnees.name);
+};</code></pre>
+            </section>
+
+            <section>
+                <h2>Les deux mots-clés</h2>
+                <ul>
+                    <li>
+                        <strong><code>async</code></strong> devant une fonction : elle
+                        renvoie automatiquement une <strong>promesse</strong>, et elle a
+                        le droit d'utiliser <code>await</code> à l'intérieur.
+                    </li>
+                    <li>
+                        <strong><code>await</code></strong> devant une promesse :
+                        "mets cette fonction en pause ici, et reprends quand le résultat
+                        est arrivé". La valeur récupérée est le résultat de la promesse,
+                        plus besoin de <code>.then</code>.
+                    </li>
+                </ul>
+
+                <pre><code><span class="keyword">const</span> direBonjour = <span class="keyword">async</span> () => {
+    <span class="keyword">return</span> <span class="string">"Bonjour !"</span>; <span class="comment">// enveloppé automatiquement dans une promesse</span>
+};
+
+console.log(direBonjour());          <span class="comment">// Promise { "Bonjour !" }</span>
+direBonjour().then(m => console.log(m)); <span class="comment">// "Bonjour !"</span></code></pre>
+
+                <p class="note">
+                    <strong>Règle d'or :</strong> <code>await</code> ne fonctionne que
+                    <strong>dans une fonction <code>async</code></strong> (ou directement
+                    dans la console, qui l'autorise au niveau global — pratique pour tester).
+                </p>
+            </section>
+
+            <section>
+                <h2>Gérer les erreurs : <code>try / catch</code></h2>
+                <p>
+                    Avec <code>async/await</code>, fini le <code>.catch</code> : on
+                    utilise le bloc <code>try / catch</code> classique de JavaScript.
+                    Le code qui peut échouer va dans <code>try</code>, la gestion
+                    d'erreur dans <code>catch</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> chargerUtilisateur = <span class="keyword">async</span> (pseudo) => {
+    <span class="keyword">try</span> {
+        <span class="keyword">const</span> reponse = <span class="keyword">await</span> fetch(<span class="string">`https://api.github.com/users/${pseudo}`</span>);
+
+        <span class="keyword">if</span> (!reponse.ok) {
+            <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">`Utilisateur introuvable (${reponse.status})`</span>);
+        }
+
+        <span class="keyword">const</span> donnees = <span class="keyword">await</span> reponse.json();
+        console.log(<span class="string">`${donnees.name} — ${donnees.public_repos} dépôts`</span>);
+    } <span class="keyword">catch</span> (erreur) {
+        console.error(<span class="string">"Erreur :"</span>, erreur.message);
+    }
+};
+
+chargerUtilisateur(<span class="string">"github"</span>);       <span class="comment">// "GitHub — ... dépôts"</span>
+chargerUtilisateur(<span class="string">"zzz-inexistant-999"</span>); <span class="comment">// "Erreur : Utilisateur introuvable (404)"</span></code></pre>
+
+                <p class="note">
+                    <strong>Piège fetch :</strong> une réponse 404 ou 500 ne déclenche
+                    <strong>pas</strong> le <code>catch</code> (la requête a techniquement
+                    "réussi"). D'où le test <code>if (!reponse.ok)</code> — un réflexe
+                    à prendre systématiquement.
+                </p>
+            </section>
+
+            <section>
+                <h2>Enchaîner des opérations dépendantes</h2>
+                <p>
+                    Le callback hell du chapitre 33, version finale — chaque ligne utilise
+                    le résultat de la précédente, et ça se lit comme une recette :
+                </p>
+
+                <pre><code><span class="keyword">const</span> chargerFacture = <span class="keyword">async</span> () => {
+    <span class="keyword">const</span> utilisateur = <span class="keyword">await</span> chargerUtilisateur(<span class="number">1</span>);
+    <span class="keyword">const</span> commandes = <span class="keyword">await</span> chargerCommandes(utilisateur.id);
+    <span class="keyword">const</span> detail = <span class="keyword">await</span> chargerDetail(commandes[<span class="number">0</span>].id);
+    <span class="keyword">return</span> detail.facture;
+};</code></pre>
+
+                <p>
+                    Compare avec la pyramide du chapitre 33 : mêmes étapes, mais on
+                    dirait du code synchrone ordinaire. C'est tout l'intérêt.
+                </p>
+            </section>
+
+            <section>
+                <h2>Parallèle : <code>await</code> + <code>Promise.all</code></h2>
+                <p>
+                    Attention à un piège de débutant : <code>await</code> en série
+                    <strong>ralentit</strong> les opérations indépendantes. Combine-le
+                    avec <code>Promise.all</code> pour paralléliser :
+                </p>
+
+                <pre><code><span class="comment">// ❌ Série : 2 x le temps de réponse (le 2e fetch attend le 1er)</span>
+<span class="keyword">const</span> profil = <span class="keyword">await</span> fetch(url1).then(r => r.json());
+<span class="keyword">const</span> depots = <span class="keyword">await</span> fetch(url2).then(r => r.json());
+
+<span class="comment">// ✅ Parallèle : les deux partent en même temps</span>
+<span class="keyword">const</span> [profil2, depots2] = <span class="keyword">await</span> Promise.all([
+    fetch(url1).then(r => r.json()),
+    fetch(url2).then(r => r.json())
+]);</code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Teste <code>await fetch("https://api.github.com/users/github").then(r => r.json())</code> directement (la console accepte <code>await</code>)</li>
+                    <li>Écris une fonction <code>async</code> qui charge un utilisateur GitHub et affiche son nom</li>
+                    <li>Ajoute le <code>try / catch</code> et le test <code>reponse.ok</code></li>
+                    <li>Teste avec un pseudo inexistant pour vérifier ta gestion d'erreur</li>
+                    <li>Charge deux utilisateurs en parallèle avec <code>Promise.all</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Bravo !</h2>
+                <p>
+                    Tu as terminé la leçon 5 et le parcours de l'asynchrone : callbacks →
+                    promesses → <code>async/await</code>. Avec le DOM (leçon 4) et
+                    <code>fetch</code>, tu as maintenant <strong>tout ce qu'il faut pour
+                    construire de vraies applications</strong>. Ça tombe bien : c'est
+                    exactement le programme de la leçon 6.
+                </p>
+                <p>
+                    <a href="../lecon6-projets-pratiques-api/index.html">Leçon suivante : Projets pratiques et API Web →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="promesses.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Les promesses</span></a>
+                <a class="pager-next" href="../lecon6-projets-pratiques-api/index.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Leçon 6 : Projets pratiques</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

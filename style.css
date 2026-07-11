@@ -123,6 +123,107 @@ body {
     font-weight: 400;
 }
 
+/* Recherche */
+.recherche {
+    position: relative;
+    max-width: 540px;
+    margin: 2rem auto 0;
+    text-align: left;
+}
+
+.recherche-barre {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: #f5f5f7;
+    border: 1px solid transparent;
+    border-radius: 980px;
+    padding: 0.65rem 1.25rem;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recherche-barre:focus-within {
+    background: #fff;
+    border-color: #0071e3;
+    box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+}
+
+.recherche-loupe {
+    width: 18px;
+    height: 18px;
+    color: #86868b;
+    flex-shrink: 0;
+}
+
+#recherche-champ {
+    flex: 1;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 1.0625rem;
+    color: #1d1d1f;
+}
+
+#recherche-champ::placeholder {
+    color: #86868b;
+}
+
+#recherche-champ::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
+
+.recherche-panneau {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid #d2d2d7;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    padding: 0.4rem;
+    max-height: 340px;
+    overflow-y: auto;
+    z-index: 50;
+}
+
+.recherche-resultat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.6rem 0.85rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+}
+
+.recherche-resultat:hover,
+.recherche-resultat:focus {
+    background: rgba(0, 113, 227, 0.08);
+}
+
+.recherche-titre {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #1d1d1f;
+}
+
+.recherche-contexte {
+    font-size: 0.78rem;
+    color: #86868b;
+}
+
+.recherche-vide {
+    padding: 0.85rem;
+    font-size: 0.95rem;
+    color: #86868b;
+    text-align: center;
+}
+
 /* Formation blocks */
 .formation-block {
     background: #f5f5f7;

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : formulaire de connexion et d'inscription anime en HTML, CSS et JavaScript — validation et bascule animee.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Formulaire de Connexion et Inscription Animé</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Formulaire de Connexion et Inscription Animé</h1>
+            <p>Leçon 6 · Projet 42 · Validation, animations et bascule</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Construire le composant le plus universel du web : un
+                    <strong>double formulaire connexion / inscription</strong> avec une
+                    bascule animée entre les deux, une validation en temps réel des
+                    champs, et des messages d'erreur élégants. Pas de serveur ici :
+                    tout se joue côté interface — le back-end viendra plus tard dans
+                    ton parcours.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li>Événements de formulaire : <code>submit</code>, <code>input</code>, <code>blur</code> (leçon 4)</li>
+                    <li>Validation : expressions conditionnelles, longueur, format email (leçon 2)</li>
+                    <li><code>classList.toggle</code> pour la bascule animée entre les deux panneaux (leçon 4)</li>
+                    <li>Transitions et animations CSS déclenchées par JavaScript</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fonctionnalités attendues</h2>
+                <ul>
+                    <li>Deux formulaires : connexion (email, mot de passe) et inscription (nom, email, mot de passe, confirmation)</li>
+                    <li>Bascule animée entre les deux (glissement ou fondu) via un lien "Pas encore de compte ?"</li>
+                    <li>Validation en temps réel : bordure rouge + message sous le champ invalide, vert quand c'est bon</li>
+                    <li>Règles : email au bon format, mot de passe ≥ 8 caractères, confirmation identique</li>
+                    <li>Bouton "voir le mot de passe" (œil qui bascule le type de l'input)</li>
+                    <li>Soumission bloquée tant que tout n'est pas valide</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Le cœur du projet : la validation</h2>
+                <p>
+                    Le réflexe pro : une fonction de validation <strong>par règle</strong>,
+                    et une fonction générique qui affiche ou efface l'erreur d'un champ :
+                </p>
+
+                <pre><code><span class="comment">// Une règle = une petite fonction pure qui renvoie un message ou null</span>
+<span class="keyword">const</span> validerEmail = (valeur) => {
+    <span class="keyword">if</span> (valeur.trim() === <span class="string">""</span>) <span class="keyword">return</span> <span class="string">"L'email est requis"</span>;
+    <span class="keyword">if</span> (!valeur.includes(<span class="string">"@"</span>) || !valeur.includes(<span class="string">"."</span>)) <span class="keyword">return</span> <span class="string">"Format d'email invalide"</span>;
+    <span class="keyword">return</span> <span class="keyword">null</span>; <span class="comment">// null = tout va bien</span>
+};
+
+<span class="keyword">const</span> validerMotDePasse = (valeur) => {
+    <span class="keyword">if</span> (valeur.length < <span class="number">8</span>) <span class="keyword">return</span> <span class="string">"8 caractères minimum"</span>;
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+};</code></pre>
+
+                <p>
+                    Note l'<strong>early return</strong> (leçon 3, chapitre 29) : chaque
+                    règle est testée puis oubliée, pas d'imbrication.
+                </p>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>HTML</strong> : les deux <code>&lt;form&gt;</code> dans un conteneur, chaque champ accompagné d'un <code>&lt;small&gt;</code> vide pour le message d'erreur</li>
+                    <li><strong>CSS</strong> : la carte, les états <code>.champ-erreur</code> / <code>.champ-valide</code> (bordures), et l'animation de bascule entre les panneaux</li>
+                    <li><strong>Bascule</strong> : les liens "Créer un compte" / "Déjà inscrit ?" font un <code>classList.toggle</code> sur le conteneur — le CSS fait le reste</li>
+                    <li><strong>Fonctions de validation</strong> : une par règle, testées d'abord en console</li>
+                    <li><strong>Validation en direct</strong> : sur l'événement <code>blur</code> (le champ perd le focus) de chaque input, applique la règle et affiche le message</li>
+                    <li><strong>Soumission</strong> : sur <code>submit</code>, <code>event.preventDefault()</code>, valide TOUS les champs, et affiche un message de succès si tout passe</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>La page se recharge à la soumission</strong> : c'est le comportement par défaut d'un <code>&lt;form&gt;</code> — <code>event.preventDefault()</code> est indispensable</li>
+                    <li><strong>Valider seulement à la soumission</strong> : l'utilisateur préfère savoir tout de suite — d'où le <code>blur</code> champ par champ</li>
+                    <li><strong>Confirmation de mot de passe</strong> : cette règle dépend de DEUX champs — pense à la revalider quand l'un OU l'autre change</li>
+                    <li><strong>Messages qui s'accumulent</strong> : écrase toujours le contenu du <code>&lt;small&gt;</code>, ne fais pas d'ajout</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Pour aller plus loin</h2>
+                <ul>
+                    <li>Jauge de force du mot de passe (réutilise la logique du projet 38 !)</li>
+                    <li>Validation email plus stricte avec une expression régulière</li>
+                    <li>Animation "secousse" (shake) du formulaire quand la soumission échoue</li>
+                    <li>Simule une connexion asynchrone : bouton en état "Connexion..." pendant 1,5 s avec <code>setTimeout</code> + promesse</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Bravo — formation terminée !</h2>
+                <p>
+                    42 chapitres, 6 leçons, 7 projets : tu es passé des variables aux
+                    applications complètes. Tu as maintenant un vrai socle JavaScript
+                    <strong>et</strong> un début de portfolio. La suite logique de ton
+                    parcours : consolider en refaisant les projets sans les vidéos, puis
+                    piloter tes propres idées avec la formation
+                    <a href="../../methode-projet/index.html">Méthode &amp; Projet</a>.
+                </p>
+                <p>
+                    <a href="../../index.html">Retour au hub des formations →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="texte-en-audio.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Texte-en-audio</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>

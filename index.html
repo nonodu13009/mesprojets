@@ -13,17 +13,29 @@
         <header class="hero">
             <h1>Mes formations, mes projets</h1>
             <p class="subtitle">Mon parcours en développement web, IA et outils numériques</p>
+
+            <div class="recherche">
+                <div class="recherche-barre">
+                    <svg class="recherche-loupe" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                        <circle cx="9" cy="9" r="6.5" stroke="currentColor" stroke-width="1.8"/>
+                        <line x1="14" y1="14" x2="18" y2="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                    <input type="search" id="recherche-champ" placeholder="Rechercher un sujet… (ex : promesse, DOM, météo)"
+                           autocomplete="off" aria-label="Rechercher dans les formations">
+                </div>
+                <div id="recherche-resultats" class="recherche-panneau" hidden></div>
+            </div>
         </header>
 
         <main>
             <section class="formation-block">
                 <div class="formation-header">
                     <h2>JavaScript</h2>
-                    <span class="badge">3 leçons · 20 chapitres</span>
+                    <span class="badge">6 leçons · 42 chapitres</span>
                 </div>
                 <p class="formation-desc">
-                    Des bases du langage au JavaScript moderne (ES6+). Variables, types,
-                    boucles, conditions, fonctions, destructuring, promesses, modules et plus.
+                    Des bases du langage aux projets complets : variables, boucles, fonctions,
+                    ES6 moderne, DOM, asynchrone et 7 projets pratiques avec API Web.
                 </p>
 
                 <div class="lessons-grid">
@@ -54,6 +66,20 @@
                         <span class="lesson-chapters">3 chapitres</span>
                         <span class="lesson-topics">Document · querySelector · Éléments · CSS dynamique</span>
                     </a>
+
+                    <a href="JS/lecon5-javascript-asynchrone/index.html" class="lesson-card">
+                        <span class="lesson-number">Leçon 5</span>
+                        <span class="lesson-title">Le JavaScript Asynchrone</span>
+                        <span class="lesson-chapters">3 chapitres</span>
+                        <span class="lesson-topics">Callbacks · Promesses · Fetch · Async/Await</span>
+                    </a>
+
+                    <a href="JS/lecon6-projets-pratiques-api/index.html" class="lesson-card">
+                        <span class="lesson-number">Leçon 6</span>
+                        <span class="lesson-title">Projets Pratiques & API Web</span>
+                        <span class="lesson-chapters">7 projets</span>
+                        <span class="lesson-topics">Météo · Calculatrice · QR Code · Formulaire</span>
+                    </a>
                 </div>
             </section>
 
@@ -82,5 +108,7 @@
             <p>Jean-Michel Nogaro · 2026</p>
         </footer>
     </div>
+
+    <script src="recherche.js"></script>
 </body>
 </html>

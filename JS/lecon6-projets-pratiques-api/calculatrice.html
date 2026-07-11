@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fiche projet : calculatrice moderne en HTML, CSS et JavaScript — grille de touches, gestion d'etat et operations.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 6 — Calculatrice Moderne</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="../../JS/lecon1-bases-variables-types/index.html">Leçon 1</a>
+            <a href="../../JS/lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a>
+            <a href="../../JS/lecon3-javascript-moderne-es6/index.html">Leçon 3</a>
+            <a href="../../JS/lecon4-manipulation-dom/index.html">Leçon 4</a>
+            <a href="../../JS/lecon5-javascript-asynchrone/index.html">Leçon 5</a>
+            <a href="../../JS/lecon6-projets-pratiques-api/index.html" class="active">Leçon 6</a>
+            <a href="../../methode-projet/index.html">Méthode</a>
+        </nav>
+
+        <header>
+            <h1>Calculatrice Moderne</h1>
+            <p>Leçon 6 · Projet 39 · Gestion d'état et délégation d'événements</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le brief</h2>
+                <p>
+                    Construire une <strong>calculatrice complète</strong> façon
+                    iOS/Android : écran d'affichage, grille de touches (chiffres,
+                    opérateurs, égal, effacer), et les quatre opérations. Le défi
+                    n'est pas visuel, il est <strong>logique</strong> : gérer l'état
+                    de la calculatrice sans s'emmêler.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas pratiquer</h2>
+                <ul>
+                    <li><strong>Gestion d'état</strong> : un objet qui mémorise où en est le calcul (leçon 3, objets et méthodes)</li>
+                    <li><strong>Délégation d'événements</strong> : UN écouteur sur la grille plutôt que 20 sur les touches</li>
+                    <li>CSS Grid pour la grille de touches</li>
+                    <li><code>switch</code> pour dispatcher les opérateurs (leçon 2)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Fonctionnalités attendues</h2>
+                <ul>
+                    <li>Écran affichant la saisie en cours et le résultat</li>
+                    <li>Touches 0-9, virgule, <code>+</code> <code>−</code> <code>×</code> <code>÷</code>, <code>=</code>, <code>C</code> (tout effacer)</li>
+                    <li>Enchaînement des calculs : <code>2 + 3 × 4</code> touche par touche</li>
+                    <li>Division par zéro gérée proprement (message, pas <code>Infinity</code>)</li>
+                    <li>Design soigné : grille régulière, touches opérateurs colorées, effet au survol</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Le cœur du projet : l'état</h2>
+                <p>
+                    Une calculatrice doit se souvenir de trois choses. Modélise-les
+                    dans un objet dès le départ :
+                </p>
+
+                <pre><code><span class="keyword">const</span> etat = {
+    premierNombre: <span class="keyword">null</span>,   <span class="comment">// le nombre avant l'opérateur</span>
+    operateur: <span class="keyword">null</span>,       <span class="comment">// "+", "-", "×", "÷"</span>
+    saisieCourante: <span class="string">"0"</span>    <span class="comment">// ce qui s'affiche à l'écran (une CHAÎNE)</span>
+};</code></pre>
+
+                <p>
+                    Chaque touche ne fait qu'une chose : <strong>mettre à jour cet
+                    état</strong>, puis rafraîchir l'écran. Si tu tiens cette
+                    discipline, la calculatrice reste simple.
+                </p>
+            </section>
+
+            <section>
+                <h2>Plan de construction</h2>
+                <ol class="steps">
+                    <li><strong>HTML/CSS</strong> : l'écran + la grille de touches en CSS Grid (<code>grid-template-columns: repeat(4, 1fr)</code>)</li>
+                    <li><strong>Délégation</strong> : un seul <code>addEventListener("click")</code> sur la grille ; identifie la touche cliquée avec <code>event.target</code> et un attribut <code>data-touche</code></li>
+                    <li><strong>Saisie des chiffres</strong> : concatène à <code>saisieCourante</code> (c'est une chaîne : <code>"1" + "2" = "12"</code> — c'est voulu !) et rafraîchis l'écran</li>
+                    <li><strong>Touche opérateur</strong> : stocke <code>saisieCourante</code> dans <code>premierNombre</code>, mémorise l'opérateur, réinitialise la saisie</li>
+                    <li><strong>Touche égal</strong> : convertis les deux nombres avec <code>Number()</code>, calcule selon l'opérateur (un <code>switch</code>), affiche le résultat</li>
+                    <li><strong>Touche C</strong> : remets l'état à ses valeurs initiales</li>
+                    <li><strong>Cas limites</strong> : double virgule interdite, division par zéro, appui sur <code>=</code> sans opérateur</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Les pièges classiques</h2>
+                <ul>
+                    <li><strong>Le piège n°1 du projet</strong> : oublier <code>Number()</code> et faire <code>"2" + "3" = "23"</code>. Chaîne pour l'affichage, nombre pour le calcul</li>
+                    <li><strong>0,1 + 0,2 = 0,30000000000000004</strong> : les flottants ! Arrondis l'affichage avec <code>parseFloat(resultat.toFixed(10))</code></li>
+                    <li><strong>Ne JAMAIS utiliser <code>eval()</code></strong> pour calculer : faille de sécurité majeure. Ton <code>switch</code> fait le travail proprement</li>
+                    <li><strong>Enchaîner après <code>=</code></strong> : décide quoi faire si l'utilisateur tape un chiffre juste après un résultat (nouvelle saisie ? continuation ?)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Pour aller plus loin</h2>
+                <ul>
+                    <li>Support du clavier physique (événement <code>keydown</code>)</li>
+                    <li>Touche <code>±</code> (inverser le signe) et <code>%</code></li>
+                    <li>Historique des calculs affiché au-dessus de l'écran</li>
+                    <li>Calculs en chaîne : <code>2 + 3 + 4</code> sans appuyer sur <code>=</code> entre chaque</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Après la logique d'état, retour aux API avec un projet ultra
+                    gratifiant : le <strong>générateur de QR Code</strong> — beaucoup
+                    d'effet pour un code étonnamment court.
+                </p>
+                <p>
+                    <a href="generateur-qr-code.html">Projet suivant : Générateur de QR Code →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="generateur-mots-de-passe.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Générateur de mots de passe</span></a>
+                <a class="pager-next" href="generateur-qr-code.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Générateur de QR Code</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+    <script src="../../recherche.js" defer></script>
+</body>
+</html>
