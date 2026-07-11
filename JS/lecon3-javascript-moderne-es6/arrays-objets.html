@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Les Arrays d'Objets</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="fonctions-flechees.html">Fléchées</a>
+            <a href="objets-litteraux.html">Objets littéraux</a>
+            <a href="destructuration.html">Destructuration</a>
+            <a href="methodes-objets.html">Méthodes objets</a>
+            <a href="arrays-objets.html" class="active">Arrays d'objets</a>
+            <a href="meilleures-methodes.html">Bonnes pratiques</a>
+        </nav>
+
+        <header>
+            <h1>Les Arrays d'Objets</h1>
+            <p>Leçon 3 · Chapitre 28 · La structure de données du web</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>La structure la plus courante du web</h2>
+                <p>
+                    Une liste de produits sur un site e-commerce, les résultats d'une
+                    recherche, les contacts de ton téléphone, une réponse d'API... presque
+                    toutes les données du web sont des <strong>tableaux d'objets</strong> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> produits = [
+    { nom: <span class="string">"Clavier"</span>, prix: <span class="number">49</span>, stock: <span class="number">12</span> },
+    { nom: <span class="string">"Souris"</span>, prix: <span class="number">29</span>, stock: <span class="number">0</span> },
+    { nom: <span class="string">"Écran"</span>, prix: <span class="number">199</span>, stock: <span class="number">5</span> },
+    { nom: <span class="string">"Casque"</span>, prix: <span class="number">89</span>, stock: <span class="number">3</span> }
+];</code></pre>
+
+                <p>
+                    Chaque élément du tableau est un objet avec la même structure.
+                    Pour accéder à une valeur, on combine index et propriété :
+                </p>
+
+                <pre><code>console.log(produits[<span class="number">0</span>]);      <span class="comment">// { nom: "Clavier", prix: 49, stock: 12 }</span>
+console.log(produits[<span class="number">0</span>].nom);  <span class="comment">// "Clavier"</span>
+console.log(produits[<span class="number">2</span>].prix); <span class="comment">// 199</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Parcourir : <code>for...of</code> et <code>forEach</code></h2>
+                <p>
+                    Deux façons classiques de parcourir la liste. Remarque la
+                    fonction fléchée et la destructuration, vues aux chapitres précédents :
+                </p>
+
+                <pre><code><span class="comment">// Avec for...of</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> produit <span class="keyword">of</span> produits) {
+    console.log(<span class="string">`${produit.nom} : ${produit.prix} €`</span>);
+}
+
+<span class="comment">// Avec forEach + fléchée + destructuration dans le paramètre</span>
+produits.forEach(({ nom, prix }) => {
+    console.log(<span class="string">`${nom} : ${prix} €`</span>);
+});</code></pre>
+            </section>
+
+            <section>
+                <h2><code>find</code> : trouver UN objet</h2>
+                <p>
+                    <code>find</code> renvoie le <strong>premier</strong> élément qui
+                    satisfait une condition (ou <code>undefined</code> si aucun) :
+                </p>
+
+                <pre><code><span class="keyword">const</span> ecran = produits.find(p => p.nom === <span class="string">"Écran"</span>);
+console.log(ecran); <span class="comment">// { nom: "Écran", prix: 199, stock: 5 }</span>
+
+<span class="keyword">const</span> introuvable = produits.find(p => p.prix > <span class="number">500</span>);
+console.log(introuvable); <span class="comment">// undefined</span></code></pre>
+            </section>
+
+            <section>
+                <h2><code>filter</code> : garder PLUSIEURS objets</h2>
+                <p>
+                    <code>filter</code> renvoie un <strong>nouveau tableau</strong> avec
+                    tous les éléments qui passent le test :
+                </p>
+
+                <pre><code><span class="comment">// Tous les produits disponibles</span>
+<span class="keyword">const</span> enStock = produits.filter(p => p.stock > <span class="number">0</span>);
+console.log(enStock.length); <span class="comment">// 3 (la souris est exclue)</span>
+
+<span class="comment">// Tous les produits à moins de 100 €</span>
+<span class="keyword">const</span> abordables = produits.filter(p => p.prix < <span class="number">100</span>);
+console.log(abordables); <span class="comment">// Clavier, Souris, Casque</span></code></pre>
+            </section>
+
+            <section>
+                <h2><code>map</code> : transformer chaque objet</h2>
+                <p>
+                    <code>map</code> renvoie un nouveau tableau de la même taille, où
+                    chaque élément a été <strong>transformé</strong> :
+                </p>
+
+                <pre><code><span class="comment">// Extraire juste les noms</span>
+<span class="keyword">const</span> noms = produits.map(p => p.nom);
+console.log(noms); <span class="comment">// ["Clavier", "Souris", "Écran", "Casque"]</span>
+
+<span class="comment">// Créer une version avec prix TTC (rappel : parenthèses autour de l'objet !)</span>
+<span class="keyword">const</span> avecTTC = produits.map(p => ({
+    nom: p.nom,
+    prixTTC: p.prix * <span class="number">1.2</span>
+}));
+console.log(avecTTC[<span class="number">0</span>]); <span class="comment">// { nom: "Clavier", prixTTC: 58.8 }</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Chaîner les méthodes</h2>
+                <p>
+                    La vraie puissance : comme <code>filter</code> et <code>map</code>
+                    renvoient des tableaux, tu peux les <strong>enchaîner</strong> pour
+                    exprimer une logique complexe en quelques lignes lisibles :
+                </p>
+
+                <pre><code><span class="comment">// Les noms des produits en stock à moins de 100 €</span>
+<span class="keyword">const</span> resultat = produits
+    .filter(p => p.stock > <span class="number">0</span>)
+    .filter(p => p.prix < <span class="number">100</span>)
+    .map(p => p.nom);
+
+console.log(resultat); <span class="comment">// ["Clavier", "Casque"]</span></code></pre>
+
+                <p class="note">
+                    <strong>Bonus :</strong> pour additionner des valeurs, il existe
+                    <code>reduce</code> — par exemple
+                    <code>produits.reduce((total, p) => total + p.prix, 0)</code>
+                    donne la somme des prix (366). Retiens surtout <code>find</code>,
+                    <code>filter</code> et <code>map</code> : ce sont les trois que
+                    tu utiliseras tous les jours.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Copie le tableau <code>produits</code> du début du chapitre</li>
+                    <li>Affiche le prix de la souris avec <code>produits[1].prix</code></li>
+                    <li>Trouve le casque avec <code>find</code></li>
+                    <li>Filtre les produits dont le stock est inférieur à 6</li>
+                    <li>Crée un tableau des noms en majuscules avec <code>map</code> et <code>toUpperCase()</code></li>
+                    <li>Chaîne un <code>filter</code> (stock &gt; 0) puis un <code>map</code> (noms)</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu as maintenant toutes les briques du JavaScript moderne : fléchées,
+                    objets, destructuration, méthodes et arrays d'objets. Le dernier
+                    chapitre prend du recul : comment <strong>bien</strong> utiliser tout
+                    ça pour écrire du code propre, lisible et robuste.
+                </p>
+                <p>
+                    <a href="meilleures-methodes.html">Chapitre suivant : Les meilleures méthodes pour mieux coder →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="methodes-objets.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Méthodes des objets</span></a>
+                <a class="pager-next" href="meilleures-methodes.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Bonnes pratiques</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

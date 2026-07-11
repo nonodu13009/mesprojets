@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Les Objets Littéraux</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="fonctions-flechees.html">Fléchées</a>
+            <a href="objets-litteraux.html" class="active">Objets littéraux</a>
+            <a href="destructuration.html">Destructuration</a>
+            <a href="methodes-objets.html">Méthodes objets</a>
+            <a href="arrays-objets.html">Arrays d'objets</a>
+            <a href="meilleures-methodes.html">Bonnes pratiques</a>
+        </nav>
+
+        <header>
+            <h1>Les Objets Littéraux</h1>
+            <p>Leçon 3 · Chapitre 25 · La structure de données au cœur de JavaScript</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>C'est quoi, un objet littéral ?</h2>
+                <p>
+                    Un <strong>objet littéral</strong> est une collection de paires
+                    <strong>clé / valeur</strong> écrite directement entre accolades
+                    <code>{ }</code>. C'est LA structure de données de JavaScript : un
+                    utilisateur, un produit, une réponse d'API... tout est objet.
+                </p>
+
+                <pre><code><span class="keyword">const</span> utilisateur = {
+    nom: <span class="string">"Nogaro"</span>,
+    prenom: <span class="string">"Jean-Michel"</span>,
+    age: <span class="number">30</span>,
+    estActif: <span class="keyword">true</span>
+};</code></pre>
+
+                <p>
+                    Chaque ligne est une <strong>propriété</strong> : une clé
+                    (<code>nom</code>), deux-points, puis une valeur (<code>"Nogaro"</code>).
+                    Les valeurs peuvent être de n'importe quel type : chaîne, nombre, booléen,
+                    tableau, fonction... ou même un autre objet.
+                </p>
+            </section>
+
+            <section>
+                <h2>Lire une propriété : point ou crochets</h2>
+                <p>
+                    Deux notations pour accéder à une valeur :
+                </p>
+
+                <pre><code><span class="comment">// Notation par point : la plus courante</span>
+console.log(utilisateur.nom);       <span class="comment">// "Nogaro"</span>
+
+<span class="comment">// Notation par crochets : la clé est une chaîne</span>
+console.log(utilisateur[<span class="string">"nom"</span>]);    <span class="comment">// "Nogaro"</span>
+
+<span class="comment">// Les crochets acceptent une variable — impossible avec le point !</span>
+<span class="keyword">const</span> cle = <span class="string">"prenom"</span>;
+console.log(utilisateur[cle]);      <span class="comment">// "Jean-Michel"</span></code></pre>
+
+                <p class="note">
+                    <strong>Règle simple :</strong> utilise le point par défaut. Passe aux
+                    crochets uniquement quand la clé est dans une variable ou contient des
+                    caractères spéciaux (espaces, tirets).
+                </p>
+            </section>
+
+            <section>
+                <h2>Modifier, ajouter, supprimer</h2>
+                <p>
+                    Un objet déclaré avec <code>const</code> n'est pas figé : c'est la
+                    <strong>référence</strong> qui est constante, pas le contenu. Tu peux
+                    donc modifier ses propriétés librement :
+                </p>
+
+                <pre><code><span class="comment">// Modifier une propriété existante</span>
+utilisateur.age = <span class="number">31</span>;
+
+<span class="comment">// Ajouter une nouvelle propriété</span>
+utilisateur.ville = <span class="string">"Marseille"</span>;
+
+<span class="comment">// Supprimer une propriété</span>
+<span class="keyword">delete</span> utilisateur.estActif;
+
+console.log(utilisateur);
+<span class="comment">// { nom: "Nogaro", prenom: "Jean-Michel", age: 31, ville: "Marseille" }</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Objets imbriqués</h2>
+                <p>
+                    Une valeur peut être un autre objet ou un tableau. C'est comme ça que
+                    sont structurées la plupart des données réelles :
+                </p>
+
+                <pre><code><span class="keyword">const</span> agence = {
+    nom: <span class="string">"Nogaro & Boetti"</span>,
+    adresse: {
+        ville: <span class="string">"Marseille"</span>,
+        codePostal: <span class="string">"13008"</span>
+    },
+    activites: [<span class="string">"auto"</span>, <span class="string">"habitation"</span>, <span class="string">"santé"</span>]
+};
+
+<span class="comment">// On chaîne les points pour descendre dans la structure</span>
+console.log(agence.adresse.ville);   <span class="comment">// "Marseille"</span>
+console.log(agence.activites[<span class="number">0</span>]);    <span class="comment">// "auto"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Les raccourcis ES6</h2>
+                <p>
+                    ES6 a introduit des raccourcis d'écriture que tu verras partout dans
+                    le code moderne.
+                </p>
+
+                <h3>1. Propriétés raccourcies</h3>
+                <p>
+                    Quand le nom de la variable est identique au nom de la clé, inutile
+                    de le répéter :
+                </p>
+
+                <pre><code><span class="keyword">const</span> nom = <span class="string">"Nogaro"</span>;
+<span class="keyword">const</span> age = <span class="number">30</span>;
+
+<span class="comment">// Avant ES6</span>
+<span class="keyword">const</span> personne = { nom: nom, age: age };
+
+<span class="comment">// Depuis ES6 : raccourci</span>
+<span class="keyword">const</span> personne2 = { nom, age };
+
+console.log(personne2); <span class="comment">// { nom: "Nogaro", age: 30 }</span></code></pre>
+
+                <h3>2. Clés calculées</h3>
+                <p>
+                    Tu peux utiliser une expression comme nom de clé avec des crochets :
+                </p>
+
+                <pre><code><span class="keyword">const</span> champ = <span class="string">"email"</span>;
+
+<span class="keyword">const</span> formulaire = {
+    [champ]: <span class="string">"jm@exemple.fr"</span>
+};
+
+console.log(formulaire.email); <span class="comment">// "jm@exemple.fr"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Parcourir un objet</h2>
+                <p>
+                    Trois outils pour explorer les clés et valeurs d'un objet :
+                </p>
+
+                <pre><code><span class="keyword">const</span> scores = { maths: <span class="number">15</span>, anglais: <span class="number">12</span>, sport: <span class="number">18</span> };
+
+console.log(Object.keys(scores));    <span class="comment">// ["maths", "anglais", "sport"]</span>
+console.log(Object.values(scores));  <span class="comment">// [15, 12, 18]</span>
+console.log(Object.entries(scores)); <span class="comment">// [["maths", 15], ["anglais", 12], ["sport", 18]]</span>
+
+<span class="comment">// Boucle sur les paires clé/valeur</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> [matiere, note] <span class="keyword">of</span> Object.entries(scores)) {
+    console.log(<span class="string">`${matiere} : ${note}/20`</span>);
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Crée un objet <code>livre</code> avec un titre, un auteur et un nombre de pages</li>
+                    <li>Affiche le titre avec la notation par point, puis par crochets</li>
+                    <li>Ajoute une propriété <code>annee</code>, puis modifie le nombre de pages</li>
+                    <li>Crée deux variables <code>marque</code> et <code>prix</code>, puis un objet avec le raccourci <code>{ marque, prix }</code></li>
+                    <li>Teste <code>Object.keys(livre)</code> et <code>Object.values(livre)</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais créer et manipuler des objets. Mais extraire leurs valeurs une
+                    par une (<code>const nom = utilisateur.nom</code>...) devient vite
+                    répétitif. ES6 a une solution élégante : la
+                    <strong>déstructuration</strong>.
+                </p>
+                <p>
+                    <a href="destructuration.html">Chapitre suivant : Déstructuration →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="fonctions-flechees.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Fonctions fléchées</span></a>
+                <a class="pager-next" href="destructuration.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Destructuration</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

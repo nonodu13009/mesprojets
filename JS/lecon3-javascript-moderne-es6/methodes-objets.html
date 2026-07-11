@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Les Méthodes des Objets</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="fonctions-flechees.html">Fléchées</a>
+            <a href="objets-litteraux.html">Objets littéraux</a>
+            <a href="destructuration.html">Destructuration</a>
+            <a href="methodes-objets.html" class="active">Méthodes objets</a>
+            <a href="arrays-objets.html">Arrays d'objets</a>
+            <a href="meilleures-methodes.html">Bonnes pratiques</a>
+        </nav>
+
+        <header>
+            <h1>Les Méthodes des Objets</h1>
+            <p>Leçon 3 · Chapitre 27 · Donner des comportements à tes objets</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>C'est quoi, une méthode ?</h2>
+                <p>
+                    Jusqu'ici, tes objets contenaient des <strong>données</strong> : chaînes,
+                    nombres, booléens. Mais une valeur peut aussi être une
+                    <strong>fonction</strong>. Une fonction stockée dans un objet s'appelle
+                    une <strong>méthode</strong>.
+                </p>
+
+                <pre><code><span class="keyword">const</span> utilisateur = {
+    prenom: <span class="string">"Jean-Michel"</span>,
+    nom: <span class="string">"Nogaro"</span>,
+    saluer: <span class="keyword">function</span>() {
+        console.log(<span class="string">"Bonjour !"</span>);
+    }
+};
+
+<span class="comment">// On appelle une méthode avec le point + parenthèses</span>
+utilisateur.saluer(); <span class="comment">// "Bonjour !"</span></code></pre>
+
+                <p>
+                    Tu en utilises déjà sans le savoir : <code>console.log()</code> est la
+                    méthode <code>log</code> de l'objet <code>console</code>, et
+                    <code>"abc".toUpperCase()</code> est une méthode des chaînes.
+                </p>
+            </section>
+
+            <section>
+                <h2>La syntaxe raccourcie ES6</h2>
+                <p>
+                    ES6 permet d'écrire les méthodes sans le mot-clé <code>function</code>.
+                    C'est la forme que tu verras partout dans le code moderne :
+                </p>
+
+                <pre><code><span class="keyword">const</span> utilisateur = {
+    prenom: <span class="string">"Jean-Michel"</span>,
+
+    <span class="comment">// Avant ES6</span>
+    saluerAncien: <span class="keyword">function</span>() {
+        console.log(<span class="string">"Bonjour !"</span>);
+    },
+
+    <span class="comment">// Depuis ES6 : plus court, même résultat</span>
+    saluer() {
+        console.log(<span class="string">"Bonjour !"</span>);
+    }
+};</code></pre>
+            </section>
+
+            <section>
+                <h2>Le mot-clé <code>this</code></h2>
+                <p>
+                    L'intérêt d'une méthode, c'est qu'elle peut accéder aux
+                    <strong>autres propriétés de son objet</strong> grâce au mot-clé
+                    <code>this</code> ("cet objet-ci") :
+                </p>
+
+                <pre><code><span class="keyword">const</span> utilisateur = {
+    prenom: <span class="string">"Jean-Michel"</span>,
+    nom: <span class="string">"Nogaro"</span>,
+
+    nomComplet() {
+        <span class="keyword">return</span> <span class="string">`${<span class="keyword">this</span>.prenom} ${<span class="keyword">this</span>.nom}`</span>;
+    },
+
+    sePresenter() {
+        <span class="comment">// Une méthode peut appeler une autre méthode du même objet</span>
+        console.log(<span class="string">`Bonjour, je suis ${<span class="keyword">this</span>.nomComplet()}`</span>);
+    }
+};
+
+console.log(utilisateur.nomComplet()); <span class="comment">// "Jean-Michel Nogaro"</span>
+utilisateur.sePresenter();             <span class="comment">// "Bonjour, je suis Jean-Michel Nogaro"</span></code></pre>
+
+                <p>
+                    Quand tu appelles <code>utilisateur.nomComplet()</code>,
+                    <code>this</code> désigne l'objet <strong>avant le point</strong>,
+                    donc <code>utilisateur</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Piège : pas de fléchée pour les méthodes</h2>
+                <p>
+                    Tu te souviens du chapitre sur les
+                    <a href="fonctions-flechees.html">fonctions fléchées</a> ? Elles n'ont
+                    pas leur propre <code>this</code>. Résultat : une méthode écrite en
+                    fléchée ne peut pas accéder aux propriétés de son objet.
+                </p>
+
+                <pre><code><span class="keyword">const</span> compteur = {
+    valeur: <span class="number">10</span>,
+
+    <span class="comment">// ❌ Fléchée : this ne désigne PAS l'objet compteur</span>
+    afficherMal: () => {
+        console.log(<span class="keyword">this</span>.valeur); <span class="comment">// undefined</span>
+    },
+
+    <span class="comment">// ✅ Syntaxe raccourcie : this fonctionne</span>
+    afficherBien() {
+        console.log(<span class="keyword">this</span>.valeur); <span class="comment">// 10</span>
+    }
+};</code></pre>
+
+                <p class="note">
+                    <strong>Règle à retenir :</strong> fléchées pour les callbacks,
+                    syntaxe raccourcie <code>nomMethode() { }</code> pour les méthodes
+                    d'objet qui utilisent <code>this</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple concret : un panier d'achat</h2>
+                <p>
+                    Combinons données et comportements dans un objet réaliste :
+                </p>
+
+                <pre><code><span class="keyword">const</span> panier = {
+    articles: [],
+
+    ajouter(nom, prix) {
+        <span class="keyword">this</span>.articles.push({ nom, prix }); <span class="comment">// raccourci d'objet du chap. 25 !</span>
+        console.log(<span class="string">`${nom} ajouté au panier`</span>);
+    },
+
+    total() {
+        <span class="keyword">let</span> somme = <span class="number">0</span>;
+        <span class="keyword">for</span> (<span class="keyword">const</span> article <span class="keyword">of</span> <span class="keyword">this</span>.articles) {
+            somme += article.prix;
+        }
+        <span class="keyword">return</span> somme;
+    }
+};
+
+panier.ajouter(<span class="string">"Clavier"</span>, <span class="number">49</span>);  <span class="comment">// "Clavier ajouté au panier"</span>
+panier.ajouter(<span class="string">"Souris"</span>, <span class="number">29</span>);   <span class="comment">// "Souris ajouté au panier"</span>
+console.log(panier.total());      <span class="comment">// 78</span></code></pre>
+
+                <p>
+                    C'est le principe de base de la programmation orientée objet :
+                    regrouper au même endroit les <strong>données</strong>
+                    (<code>articles</code>) et les <strong>actions</strong> qui les
+                    manipulent (<code>ajouter</code>, <code>total</code>).
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Crée un objet <code>chien</code> avec une propriété <code>nom</code> et une méthode <code>aboyer()</code> qui affiche "Wouf !"</li>
+                    <li>Ajoute une méthode <code>sePresenter()</code> qui utilise <code>this.nom</code></li>
+                    <li>Teste la même méthode en fléchée et observe le <code>undefined</code></li>
+                    <li>Recrée le panier d'achat et ajoute une méthode <code>vider()</code> qui remet <code>this.articles</code> à <code>[]</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais créer des objets complets, avec données et comportements.
+                    Dans la vraie vie, on manipule rarement un objet seul : on travaille
+                    avec des <strong>listes d'objets</strong> — la structure la plus
+                    fréquente du développement web. C'est le sujet du prochain chapitre.
+                </p>
+                <p>
+                    <a href="arrays-objets.html">Chapitre suivant : Les arrays d'objets →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="destructuration.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Destructuration</span></a>
+                <a class="pager-next" href="arrays-objets.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Arrays d'objets</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

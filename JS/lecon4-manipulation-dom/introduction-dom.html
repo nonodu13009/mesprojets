@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne et manipulation du DOM, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 4 — Introduction au DOM</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="introduction-dom.html" class="active">Intro DOM</a>
+            <a href="obtenir-manipuler-elements.html">Éléments</a>
+            <a href="manipuler-css.html">CSS & DOM</a>
+        </nav>
+
+        <header>
+            <h1>Introduction au DOM</h1>
+            <p>Leçon 4 · Chapitre 30 · Manipule le document web dynamique</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>C'est quoi, le DOM ?</h2>
+                <p>
+                    Quand le navigateur charge une page HTML, il ne se contente pas de
+                    l'afficher : il la transforme en une <strong>structure d'objets
+                    JavaScript</strong> appelée le <strong>DOM</strong>
+                    (<em>Document Object Model</em>).
+                </p>
+                <p>
+                    Chaque balise HTML devient un objet (un <strong>nœud</strong>) que ton
+                    code peut lire et modifier. Le HTML est le plan de départ ; le DOM est
+                    la version <strong>vivante</strong> de la page, en mémoire.
+                </p>
+
+                <pre><code><span class="comment">&lt;!-- Le HTML que tu écris... --&gt;</span>
+&lt;body&gt;
+    &lt;h1&gt;Bienvenue&lt;/h1&gt;
+    &lt;p&gt;Bonjour à tous&lt;/p&gt;
+&lt;/body&gt;
+
+<span class="comment">// ...devient un arbre d'objets accessibles en JavaScript :</span>
+<span class="comment">//   document</span>
+<span class="comment">//   └── body</span>
+<span class="comment">//       ├── h1  → "Bienvenue"</span>
+<span class="comment">//       └── p   → "Bonjour à tous"</span></code></pre>
+
+                <p>
+                    C'est pour ça qu'on parle d'<strong>arbre DOM</strong> : chaque élément
+                    a un parent, et éventuellement des enfants — exactement comme
+                    l'imbrication des balises HTML.
+                </p>
+            </section>
+
+            <section>
+                <h2>La porte d'entrée : l'objet <code>document</code></h2>
+                <p>
+                    Tout part de l'objet global <code>document</code>, qui représente la
+                    page entière. Souviens-toi de la leçon 3 : un objet a des
+                    <strong>propriétés</strong> et des <strong>méthodes</strong>.
+                    <code>document</code> n'échappe pas à la règle.
+                </p>
+
+                <pre><code><span class="comment">// À tester dans la console, sur n'importe quelle page !</span>
+console.log(document.title);           <span class="comment">// le titre de l'onglet</span>
+console.log(document.URL);             <span class="comment">// l'adresse de la page</span>
+console.log(document.body);            <span class="comment">// l'élément &lt;body&gt; complet</span>
+console.log(document.body.children);   <span class="comment">// ses enfants directs</span></code></pre>
+
+                <p class="note">
+                    <strong>Astuce :</strong> dans la console, tape <code>document</code>
+                    puis explore l'objet en dépliant les flèches. Tu verras toute la
+                    structure de la page.
+                </p>
+            </section>
+
+            <section>
+                <h2>Première manipulation : modifier la page</h2>
+                <p>
+                    La magie du DOM : si tu modifies un objet, <strong>la page se met à
+                    jour instantanément</strong>. Essaie ça dans la console, ici même :
+                </p>
+
+                <pre><code><span class="comment">// Change le titre de l'onglet</span>
+document.title = <span class="string">"Mon nouveau titre"</span>;
+
+<span class="comment">// Change la couleur de fond de toute la page</span>
+document.body.style.backgroundColor = <span class="string">"lightyellow"</span>;
+
+<span class="comment">// Remplace le premier titre de la page</span>
+document.querySelector(<span class="string">"h1"</span>).textContent = <span class="string">"Le DOM, c'est moi !"</span>;</code></pre>
+
+                <p>
+                    Recharge la page (<strong>F5</strong>) et tout revient à la normale :
+                    tu as modifié le DOM (la version en mémoire), pas le fichier HTML.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les nœuds de l'arbre</h2>
+                <p>
+                    Chaque élément du DOM connaît sa position dans l'arbre. Tu peux
+                    naviguer de parent en enfant :
+                </p>
+
+                <pre><code><span class="keyword">const</span> titre = document.querySelector(<span class="string">"h1"</span>);
+
+console.log(titre.parentElement);          <span class="comment">// l'élément qui le contient</span>
+console.log(titre.nextElementSibling);     <span class="comment">// l'élément juste après</span>
+console.log(document.body.firstElementChild); <span class="comment">// le premier enfant du body</span></code></pre>
+
+                <p>
+                    Tu utiliseras rarement cette navigation manuelle (les sélecteurs du
+                    prochain chapitre sont plus pratiques), mais elle t'aide à comprendre
+                    la logique d'arbre : <strong>parent, enfants, frères et sœurs</strong>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Pourquoi c'est fondamental ?</h2>
+                <p>
+                    Tout ce que tu vois bouger sur un site — un menu qui s'ouvre, un
+                    compteur qui s'incrémente, un formulaire qui affiche une erreur, un
+                    panier qui se met à jour — c'est du JavaScript qui manipule le DOM.
+                </p>
+                <p>
+                    Même les frameworks comme React ou Vue ne font "que" ça : ils
+                    manipulent le DOM à ta place, de façon optimisée. Comprendre le DOM,
+                    c'est comprendre comment le web fonctionne vraiment.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console) sur cette page</li>
+                    <li>Affiche <code>document.title</code> puis change-le</li>
+                    <li>Tape <code>document.body</code> et survole le résultat : le navigateur surligne l'élément dans la page</li>
+                    <li>Change la couleur de fond avec <code>document.body.style.backgroundColor = "lavender"</code></li>
+                    <li>Remplace le texte du <code>h1</code> avec <code>querySelector</code> et <code>textContent</code></li>
+                    <li>Recharge la page et constate que tout revient à la normale</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu as vu que <code>document.querySelector("h1")</code> permet
+                    d'attraper un élément. Le prochain chapitre explore en profondeur
+                    toutes les façons de <strong>sélectionner</strong> des éléments,
+                    de <strong>modifier</strong> leur contenu et d'en
+                    <strong>créer</strong> de nouveaux.
+                </p>
+                <p>
+                    <a href="obtenir-manipuler-elements.html">Chapitre suivant : Obtenir et manipuler des éléments →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="obtenir-manipuler-elements.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Obtenir et manipuler des éléments</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

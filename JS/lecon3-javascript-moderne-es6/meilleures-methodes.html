@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Les Meilleures Méthodes pour Mieux Coder</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="fonctions-flechees.html">Fléchées</a>
+            <a href="objets-litteraux.html">Objets littéraux</a>
+            <a href="destructuration.html">Destructuration</a>
+            <a href="methodes-objets.html">Méthodes objets</a>
+            <a href="arrays-objets.html">Arrays d'objets</a>
+            <a href="meilleures-methodes.html" class="active">Bonnes pratiques</a>
+        </nav>
+
+        <header>
+            <h1>Les Meilleures Méthodes pour Mieux Coder</h1>
+            <p>Leçon 3 · Chapitre 29 · Écrire du JavaScript propre et robuste</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi ce chapitre ?</h2>
+                <p>
+                    Tu connais maintenant la syntaxe moderne. Mais entre "du code qui marche"
+                    et "du code de qualité", il y a un ensemble d'habitudes que tous les bons
+                    développeurs partagent. Ce chapitre les rassemble : c'est ta
+                    <strong>checklist qualité</strong>, à relire régulièrement.
+                </p>
+            </section>
+
+            <section>
+                <h2>1. <code>const</code> par défaut, <code>let</code> si nécessaire</h2>
+                <p>
+                    N'utilise <strong>jamais</strong> <code>var</code>. Déclare tout en
+                    <code>const</code>, et passe à <code>let</code> seulement si la variable
+                    doit être réassignée :
+                </p>
+
+                <pre><code><span class="comment">// ✅ const : la valeur ne changera pas</span>
+<span class="keyword">const</span> TAUX_TVA = <span class="number">0.2</span>;
+<span class="keyword">const</span> utilisateur = { nom: <span class="string">"Nogaro"</span> };
+
+<span class="comment">// ✅ let : le compteur va changer</span>
+<span class="keyword">let</span> compteur = <span class="number">0</span>;
+compteur++;
+
+<span class="comment">// ❌ var : portée confuse, hissage surprenant — à bannir</span>
+<span class="keyword">var</span> ancien = <span class="string">"non merci"</span>;</code></pre>
+
+                <p>
+                    Bonus : <code>const</code> documente ton intention. Quand tu relis
+                    ton code, tu sais immédiatement quelles valeurs peuvent bouger.
+                </p>
+            </section>
+
+            <section>
+                <h2>2. Des noms explicites</h2>
+                <p>
+                    Le code est lu bien plus souvent qu'il n'est écrit. Un bon nom évite
+                    un commentaire :
+                </p>
+
+                <pre><code><span class="comment">// ❌ Illisible</span>
+<span class="keyword">const</span> d = <span class="number">30</span>;
+<span class="keyword">const</span> fn = (a, b) => a * b;
+
+<span class="comment">// ✅ Le code se lit comme une phrase</span>
+<span class="keyword">const</span> dureeEnJours = <span class="number">30</span>;
+<span class="keyword">const</span> calculerSurface = (largeur, hauteur) => largeur * hauteur;</code></pre>
+
+                <ul>
+                    <li>Variables et fonctions en <code>camelCase</code> : <code>prixTotal</code>, <code>calculerTTC</code></li>
+                    <li>Booléens qui posent une question : <code>estActif</code>, <code>aUnCompte</code></li>
+                    <li>Fonctions qui commencent par un verbe : <code>obtenirUtilisateur</code>, <code>afficherPanier</code></li>
+                    <li>Constantes "magiques" en <code>MAJUSCULES</code> : <code>TAUX_TVA</code>, <code>MAX_TENTATIVES</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>3. Égalité stricte : <code>===</code> toujours</h2>
+                <p>
+                    Le double égal <code>==</code> convertit les types avant de comparer,
+                    ce qui produit des résultats surprenants. Le triple égal
+                    <code>===</code> compare valeur <strong>et</strong> type :
+                </p>
+
+                <pre><code>console.log(<span class="number">5</span> == <span class="string">"5"</span>);   <span class="comment">// true 😱 (conversion implicite)</span>
+console.log(<span class="number">5</span> === <span class="string">"5"</span>);  <span class="comment">// false ✅ (types différents)</span>
+
+console.log(<span class="number">0</span> == <span class="keyword">false</span>);  <span class="comment">// true 😱</span>
+console.log(<span class="number">0</span> === <span class="keyword">false</span>); <span class="comment">// false ✅</span></code></pre>
+            </section>
+
+            <section>
+                <h2>4. Template literals plutôt que concaténation</h2>
+                <p>
+                    Les backticks <code>`</code> rendent les chaînes composées bien plus
+                    lisibles que les <code>+</code> en cascade :
+                </p>
+
+                <pre><code><span class="keyword">const</span> prenom = <span class="string">"Jean-Michel"</span>;
+<span class="keyword">const</span> age = <span class="number">30</span>;
+
+<span class="comment">// ❌ Concaténation : facile de se tromper dans les espaces</span>
+<span class="keyword">const</span> phrase = <span class="string">"Je suis "</span> + prenom + <span class="string">" et j'ai "</span> + age + <span class="string">" ans."</span>;
+
+<span class="comment">// ✅ Template literal : lisible d'un coup d'œil</span>
+<span class="keyword">const</span> phrase2 = <span class="string">`Je suis ${prenom} et j'ai ${age} ans.`</span>;</code></pre>
+            </section>
+
+            <section>
+                <h2>5. Des fonctions courtes qui font UNE chose</h2>
+                <p>
+                    Une fonction de 40 lignes qui valide, calcule et affiche est
+                    impossible à tester et à réutiliser. Découpe :
+                </p>
+
+                <pre><code><span class="comment">// ✅ Trois petites fonctions, chacune avec une responsabilité</span>
+<span class="keyword">const</span> validerPrix = prix => prix > <span class="number">0</span>;
+
+<span class="keyword">const</span> calculerTTC = prixHT => prixHT * <span class="number">1.2</span>;
+
+<span class="keyword">const</span> formaterPrix = prix => <span class="string">`${prix.toFixed(<span class="number">2</span>)} €`</span>;
+
+<span class="comment">// Et on les compose</span>
+<span class="keyword">const</span> prixHT = <span class="number">49</span>;
+<span class="keyword">if</span> (validerPrix(prixHT)) {
+    console.log(formaterPrix(calculerTTC(prixHT))); <span class="comment">// "58.80 €"</span>
+}</code></pre>
+            </section>
+
+            <section>
+                <h2>6. Sortir tôt (early return)</h2>
+                <p>
+                    Plutôt que d'imbriquer des <code>if</code> dans des <code>if</code>,
+                    traite les cas d'erreur en premier et sors immédiatement :
+                </p>
+
+                <pre><code><span class="comment">// ❌ Imbrication profonde : dur à suivre</span>
+<span class="keyword">const</span> traiterCommande = (commande) => {
+    <span class="keyword">if</span> (commande) {
+        <span class="keyword">if</span> (commande.articles.length > <span class="number">0</span>) {
+            <span class="keyword">if</span> (commande.paiementValide) {
+                <span class="keyword">return</span> <span class="string">"Commande expédiée"</span>;
+            }
+        }
+    }
+    <span class="keyword">return</span> <span class="string">"Erreur"</span>;
+};
+
+<span class="comment">// ✅ Early return : chaque cas d'erreur est traité puis oublié</span>
+<span class="keyword">const</span> traiterCommande2 = (commande) => {
+    <span class="keyword">if</span> (!commande) <span class="keyword">return</span> <span class="string">"Commande manquante"</span>;
+    <span class="keyword">if</span> (commande.articles.length === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">"Panier vide"</span>;
+    <span class="keyword">if</span> (!commande.paiementValide) <span class="keyword">return</span> <span class="string">"Paiement refusé"</span>;
+
+    <span class="keyword">return</span> <span class="string">"Commande expédiée"</span>;
+};</code></pre>
+            </section>
+
+            <section>
+                <h2>7. Ne pas se répéter (DRY)</h2>
+                <p>
+                    <strong>D</strong>on't <strong>R</strong>epeat <strong>Y</strong>ourself :
+                    si tu copies-colles un bloc de code une troisième fois, transforme-le
+                    en fonction. Un bug corrigé à un seul endroit vaut mieux qu'un bug à
+                    chasser dans cinq copies.
+                </p>
+
+                <pre><code><span class="comment">// ❌ La même logique copiée-collée</span>
+console.log(<span class="string">`Clavier : ${(<span class="number">49</span> * <span class="number">1.2</span>).toFixed(<span class="number">2</span>)} €`</span>);
+console.log(<span class="string">`Souris : ${(<span class="number">29</span> * <span class="number">1.2</span>).toFixed(<span class="number">2</span>)} €`</span>);
+
+<span class="comment">// ✅ Une fonction réutilisable</span>
+<span class="keyword">const</span> afficherPrixTTC = (nom, prixHT) =>
+    console.log(<span class="string">`${nom} : ${(prixHT * <span class="number">1.2</span>).toFixed(<span class="number">2</span>)} €`</span>);
+
+afficherPrixTTC(<span class="string">"Clavier"</span>, <span class="number">49</span>);
+afficherPrixTTC(<span class="string">"Souris"</span>, <span class="number">29</span>);</code></pre>
+            </section>
+
+            <section>
+                <h2>8. Préférer les méthodes de tableaux aux boucles</h2>
+                <p>
+                    Quand c'est possible, <code>find</code> / <code>filter</code> /
+                    <code>map</code> (chapitre précédent) expriment ton
+                    <strong>intention</strong> mieux qu'une boucle <code>for</code> :
+                    le nom de la méthode dit ce que fait le code.
+                </p>
+
+                <pre><code><span class="keyword">const</span> notes = [<span class="number">12</span>, <span class="number">8</span>, <span class="number">15</span>, <span class="number">17</span>, <span class="number">9</span>];
+
+<span class="comment">// ❌ Boucle : il faut lire tout le corps pour comprendre</span>
+<span class="keyword">const</span> bonnesNotes = [];
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < notes.length; i++) {
+    <span class="keyword">if</span> (notes[i] >= <span class="number">10</span>) {
+        bonnesNotes.push(notes[i]);
+    }
+}
+
+<span class="comment">// ✅ filter : l'intention est dans le nom</span>
+<span class="keyword">const</span> bonnesNotes2 = notes.filter(note => note >= <span class="number">10</span>);</code></pre>
+            </section>
+
+            <section>
+                <h2>Ta checklist qualité</h2>
+                <ul>
+                    <li><code>const</code> par défaut, <code>let</code> si besoin, jamais <code>var</code></li>
+                    <li>Noms explicites : le code se lit comme une phrase</li>
+                    <li>Toujours <code>===</code>, jamais <code>==</code></li>
+                    <li>Template literals <code>`${ }`</code> pour composer des chaînes</li>
+                    <li>Fonctions courtes, une seule responsabilité</li>
+                    <li>Early return plutôt que des <code>if</code> imbriqués</li>
+                    <li>DRY : factoriser dès la troisième répétition</li>
+                    <li><code>find</code> / <code>filter</code> / <code>map</code> plutôt que des boucles quand c'est naturel</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Reprends un de tes anciens scripts (leçon 1 ou 2)</li>
+                    <li>Remplace les <code>var</code> et les <code>let</code> inutiles par <code>const</code></li>
+                    <li>Renomme les variables trop courtes (<code>d</code>, <code>x</code>, <code>tmp</code>...)</li>
+                    <li>Remplace les concaténations <code>+</code> par des template literals</li>
+                    <li>Cherche un <code>if</code> imbriqué et réécris-le en early return</li>
+                    <li>Repère une boucle <code>for</code> remplaçable par <code>filter</code> ou <code>map</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Bravo, tu as terminé la leçon 3 ! Tu écris maintenant du JavaScript
+                    moderne et propre. Jusqu'ici tout se passait dans la console...
+                    Dans la <strong>leçon 4</strong>, ton code va enfin agir sur la page
+                    web elle-même grâce à la <strong>manipulation du DOM</strong>.
+                </p>
+                <p>
+                    <a href="../lecon4-manipulation-dom/index.html">Leçon suivante : Manipulation du DOM →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="arrays-objets.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Arrays d'objets</span></a>
+                <a class="pager-next" href="../lecon4-manipulation-dom/index.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Leçon 4 : le DOM</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

@@ -16,7 +16,7 @@ Mémoire du projet pour Claude Code. À lire au début de chaque session.
 Site pédagogique **statique** (HTML/CSS/JS pur, sans build ni framework) qui
 regroupe deux formations :
 
-- **JavaScript** : 3 leçons, 20 chapitres (bases → ES6 moderne).
+- **JavaScript** : 4 leçons, 22 chapitres (bases → ES6 moderne → DOM).
 - **Méthode & Projet** : pipeline en 7 étapes pour piloter un projet web avec l'IA,
   plus un **Générateur de Brief** dynamique avec export PDF.
 
@@ -29,10 +29,11 @@ FormationJS/
 ├── CLAUDE.md               → Ce fichier
 ├── 0_INDEX.md              → Plan du site
 ├── JS/
-│   ├── style.css           → CSS PARTAGÉ par les 3 leçons
+│   ├── style.css           → CSS PARTAGÉ par les 4 leçons
 │   ├── lecon1-bases-variables-types/     (index + 6 chapitres, script.js)
 │   ├── lecon2-boucles-conditions-fonctions/ (index + 7 chapitres, script.js)
-│   └── lecon3-javascript-moderne-es6/    (index + 7 chapitres)
+│   ├── lecon3-javascript-moderne-es6/    (index + 6 chapitres, ch. 24-29)
+│   └── lecon4-manipulation-dom/          (index + 3 chapitres, ch. 30-32)
 └── methode-projet/
     ├── style.css           → CSS des pages méthode
     ├── generateur.css      → Styles du générateur de brief

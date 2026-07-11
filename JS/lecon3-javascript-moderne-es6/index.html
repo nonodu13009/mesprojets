@@ -13,13 +13,12 @@
         <nav>
             <a href="../../index.html" class="nav-hub">← Hub</a>
             <a href="index.html" class="active">Accueil</a>
-            <a href="destructuring.html">Destructuring</a>
-            <a href="spread-rest.html">Spread / Rest</a>
-            <a href="methodes-tableaux.html">Tableaux</a>
-            <a href="classes.html">Classes</a>
-            <a href="promesses.html">Promesses</a>
-            <a href="modules.html">Modules</a>
-            <a href="operateurs-modernes.html">Opérateurs</a>
+            <a href="fonctions-flechees.html">Fléchées</a>
+            <a href="objets-litteraux.html">Objets littéraux</a>
+            <a href="destructuration.html">Destructuration</a>
+            <a href="methodes-objets.html">Méthodes objets</a>
+            <a href="arrays-objets.html">Arrays d'objets</a>
+            <a href="meilleures-methodes.html">Bonnes pratiques</a>
         </nav>
 
         <header>
@@ -38,9 +37,8 @@
                 <p>
                     Mais si tu regardes du code JavaScript écrit aujourd'hui — dans un projet React,
                     une application Node.js ou même un tutoriel récent — tu vas tomber sur des syntaxes
-                    que tu ne reconnais pas encore : des <code>{ }</code> à gauche d'un <code>=</code>,
-                    des <code>...</code> devant des variables, des <code>=></code> partout,
-                    des <code>await</code> mystérieux...
+                    que tu ne reconnais pas encore : des <code>=></code> partout, des objets manipulés
+                    dans tous les sens, des <code>{ }</code> à gauche d'un <code>=</code>...
                 </p>
                 <p>
                     C'est parce que JavaScript a énormément évolué depuis 2015 avec la mise à jour
@@ -53,7 +51,7 @@
             <section>
                 <h2>Ce que tu vas apprendre</h2>
                 <p>
-                    Cette leçon est organisée en 7 chapitres progressifs. Chacun introduit
+                    Cette leçon est organisée en 6 chapitres progressifs. Chacun introduit
                     une syntaxe ou un concept moderne, avec des exemples concrets et des
                     exercices à tester dans la console.
                 </p>
@@ -69,38 +67,33 @@
                     <tbody>
                         <tr>
                             <td>24</td>
-                            <td>Destructuration (objets et tableaux)</td>
-                            <td><a href="destructuring.html">Ouvrir</a></td>
+                            <td>Les fonctions fléchées : syntaxe simplifiée</td>
+                            <td><a href="fonctions-flechees.html">Ouvrir</a></td>
                         </tr>
                         <tr>
                             <td>25</td>
-                            <td>Opérateurs Spread et Rest</td>
-                            <td><a href="spread-rest.html">Ouvrir</a></td>
+                            <td>Les objets littéraux</td>
+                            <td><a href="objets-litteraux.html">Ouvrir</a></td>
                         </tr>
                         <tr>
                             <td>26</td>
-                            <td>Méthodes modernes des tableaux</td>
-                            <td><a href="methodes-tableaux.html">Ouvrir</a></td>
+                            <td>Déstructuration : simplifie ton code</td>
+                            <td><a href="destructuration.html">Ouvrir</a></td>
                         </tr>
                         <tr>
                             <td>27</td>
-                            <td>Les classes ES6</td>
-                            <td><a href="classes.html">Ouvrir</a></td>
+                            <td>Les méthodes des objets</td>
+                            <td><a href="methodes-objets.html">Ouvrir</a></td>
                         </tr>
                         <tr>
                             <td>28</td>
-                            <td>Promesses et <code>async</code> / <code>await</code></td>
-                            <td><a href="promesses.html">Ouvrir</a></td>
+                            <td>Les arrays d'objets</td>
+                            <td><a href="arrays-objets.html">Ouvrir</a></td>
                         </tr>
                         <tr>
                             <td>29</td>
-                            <td>Les modules (<code>import</code> / <code>export</code>)</td>
-                            <td><a href="modules.html">Ouvrir</a></td>
-                        </tr>
-                        <tr>
-                            <td>30</td>
-                            <td>Opérateurs modernes (<code>?.</code>, <code>??</code>, ternaire)</td>
-                            <td><a href="operateurs-modernes.html">Ouvrir</a></td>
+                            <td>Les meilleures méthodes pour mieux coder</td>
+                            <td><a href="meilleures-methodes.html">Ouvrir</a></td>
                         </tr>
                     </tbody>
                 </table>
@@ -110,10 +103,11 @@
                 <h2>Comment aborder cette leçon ?</h2>
                 <p>
                     Suis les chapitres <strong>dans l'ordre</strong>. Chaque notion s'appuie sur
-                    la précédente : la destructuration prépare le terrain pour le spread/rest,
-                    qui lui-même est utilisé partout dans les méthodes de tableaux et les classes.
-                    Les promesses et les modules arrivent en fin de parcours car ils nécessitent
-                    une bonne maîtrise des fonctions fléchées et du reste.
+                    la précédente : les fonctions fléchées sont utilisées partout dans la suite,
+                    les objets littéraux préparent le terrain pour la déstructuration et les
+                    méthodes d'objets, et tout se combine dans les arrays d'objets — la structure
+                    de données la plus courante du web (listes de produits, d'utilisateurs, de
+                    résultats d'API...).
                 </p>
                 <p>
                     À chaque page, <strong>teste chaque exemple dans la console</strong> avant
@@ -126,16 +120,17 @@
                 <h2>Prérequis</h2>
                 <p>
                     Avant de commencer, assure-toi d'avoir compris les notions de la
-                    <a href="../lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a> : boucles, conditions et surtout
-                    les <strong>fonctions</strong> (déclaration, paramètres, return et fonctions
-                    fléchées). Les arrow functions seront utilisées à chaque page de cette leçon.
+                    <a href="../lecon2-boucles-conditions-fonctions/index.html">Leçon 2</a> :
+                    boucles, conditions et surtout les <strong>fonctions</strong> (déclaration,
+                    paramètres, return). Le premier chapitre s'appuie directement dessus pour
+                    introduire la syntaxe fléchée.
                 </p>
             </section>
         </main>
 
         <footer>
             <nav class="pager">
-                <a class="pager-next" href="destructuring.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Destructuring</span></a>
+                <a class="pager-next" href="fonctions-flechees.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Fonctions fléchées</span></a>
             </nav>
             <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
         </footer>

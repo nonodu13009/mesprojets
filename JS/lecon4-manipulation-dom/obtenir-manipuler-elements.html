@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne et manipulation du DOM, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 4 — Obtenir et Manipuler des Éléments</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="introduction-dom.html">Intro DOM</a>
+            <a href="obtenir-manipuler-elements.html" class="active">Éléments</a>
+            <a href="manipuler-css.html">CSS & DOM</a>
+        </nav>
+
+        <header>
+            <h1>Obtenir et Manipuler des Éléments</h1>
+            <p>Leçon 4 · Chapitre 31 · Les techniques essentielles du DOM</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le plan du chapitre</h2>
+                <p>
+                    C'est le chapitre central de la leçon. Trois compétences à acquérir,
+                    toujours dans le même ordre logique :
+                </p>
+                <ol class="steps">
+                    <li><strong>Sélectionner</strong> un élément de la page</li>
+                    <li><strong>Lire ou modifier</strong> son contenu et ses attributs</li>
+                    <li><strong>Créer</strong> de nouveaux éléments et les insérer</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>1. Sélectionner : <code>querySelector</code></h2>
+                <p>
+                    La méthode moderne pour attraper un élément est
+                    <code>document.querySelector()</code>. Elle accepte n'importe quel
+                    <strong>sélecteur CSS</strong> — exactement les mêmes que dans tes
+                    feuilles de style :
+                </p>
+
+                <pre><code><span class="comment">// Par balise : le PREMIER h2 de la page</span>
+<span class="keyword">const</span> titre = document.querySelector(<span class="string">"h2"</span>);
+
+<span class="comment">// Par classe (avec le point)</span>
+<span class="keyword">const</span> carte = document.querySelector(<span class="string">".lesson-card"</span>);
+
+<span class="comment">// Par id (avec le dièse)</span>
+<span class="keyword">const</span> menu = document.querySelector(<span class="string">"#menu"</span>);
+
+<span class="comment">// Sélecteurs combinés, comme en CSS</span>
+<span class="keyword">const</span> lien = document.querySelector(<span class="string">"footer a"</span>);</code></pre>
+
+                <p class="note">
+                    <strong>Important :</strong> <code>querySelector</code> renvoie le
+                    <strong>premier</strong> élément trouvé, ou <code>null</code> si aucun
+                    ne correspond. Vérifie toujours dans la console avant de manipuler.
+                </p>
+            </section>
+
+            <section>
+                <h2>Sélectionner plusieurs éléments : <code>querySelectorAll</code></h2>
+                <p>
+                    Pour attraper <strong>tous</strong> les éléments qui correspondent,
+                    utilise <code>querySelectorAll</code>. Elle renvoie une
+                    <strong>NodeList</strong>, qu'on parcourt avec <code>forEach</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> paragraphes = document.querySelectorAll(<span class="string">"p"</span>);
+
+console.log(paragraphes.length); <span class="comment">// le nombre de &lt;p&gt; de la page</span>
+
+<span class="comment">// Fléchée + forEach : la leçon 3 en action</span>
+paragraphes.forEach(p => {
+    console.log(p.textContent);
+});</code></pre>
+
+                <p>
+                    Tu croiseras aussi les anciennes méthodes
+                    <code>getElementById("menu")</code> et
+                    <code>getElementsByClassName("carte")</code> dans du code existant.
+                    Elles fonctionnent, mais <code>querySelector</code> /
+                    <code>querySelectorAll</code> les remplacent avantageusement :
+                    une seule syntaxe pour tous les cas.
+                </p>
+            </section>
+
+            <section>
+                <h2>2. Lire et modifier le contenu</h2>
+                <p>
+                    Une fois l'élément sélectionné, deux propriétés principales pour
+                    son contenu :
+                </p>
+
+                <pre><code><span class="keyword">const</span> titre = document.querySelector(<span class="string">"h1"</span>);
+
+<span class="comment">// textContent : le texte brut (sûr et rapide)</span>
+console.log(titre.textContent);
+titre.textContent = <span class="string">"Nouveau titre"</span>;
+
+<span class="comment">// innerHTML : le contenu avec les balises HTML</span>
+<span class="keyword">const</span> section = document.querySelector(<span class="string">"section"</span>);
+console.log(section.innerHTML);
+section.innerHTML = <span class="string">"&lt;strong&gt;Texte en gras&lt;/strong&gt;"</span>;</code></pre>
+
+                <p class="note">
+                    <strong>Sécurité :</strong> n'utilise <strong>jamais</strong>
+                    <code>innerHTML</code> avec du contenu saisi par un utilisateur
+                    (formulaire, URL...) : un visiteur malveillant pourrait injecter du
+                    code (attaque XSS). Pour du texte, <code>textContent</code> est
+                    toujours le bon choix.
+                </p>
+            </section>
+
+            <section>
+                <h2>Lire et modifier les attributs</h2>
+                <p>
+                    Les attributs HTML (<code>href</code>, <code>src</code>,
+                    <code>alt</code>...) sont accessibles directement ou via
+                    <code>getAttribute</code> / <code>setAttribute</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> lien = document.querySelector(<span class="string">"a"</span>);
+
+<span class="comment">// Lecture</span>
+console.log(lien.href);
+console.log(lien.getAttribute(<span class="string">"href"</span>));
+
+<span class="comment">// Modification</span>
+lien.href = <span class="string">"https://developer.mozilla.org"</span>;
+lien.setAttribute(<span class="string">"target"</span>, <span class="string">"_blank"</span>);</code></pre>
+            </section>
+
+            <section>
+                <h2>3. Créer et insérer des éléments</h2>
+                <p>
+                    Le DOM permet aussi de <strong>fabriquer</strong> de nouveaux éléments
+                    de zéro. Le processus est toujours le même : créer, remplir, insérer.
+                </p>
+
+                <pre><code><span class="comment">// 1. Créer l'élément</span>
+<span class="keyword">const</span> nouveauParagraphe = document.createElement(<span class="string">"p"</span>);
+
+<span class="comment">// 2. Le remplir</span>
+nouveauParagraphe.textContent = <span class="string">"Je suis né en JavaScript !"</span>;
+
+<span class="comment">// 3. L'insérer dans la page</span>
+document.body.appendChild(nouveauParagraphe); <span class="comment">// à la fin du body</span></code></pre>
+
+                <p>
+                    Pour insérer ailleurs qu'à la fin, <code>prepend</code> (au début)
+                    et <code>before</code> / <code>after</code> (autour d'un élément)
+                    complètent la panoplie. Et pour supprimer :
+                </p>
+
+                <pre><code><span class="comment">// Supprimer un élément de la page</span>
+nouveauParagraphe.remove();</code></pre>
+            </section>
+
+            <section>
+                <h2>Exemple complet : générer une liste</h2>
+                <p>
+                    Combinons tout avec un array d'objets (chapitre 28) pour générer du
+                    HTML à partir de données — le cœur de toute application web :
+                </p>
+
+                <pre><code><span class="keyword">const</span> taches = [
+    { titre: <span class="string">"Réviser la leçon 3"</span>, faite: <span class="keyword">true</span> },
+    { titre: <span class="string">"Tester le DOM"</span>, faite: <span class="keyword">false</span> },
+    { titre: <span class="string">"Créer un mini-projet"</span>, faite: <span class="keyword">false</span> }
+];
+
+<span class="comment">// On crée une liste &lt;ul&gt;</span>
+<span class="keyword">const</span> liste = document.createElement(<span class="string">"ul"</span>);
+
+<span class="comment">// Un &lt;li&gt; par tâche</span>
+taches.forEach(({ titre, faite }) => {
+    <span class="keyword">const</span> item = document.createElement(<span class="string">"li"</span>);
+    item.textContent = faite ? <span class="string">`✔ ${titre}`</span> : titre;
+    liste.appendChild(item);
+});
+
+<span class="comment">// On insère la liste dans la page</span>
+document.body.appendChild(liste);</code></pre>
+
+                <p>
+                    Relis ce code : fléchées, destructuration, ternaire, template
+                    literals, <code>forEach</code>... toute la leçon 3 est là, au service
+                    du DOM.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console) sur cette page</li>
+                    <li>Sélectionne le <code>h1</code> et change son <code>textContent</code></li>
+                    <li>Compte les paragraphes avec <code>document.querySelectorAll("p").length</code></li>
+                    <li>Change le <code>href</code> du premier lien de la page</li>
+                    <li>Crée un <code>&lt;p&gt;</code> avec <code>createElement</code>, remplis-le et ajoute-le au <code>body</code></li>
+                    <li>Reproduis l'exemple de la liste de tâches avec tes propres données</li>
+                    <li>Supprime ta liste avec <code>.remove()</code></li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais sélectionner, modifier et créer des éléments. Dernière brique :
+                    agir sur leur <strong>apparence</strong>. Le prochain chapitre montre
+                    comment manipuler les styles et les classes CSS depuis JavaScript.
+                </p>
+                <p>
+                    <a href="manipuler-css.html">Chapitre suivant : Manipuler le CSS avec le DOM →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="introduction-dom.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Introduction au DOM</span></a>
+                <a class="pager-next" href="manipuler-css.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Manipuler le CSS</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

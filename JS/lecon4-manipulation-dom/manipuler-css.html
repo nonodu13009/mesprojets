@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne et manipulation du DOM, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 4 — Manipuler le CSS avec le DOM</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="introduction-dom.html">Intro DOM</a>
+            <a href="obtenir-manipuler-elements.html">Éléments</a>
+            <a href="manipuler-css.html" class="active">CSS & DOM</a>
+        </nav>
+
+        <header>
+            <h1>Manipuler le CSS avec le DOM</h1>
+            <p>Leçon 4 · Chapitre 32 · Styles dynamiques et classes</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Deux approches pour styler en JavaScript</h2>
+                <p>
+                    Pour changer l'apparence d'un élément depuis JavaScript, tu as
+                    deux outils :
+                </p>
+                <ul>
+                    <li>
+                        <strong>La propriété <code>style</code></strong> : modifier un
+                        style directement, propriété par propriété.
+                    </li>
+                    <li>
+                        <strong><code>classList</code></strong> : ajouter ou retirer des
+                        <strong>classes CSS</strong> définies dans ta feuille de style.
+                    </li>
+                </ul>
+                <p>
+                    Les deux sont utiles, mais tu vas voir que la deuxième est presque
+                    toujours la meilleure.
+                </p>
+            </section>
+
+            <section>
+                <h2>1. La propriété <code>style</code></h2>
+                <p>
+                    Chaque élément du DOM a une propriété <code>style</code> qui reflète
+                    ses styles <strong>inline</strong> (l'attribut <code>style=""</code>
+                    du HTML) :
+                </p>
+
+                <pre><code><span class="keyword">const</span> titre = document.querySelector(<span class="string">"h1"</span>);
+
+titre.style.color = <span class="string">"crimson"</span>;
+titre.style.fontSize = <span class="string">"3rem"</span>;
+titre.style.backgroundColor = <span class="string">"lightyellow"</span>;
+titre.style.padding = <span class="string">"1rem"</span>;</code></pre>
+
+                <p class="note">
+                    <strong>Règle de conversion :</strong> les propriétés CSS à tiret
+                    passent en <code>camelCase</code> en JavaScript.
+                    <code>font-size</code> → <code>fontSize</code>,
+                    <code>background-color</code> → <code>backgroundColor</code>,
+                    <code>border-radius</code> → <code>borderRadius</code>.
+                    Et les valeurs sont toujours des <strong>chaînes</strong>, unité comprise :
+                    <code>"3rem"</code>, pas <code>3</code>.
+                </p>
+
+                <p>
+                    Pour lire les styles <strong>réellement appliqués</strong> (y compris
+                    ceux venant des feuilles CSS), <code>element.style</code> ne suffit
+                    pas — il ne voit que l'inline. Utilise <code>getComputedStyle</code> :
+                </p>
+
+                <pre><code><span class="keyword">const</span> stylesReels = getComputedStyle(titre);
+console.log(stylesReels.fontSize);  <span class="comment">// ex. "40px"</span>
+console.log(stylesReels.color);     <span class="comment">// ex. "rgb(29, 29, 31)"</span></code></pre>
+            </section>
+
+            <section>
+                <h2>2. <code>classList</code> : la méthode propre</h2>
+                <p>
+                    Modifier 6 propriétés <code>style</code> une par une, c'est verbeux
+                    et ça mélange le design (CSS) et la logique (JS). La bonne pratique :
+                    définir une <strong>classe CSS</strong> et la brancher/débrancher
+                    depuis JavaScript.
+                </p>
+
+                <pre><code><span class="comment">/* Dans ta feuille CSS */</span>
+<span class="comment">/* .surbrillance {
+    background-color: gold;
+    border-radius: 8px;
+    padding: 0.5rem;
+} */</span>
+
+<span class="keyword">const</span> titre = document.querySelector(<span class="string">"h1"</span>);
+
+titre.classList.add(<span class="string">"surbrillance"</span>);      <span class="comment">// ajoute la classe</span>
+titre.classList.remove(<span class="string">"surbrillance"</span>);   <span class="comment">// la retire</span>
+titre.classList.toggle(<span class="string">"surbrillance"</span>);   <span class="comment">// ajoute si absente, retire si présente</span>
+console.log(titre.classList.contains(<span class="string">"surbrillance"</span>)); <span class="comment">// true / false</span></code></pre>
+
+                <p>
+                    <code>toggle</code> est parfait pour tout ce qui s'ouvre et se ferme :
+                    menu burger, mode sombre, accordéon, modale...
+                </p>
+            </section>
+
+            <section>
+                <h2><code>style</code> ou <code>classList</code> : que choisir ?</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Situation</th>
+                            <th>Outil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>État visuel prédéfini (actif, caché, erreur, mode sombre)</td>
+                            <td><code>classList</code> ✅</td>
+                        </tr>
+                        <tr>
+                            <td>Valeur calculée en JS (position d'un élément qu'on déplace, largeur d'une barre de progression)</td>
+                            <td><code>style</code></td>
+                        </tr>
+                        <tr>
+                            <td>Tout le reste</td>
+                            <td><code>classList</code> par défaut</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    En résumé : le CSS décrit les apparences possibles, le JavaScript
+                    décide <strong>laquelle</strong> s'applique et <strong>quand</strong>.
+                    Chacun son métier.
+                </p>
+            </section>
+
+            <section>
+                <h2>Exemple concret : une barre de progression</h2>
+                <p>
+                    Un cas où les deux approches se combinent naturellement :
+                </p>
+
+                <pre><code><span class="comment">// La classe CSS définit l'apparence générale (couleur, hauteur, transition)</span>
+<span class="comment">// Le JS calcule la largeur, impossible à prévoir en CSS</span>
+
+<span class="keyword">const</span> barre = document.createElement(<span class="string">"div"</span>);
+barre.classList.add(<span class="string">"barre-progression"</span>);
+
+<span class="keyword">const</span> chapitresLus = <span class="number">3</span>;
+<span class="keyword">const</span> chapitresTotal = <span class="number">32</span>;
+<span class="keyword">const</span> pourcentage = (chapitresLus / chapitresTotal) * <span class="number">100</span>;
+
+barre.style.width = <span class="string">`${pourcentage}%`</span>; <span class="comment">// valeur calculée → style</span>
+
+document.body.prepend(barre);</code></pre>
+            </section>
+
+            <section>
+                <h2>Cacher / afficher un élément</h2>
+                <p>
+                    Le besoin le plus fréquent du web dynamique. Trois options à connaître :
+                </p>
+
+                <pre><code><span class="keyword">const</span> encart = document.querySelector(<span class="string">".note"</span>);
+
+<span class="comment">// Option 1 : display none (l'élément disparaît et libère sa place)</span>
+encart.style.display = <span class="string">"none"</span>;
+encart.style.display = <span class="string">""</span>; <span class="comment">// retour au style de la feuille CSS</span>
+
+<span class="comment">// Option 2 : l'attribut hidden (équivalent, plus sémantique)</span>
+encart.hidden = <span class="keyword">true</span>;
+encart.hidden = <span class="keyword">false</span>;
+
+<span class="comment">// Option 3 : une classe .cache { display: none; } + toggle</span>
+encart.classList.toggle(<span class="string">"cache"</span>);</code></pre>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console) sur cette page</li>
+                    <li>Sélectionne le <code>h1</code> et change sa couleur avec <code>style.color</code></li>
+                    <li>Teste la conversion camelCase : <code>style.backgroundColor</code>, <code>style.borderRadius</code></li>
+                    <li>Lis la taille de police réelle avec <code>getComputedStyle</code></li>
+                    <li>Ajoute une classe existante du site (ex. <code>note</code>) à un paragraphe avec <code>classList.add</code></li>
+                    <li>Fais disparaître puis réapparaître un élément avec <code>hidden</code></li>
+                    <li>Recrée la barre de progression avec tes propres valeurs</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Bravo !</h2>
+                <p>
+                    Tu as terminé la leçon 4 — et avec elle, un grand cap : ton JavaScript
+                    n'est plus confiné à la console, il <strong>pilote la page web</strong>.
+                    Sélectionner, modifier, créer, styler : tu as toutes les bases du web
+                    dynamique.
+                </p>
+                <p>
+                    <a href="../../index.html">Retour au hub des formations →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="obtenir-manipuler-elements.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Obtenir et manipuler des éléments</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

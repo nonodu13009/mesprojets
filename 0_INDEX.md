@@ -18,7 +18,8 @@ Point d'entrée de navigation du projet.
 | ----- | ------------------------------------------- | ----------------------------------------- |
 | 1     | `JS/lecon1-bases-variables-types/`          | Bases, variables, types, chaînes          |
 | 2     | `JS/lecon2-boucles-conditions-fonctions/`   | Boucles, conditions, switch, fonctions    |
-| 3     | `JS/lecon3-javascript-moderne-es6/`         | Destructuring, spread, classes, async     |
+| 3     | `JS/lecon3-javascript-moderne-es6/`         | Fléchées, objets, destructuration, DRY    |
+| 4     | `JS/lecon4-manipulation-dom/`               | DOM, sélecteurs, éléments, CSS dynamique  |
 
 ## Méthode & Projet
 

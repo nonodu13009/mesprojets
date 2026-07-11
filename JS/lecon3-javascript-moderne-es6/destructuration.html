@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Déstructuration</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="fonctions-flechees.html">Fléchées</a>
+            <a href="objets-litteraux.html">Objets littéraux</a>
+            <a href="destructuration.html" class="active">Destructuration</a>
+            <a href="methodes-objets.html">Méthodes objets</a>
+            <a href="arrays-objets.html">Arrays d'objets</a>
+            <a href="meilleures-methodes.html">Bonnes pratiques</a>
+        </nav>
+
+        <header>
+            <h1>Déstructuration</h1>
+            <p>Leçon 3 · Chapitre 26 · Simplifie et optimise ton code</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Le problème : du code répétitif</h2>
+                <p>
+                    Au chapitre précédent, tu as appris à lire les propriétés d'un objet.
+                    Pour utiliser plusieurs propriétés, tu dois les extraire une par une :
+                </p>
+
+                <pre><code><span class="keyword">const</span> utilisateur = {
+    nom: <span class="string">"Nogaro"</span>,
+    prenom: <span class="string">"Jean-Michel"</span>,
+    age: <span class="number">30</span>
+};
+
+<span class="comment">// Sans destructuration : on répète "utilisateur." trois fois</span>
+<span class="keyword">const</span> nom = utilisateur.nom;
+<span class="keyword">const</span> prenom = utilisateur.prenom;
+<span class="keyword">const</span> age = utilisateur.age;</code></pre>
+
+                <p>
+                    Ça fonctionne, mais c'est verbeux. Avec 10 propriétés, tu aurais 10 lignes
+                    quasi identiques. ES6 a introduit une syntaxe pour faire ça en une seule ligne.
+                </p>
+            </section>
+
+            <section>
+                <h2>La solution : destructuration d'objet</h2>
+                <p>
+                    La <strong>destructuration</strong> permet d'extraire des propriétés
+                    d'un objet directement dans des variables. On utilise des accolades
+                    <code>{ }</code> à gauche du signe <code>=</code> :
+                </p>
+
+                <pre><code><span class="comment">// Avec destructuration : une seule ligne</span>
+<span class="keyword">const</span> { nom, prenom, age } = utilisateur;
+
+console.log(nom);    <span class="comment">// "Nogaro"</span>
+console.log(prenom); <span class="comment">// "Jean-Michel"</span>
+console.log(age);    <span class="comment">// 30</span></code></pre>
+
+                <p>
+                    C'est exactement le même résultat qu'avant, mais en une ligne au lieu de trois.
+                    JavaScript regarde les noms entre les accolades et va chercher les propriétés
+                    correspondantes dans l'objet.
+                </p>
+
+                <p class="note">
+                    <strong>Règle importante :</strong> les noms des variables doivent
+                    <strong>correspondre exactement</strong> aux noms des propriétés de l'objet.
+                    Si tu écris <code>{ name }</code> au lieu de <code>{ nom }</code>, tu obtiendras
+                    <code>undefined</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Renommer et valeurs par défaut</h2>
+                <p>
+                    Deux options bien pratiques : renommer une propriété au passage avec
+                    <code>propriété: nouveauNom</code>, et prévoir une valeur par défaut
+                    avec <code>=</code> si la propriété n'existe pas :
+                </p>
+
+                <pre><code><span class="comment">// Renommer : "prends nom, mets-le dans nomFamille"</span>
+<span class="keyword">const</span> { nom: nomFamille } = utilisateur;
+console.log(nomFamille); <span class="comment">// "Nogaro"</span>
+
+<span class="comment">// Valeur par défaut si la propriété est absente</span>
+<span class="keyword">const</span> { ville = <span class="string">"Marseille"</span> } = utilisateur;
+console.log(ville); <span class="comment">// "Marseille" (pas de propriété ville → défaut)</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Et pour les tableaux ?</h2>
+                <p>
+                    La destructuration fonctionne aussi avec les tableaux. La différence :
+                    on utilise des <strong>crochets</strong> <code>[ ]</code> au lieu des accolades,
+                    et c'est l'<strong>ordre</strong> qui compte (pas les noms) :
+                </p>
+
+                <pre><code><span class="keyword">const</span> couleurs = [<span class="string">"rouge"</span>, <span class="string">"vert"</span>, <span class="string">"bleu"</span>];
+
+<span class="keyword">const</span> [première, deuxième, troisième] = couleurs;
+
+console.log(première);  <span class="comment">// "rouge"</span>
+console.log(deuxième);  <span class="comment">// "vert"</span>
+
+<span class="comment">// Tu peux ignorer des éléments avec des virgules vides</span>
+<span class="keyword">const</span> [, , dernière] = couleurs;
+console.log(dernière); <span class="comment">// "bleu"</span></code></pre>
+
+                <p>
+                    Tu verras cette syntaxe très souvent avec React (le fameux
+                    <code>const [count, setCount] = useState(0)</code>), mais pas besoin
+                    de connaître React pour comprendre le mécanisme.
+                </p>
+            </section>
+
+            <section>
+                <h2>Application concrète : dans les paramètres de fonction</h2>
+                <p>
+                    C'est là où la destructuration devient vraiment puissante. Au lieu de
+                    recevoir un objet entier dans une fonction, tu peux destructurer
+                    <strong>directement dans les paramètres</strong> :
+                </p>
+
+                <pre><code><span class="comment">// Avant : on reçoit l'objet entier</span>
+<span class="keyword">const</span> afficher = (utilisateur) => {
+    console.log(utilisateur.prenom + <span class="string">" "</span> + utilisateur.nom);
+};
+
+<span class="comment">// Après : on destructure dans les paramètres</span>
+<span class="keyword">const</span> afficher2 = ({ prenom, nom }) => {
+    console.log(<span class="string">`${prenom} ${nom}`</span>);
+};
+
+afficher2({ nom: <span class="string">"Nogaro"</span>, prenom: <span class="string">"Jean-Michel"</span>, age: <span class="number">30</span> });
+<span class="comment">// "Jean-Michel Nogaro"</span></code></pre>
+
+                <p>
+                    L'avantage : en lisant juste la signature <code>({ prenom, nom })</code>,
+                    tu sais immédiatement quelles propriétés la fonction utilise, sans avoir
+                    à lire tout son corps.
+                </p>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Crée un objet <code>const personne = { nom: "Dupont", age: 25, ville: "Paris" }</code></li>
+                    <li>Destructure-le : <code>const { nom, age } = personne;</code></li>
+                    <li>Teste le renommage : <code>const { nom: n } = personne;</code></li>
+                    <li>Crée un tableau et destructure-le avec des crochets</li>
+                    <li>Crée une fonction fléchée qui prend un objet destructuré en paramètre</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu sais maintenant <strong>extraire</strong> des données d'un objet.
+                    Prochaine étape : donner des <strong>comportements</strong> à tes objets
+                    en leur ajoutant des fonctions — ce qu'on appelle des
+                    <strong>méthodes</strong>.
+                </p>
+                <p>
+                    <a href="methodes-objets.html">Chapitre suivant : Les méthodes des objets →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="objets-litteraux.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Objets littéraux</span></a>
+                <a class="pager-next" href="methodes-objets.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Méthodes des objets</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

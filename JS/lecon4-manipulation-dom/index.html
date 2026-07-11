@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions, ES6 moderne et manipulation du DOM, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 4 — Manipulation du DOM</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html" class="active">Accueil</a>
+            <a href="introduction-dom.html">Intro DOM</a>
+            <a href="obtenir-manipuler-elements.html">Éléments</a>
+            <a href="manipuler-css.html">CSS & DOM</a>
+        </nav>
+
+        <header>
+            <h1>Leçon 4</h1>
+            <p>Manipulation du DOM</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Où en es-tu ?</h2>
+                <p>
+                    Depuis la leçon 1, tout ton code s'exécute dans la <strong>console</strong> :
+                    tu calcules, tu affiches des messages, tu manipules des objets... mais la
+                    page web, elle, ne bouge pas.
+                </p>
+                <p>
+                    Cette leçon change tout : tu vas apprendre à utiliser JavaScript pour
+                    <strong>lire et modifier la page elle-même</strong> — changer un texte,
+                    créer des éléments, réagir aux clics, modifier les styles. C'est le pont
+                    entre ton code et ce que voit l'utilisateur.
+                </p>
+                <p>
+                    L'outil qui rend ça possible s'appelle le <strong>DOM</strong>
+                    (Document Object Model) : la représentation de la page HTML sous forme
+                    d'objets JavaScript.
+                </p>
+            </section>
+
+            <section>
+                <h2>Ce que tu vas apprendre</h2>
+                <p>
+                    Cette leçon est organisée en 3 chapitres progressifs, avec des exemples
+                    concrets à tester directement dans la console, sur n'importe quelle page.
+                </p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Sujet</th>
+                            <th>Page</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>30</td>
+                            <td>Introduction au DOM : le document web dynamique</td>
+                            <td><a href="introduction-dom.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>31</td>
+                            <td>Obtenir et manipuler des éléments</td>
+                            <td><a href="obtenir-manipuler-elements.html">Ouvrir</a></td>
+                        </tr>
+                        <tr>
+                            <td>32</td>
+                            <td>Manipuler le CSS avec le DOM</td>
+                            <td><a href="manipuler-css.html">Ouvrir</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>Comment aborder cette leçon ?</h2>
+                <p>
+                    Suis les chapitres <strong>dans l'ordre</strong> : d'abord comprendre
+                    ce qu'est le DOM et comment il représente la page, ensuite apprendre à
+                    <strong>sélectionner</strong> et <strong>modifier</strong> des éléments,
+                    et enfin agir sur leur <strong>apparence</strong> avec les styles et
+                    les classes CSS.
+                </p>
+                <p>
+                    Le gros avantage de cette leçon : tu peux expérimenter sur
+                    <strong>n'importe quel site web</strong>. Ouvre la console sur cette
+                    page même et amuse-toi à la modifier — c'est le meilleur terrain de jeu.
+                </p>
+            </section>
+
+            <section>
+                <h2>Prérequis</h2>
+                <p>
+                    Avant de commencer, assure-toi d'avoir terminé la
+                    <a href="../lecon3-javascript-moderne-es6/index.html">Leçon 3</a> :
+                    les fonctions fléchées, les objets et leurs méthodes sont utilisés
+                    à chaque page. Le DOM est justement un gigantesque
+                    <strong>objet</strong> avec des <strong>méthodes</strong> — tout ce que
+                    tu viens d'apprendre va prendre vie.
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="../lecon3-javascript-moderne-es6/meilleures-methodes.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Leçon 3 : Bonnes pratiques</span></a>
+                <a class="pager-next" href="introduction-dom.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Introduction au DOM</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>

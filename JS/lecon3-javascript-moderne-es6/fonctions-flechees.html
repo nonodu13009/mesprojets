@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formation JavaScript interactive : bases, types, boucles, fonctions et ES6 moderne, avec exercices a tester en console.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230071e3'/><text x='50' y='70' font-size='52' font-family='-apple-system,Helvetica,Arial' font-weight='700' fill='%23ffffff' text-anchor='middle'>JS</text></svg>">
+    <title>Leçon 3 — Les Fonctions Fléchées</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container container--narrow">
+        <nav>
+            <a href="../../index.html" class="nav-hub">← Hub</a>
+            <a href="index.html">Accueil</a>
+            <a href="fonctions-flechees.html" class="active">Fléchées</a>
+            <a href="objets-litteraux.html">Objets littéraux</a>
+            <a href="destructuration.html">Destructuration</a>
+            <a href="methodes-objets.html">Méthodes objets</a>
+            <a href="arrays-objets.html">Arrays d'objets</a>
+            <a href="meilleures-methodes.html">Bonnes pratiques</a>
+        </nav>
+
+        <header>
+            <h1>Les Fonctions Fléchées</h1>
+            <p>Leçon 3 · Chapitre 24 · Syntaxe simplifiée et meilleures pratiques</p>
+        </header>
+
+        <main>
+            <section>
+                <h2>Pourquoi ce chapitre en premier ?</h2>
+                <p>
+                    En leçon 2, tu as appris à déclarer des fonctions avec le mot-clé
+                    <code>function</code>. Ça fonctionne très bien, mais depuis ES6, il existe
+                    une syntaxe plus courte que tu verras <strong>partout</strong> dans le code
+                    moderne : la <strong>fonction fléchée</strong> (arrow function).
+                </p>
+                <p>
+                    Tous les chapitres suivants de cette leçon l'utilisent. C'est donc la
+                    première brique à poser.
+                </p>
+            </section>
+
+            <section>
+                <h2>De la fonction classique à la fléchée</h2>
+                <p>
+                    Partons d'une fonction classique et transformons-la étape par étape :
+                </p>
+
+                <pre><code><span class="comment">// 1. Fonction classique</span>
+<span class="keyword">function</span> doubler(nombre) {
+    <span class="keyword">return</span> nombre * <span class="number">2</span>;
+}
+
+<span class="comment">// 2. La même, stockée dans une constante (expression de fonction)</span>
+<span class="keyword">const</span> doubler = <span class="keyword">function</span>(nombre) {
+    <span class="keyword">return</span> nombre * <span class="number">2</span>;
+};
+
+<span class="comment">// 3. On remplace "function" par une flèche => après les paramètres</span>
+<span class="keyword">const</span> doubler = (nombre) => {
+    <span class="keyword">return</span> nombre * <span class="number">2</span>;
+};
+
+<span class="comment">// 4. Version courte : une seule expression → pas d'accolades, return implicite</span>
+<span class="keyword">const</span> doubler = (nombre) => nombre * <span class="number">2</span>;
+
+<span class="comment">// 5. Un seul paramètre → les parenthèses deviennent optionnelles</span>
+<span class="keyword">const</span> doubler = nombre => nombre * <span class="number">2</span>;
+
+console.log(doubler(<span class="number">5</span>)); <span class="comment">// 10 — dans tous les cas !</span></code></pre>
+
+                <p>
+                    Les cinq versions font <strong>exactement la même chose</strong>. La fléchée
+                    n'ajoute pas de fonctionnalité : elle rend le code plus court et plus lisible.
+                </p>
+            </section>
+
+            <section>
+                <h2>Les règles de syntaxe</h2>
+                <p>
+                    Trois cas à connaître selon le nombre de paramètres :
+                </p>
+
+                <pre><code><span class="comment">// Aucun paramètre : parenthèses vides obligatoires</span>
+<span class="keyword">const</span> direBonjour = () => <span class="string">"Bonjour !"</span>;
+
+<span class="comment">// Un paramètre : parenthèses optionnelles</span>
+<span class="keyword">const</span> carre = x => x * x;
+
+<span class="comment">// Plusieurs paramètres : parenthèses obligatoires</span>
+<span class="keyword">const</span> additionner = (a, b) => a + b;</code></pre>
+
+                <p>
+                    Et deux cas selon le corps de la fonction :
+                </p>
+
+                <pre><code><span class="comment">// Une seule expression : return implicite (pas d'accolades)</span>
+<span class="keyword">const</span> tripler = x => x * <span class="number">3</span>;
+
+<span class="comment">// Plusieurs instructions : accolades + return explicite</span>
+<span class="keyword">const</span> calculerTTC = (prixHT) => {
+    <span class="keyword">const</span> tva = prixHT * <span class="number">0.2</span>;
+    <span class="keyword">return</span> prixHT + tva;
+};</code></pre>
+
+                <p class="note">
+                    <strong>Piège classique :</strong> si tu mets des accolades, le
+                    <code>return</code> redevient <strong>obligatoire</strong>. Sans lui,
+                    la fonction renvoie <code>undefined</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Renvoyer un objet : le piège des accolades</h2>
+                <p>
+                    Que se passe-t-il si tu veux renvoyer directement un objet
+                    <code>{ }</code> en version courte ? JavaScript confond les accolades
+                    de l'objet avec celles du corps de fonction. La solution : entourer
+                    l'objet de <strong>parenthèses</strong>.
+                </p>
+
+                <pre><code><span class="comment">// ❌ Ne marche pas : JS croit que { } est le corps de la fonction</span>
+<span class="keyword">const</span> creerUtilisateur = nom => { nom: nom };
+
+<span class="comment">// ✅ Avec des parenthèses autour de l'objet</span>
+<span class="keyword">const</span> creerUtilisateur = nom => ({ nom: nom });
+
+console.log(creerUtilisateur(<span class="string">"Nogaro"</span>)); <span class="comment">// { nom: "Nogaro" }</span></code></pre>
+            </section>
+
+            <section>
+                <h2>Le vrai atout : les callbacks</h2>
+                <p>
+                    C'est dans les <strong>callbacks</strong> (fonctions passées en argument
+                    à d'autres fonctions) que la syntaxe fléchée brille vraiment. Compare :
+                </p>
+
+                <pre><code><span class="keyword">const</span> nombres = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// Avec des fonctions classiques : verbeux</span>
+<span class="keyword">const</span> doubles = nombres.map(<span class="keyword">function</span>(n) {
+    <span class="keyword">return</span> n * <span class="number">2</span>;
+});
+
+<span class="comment">// Avec des fléchées : une ligne, lisible</span>
+<span class="keyword">const</span> doubles2 = nombres.map(n => n * <span class="number">2</span>);
+
+console.log(doubles2); <span class="comment">// [2, 4, 6, 8, 10]</span></code></pre>
+
+                <p>
+                    Tu retrouveras cette écriture dans le chapitre sur les
+                    <a href="arrays-objets.html">arrays d'objets</a> avec <code>map</code>,
+                    <code>filter</code> et <code>find</code>.
+                </p>
+            </section>
+
+            <section>
+                <h2>Meilleures pratiques</h2>
+                <ul>
+                    <li>
+                        <strong>Privilégie la fléchée pour les callbacks</strong> et les
+                        petites fonctions utilitaires : c'est là qu'elle apporte le plus.
+                    </li>
+                    <li>
+                        <strong>Reste cohérent</strong> : dans un même projet, choisis un style
+                        et garde-le.
+                    </li>
+                    <li>
+                        <strong>Version courte = une seule expression.</strong> Dès que la
+                        logique dépasse une ligne, passe aux accolades avec <code>return</code>
+                        explicite : la lisibilité prime sur la concision.
+                    </li>
+                    <li>
+                        <strong>Attention au <code>this</code></strong> : une fléchée n'a pas
+                        son propre <code>this</code>, elle hérite de celui du contexte englobant.
+                        C'est pour ça qu'on évite les fléchées comme méthodes d'objet — tu verras
+                        ça au chapitre <a href="methodes-objets.html">Méthodes des objets</a>.
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>À toi de jouer</h2>
+                <ol class="steps">
+                    <li>Ouvre la console (<strong>F12</strong> → Console)</li>
+                    <li>Écris une fonction classique <code>function saluer(nom) { return "Salut " + nom; }</code></li>
+                    <li>Réécris-la en fléchée longue : <code>const saluer = (nom) => { return "Salut " + nom; };</code></li>
+                    <li>Puis en fléchée courte : <code>const saluer = nom => "Salut " + nom;</code></li>
+                    <li>Crée une fléchée à deux paramètres qui multiplie deux nombres</li>
+                    <li>Teste <code>[1, 2, 3].map(n => n * 10)</code> et observe le résultat</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>La suite</h2>
+                <p>
+                    Tu maîtrises maintenant la syntaxe de fonction la plus utilisée du
+                    JavaScript moderne. Prochaine étape : les <strong>objets littéraux</strong>,
+                    la structure de données au cœur de tout programme JavaScript — et de tous
+                    les chapitres suivants.
+                </p>
+                <p>
+                    <a href="objets-litteraux.html">Chapitre suivant : Les objets littéraux →</a>
+                </p>
+            </section>
+        </main>
+
+        <footer>
+            <nav class="pager">
+                <a class="pager-prev" href="index.html"><span class="pager-dir">← Précédent</span><span class="pager-title">Accueil</span></a>
+                <a class="pager-next" href="objets-litteraux.html"><span class="pager-dir">Suivant →</span><span class="pager-title">Objets littéraux</span></a>
+            </nav>
+            <p class="footer-credit">Jean-Michel Nogaro · 2026 · <a href="../../index.html">Retour au hub ↑</a></p>
+        </footer>
+    </div>
+
+</body>
+</html>
