@@ -672,3 +672,50 @@ nav .recherche-resultat:focus {
     color: #86868b;
     text-align: center;
 }
+
+/* ---- Nav deux niveaux, pleine largeur ---- */
+
+html {
+    overflow-x: clip;
+}
+
+nav {
+    display: block;
+    padding: 0;
+    margin: 0 calc(50% - 50vw);
+}
+
+.nav-lecons,
+.nav-chapitres {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.5rem max(1.5rem, 50vw - 466px);
+}
+
+.nav-lecons {
+    padding-top: 0.75rem;
+    padding-bottom: 0.4rem;
+}
+
+.nav-chapitres {
+    border-top: 1px solid rgba(210, 210, 215, 0.45);
+    padding-top: 0.4rem;
+    padding-bottom: 0.55rem;
+}
+
+.nav-chapitres a {
+    font-size: 0.78rem;
+    padding: 0.28rem 0.7rem;
+    color: #86868b;
+}
+
+.nav-chapitres a.active {
+    background: rgba(0, 113, 227, 0.1);
+    color: #0071e3;
+}
+
+.recherche--nav {
+    margin-left: 0.75rem;
+}

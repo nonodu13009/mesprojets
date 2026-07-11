@@ -103,7 +103,8 @@ const injecterBarre = () => {
                    autocomplete="off" aria-label="Rechercher dans les formations">
         </div>
         <div id="recherche-resultats" class="recherche-panneau" hidden></div>`;
-    nav.appendChild(conteneur);
+    // Ligne "cours" (leçons) si la nav a deux niveaux, sinon la nav elle-même
+    (nav.querySelector(".nav-lecons") || nav).appendChild(conteneur);
 };
 
 const initRecherche = () => {
