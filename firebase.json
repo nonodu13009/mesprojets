@@ -6,7 +6,24 @@
       "**/.*",
       "**/node_modules/**",
       "CLAUDE.md",
-      "0_INDEX.md"
+      "0_INDEX.md",
+      "functions/**",
+      "agents/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/tuteur",
+        "function": {
+          "functionId": "tuteur",
+          "region": "europe-west1"
+        }
+      }
+    ]
+  },
+  "functions": {
+    "source": "functions",
+    "predeploy": [
+      "rm -rf \"$RESOURCE_DIR/agents\" && cp -R \"$RESOURCE_DIR/../agents\" \"$RESOURCE_DIR/agents\" && rm -f \"$RESOURCE_DIR/agents/recruter.js\""
     ]
   }
 }
