@@ -49,12 +49,6 @@ nav {
     flex-wrap: wrap;
 }
 
-/* Sur les pages étroites, la nav garde la largeur standard (980px)
-   pour que les 9 liens tiennent sur une seule ligne. */
-.container--narrow nav {
-    margin-inline: calc((100% - (min(980px, 100vw) - 3rem)) / 2);
-}
-
 nav a {
     padding: 0.4rem 0.875rem;
     border-radius: 980px;
@@ -413,10 +407,6 @@ footer a:hover {
     nav a {
         font-size: 0.75rem;
         padding: 0.35rem 0.6rem;
-    }
-
-    .container--narrow nav {
-        margin-inline: 0;
     }
 
     section {

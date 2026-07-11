@@ -387,10 +387,16 @@ html {
     animation: fx-fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
 }
 
-/* Halo lumineux subtil derrière le titre */
+/* Halo lumineux subtil derrière le titre.
+   Pas d'overflow:hidden ici : il rognerait le panneau
+   de résultats de recherche — le débordement horizontal
+   du halo est contenu par html { overflow-x: clip }. */
+html {
+    overflow-x: clip;
+}
+
 .hero {
     position: relative;
-    overflow: hidden;
 }
 
 .hero::before {
